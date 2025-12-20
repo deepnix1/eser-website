@@ -150,7 +150,7 @@ export default function SiteHeader() {
                 aria-expanded={languageOpen}
                 aria-haspopup="menu"
                 aria-label={languageAriaLabel}
-                className="hidden sm:flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors"
+                className="hidden sm:flex items-center justify-center size-9 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors"
                 onClick={() => setLanguageOpen((prev) => !prev)}
                 ref={languageButtonRef}
                 type="button"
@@ -160,7 +160,7 @@ export default function SiteHeader() {
 
               {languageOpen ? (
                 <div
-                  className="absolute right-0 mt-3 w-44 rounded-2xl bg-white/95 dark:bg-[#2b2a18]/95 border border-gray-200/70 dark:border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.18)] backdrop-blur-md p-2"
+                  className="absolute right-0 mt-2 w-28 rounded-xl bg-white/95 dark:bg-[#2b2a18]/95 border border-gray-200/70 dark:border-white/10 shadow-[0_16px_45px_rgba(0,0,0,0.16)] backdrop-blur-md p-1"
                   ref={languageMenuRef}
                   role="menu"
                 >
@@ -170,10 +170,10 @@ export default function SiteHeader() {
                       <button
                         key={item.locale}
                         className={[
-                          "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl text-sm font-bold transition-colors",
+                          "w-full flex items-center justify-between gap-2 px-2.5 py-2 rounded-lg text-sm font-bold transition-colors",
                           active
-                            ? "bg-primary text-black"
-                            : "text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/10",
+                            ? "bg-primary/20 text-text-main dark:text-white ring-1 ring-primary/25"
+                            : "text-text-main dark:text-white hover:bg-gray-100/80 dark:hover:bg-white/10",
                         ].join(" ")}
                         onClick={() => onSelectLocale(item.locale)}
                         role="menuitem"
@@ -183,9 +183,7 @@ export default function SiteHeader() {
                         {active ? (
                           <span className="material-symbols-outlined text-[18px]">check</span>
                         ) : (
-                          <span className="material-symbols-outlined text-[18px] opacity-0">
-                            check
-                          </span>
+                          <span className="material-symbols-outlined text-[18px] opacity-0">check</span>
                         )}
                       </button>
                     );
@@ -225,4 +223,3 @@ export default function SiteHeader() {
     </nav>
   );
 }
-
