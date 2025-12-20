@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React from "react";
 
 import SiteFooter from "./SiteFooter";
@@ -17,6 +18,35 @@ export default function LegalPageLayout({
   lastUpdated,
   children,
 }: LegalPageLayoutProps) {
+  const router = useRouter();
+  const locale = router.locale ?? "tr";
+  const ui =
+    locale === "en"
+      ? {
+          badge: "Legal",
+          lastUpdated: "Last updated",
+          questions: "Questions?",
+          questionsBodyPrefix: "If you have questions about these policies, contact us via",
+          contactLink: "the Contact page",
+        }
+      : locale === "de"
+        ? {
+            badge: "Rechtliches",
+            lastUpdated: "Zuletzt aktualisiert",
+            questions: "Fragen?",
+            questionsBodyPrefix:
+              "Wenn Sie Fragen zu diesen Richtlinien haben, kontaktieren Sie uns über",
+            contactLink: "die Kontaktseite",
+          }
+        : {
+            badge: "Yasal",
+            lastUpdated: "Son güncelleme",
+            questions: "Sorularınız mı var?",
+            questionsBodyPrefix:
+              "Bu politikalarla ilgili sorularınız varsa bizimle şu sayfadan iletişime geçin:",
+            contactLink: "İletişim sayfası",
+          };
+
   return (
     <>
       <Head>
@@ -24,11 +54,11 @@ export default function LegalPageLayout({
       </Head>
       <SiteHeader />
 
-      <main className="pt-20">
+      <main className="pt-24">
         <section className="bg-gradient-to-b from-white via-background-light to-background-light dark:from-background-dark dark:via-background-dark dark:to-background-dark border-b border-gray-200/70 dark:border-white/10">
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/15 text-text-main dark:text-white text-xs font-bold uppercase tracking-widest">
-              Legal
+              {ui.badge}
             </div>
             <h1 className="mt-4 text-4xl md:text-5xl font-black tracking-tight text-text-main dark:text-white">
               {title}
@@ -37,7 +67,7 @@ export default function LegalPageLayout({
               {subtitle}
             </p>
             <div className="mt-6 text-xs text-text-muted dark:text-gray-500">
-              Last updated: {lastUpdated}
+              {ui.lastUpdated}: {lastUpdated}
             </div>
           </div>
         </section>
@@ -53,12 +83,12 @@ export default function LegalPageLayout({
                   </div>
                   <div>
                     <div className="text-sm font-black text-text-main dark:text-white">
-                      Questions?
+                      {ui.questions}
                     </div>
                     <div className="mt-1 text-sm text-text-muted dark:text-gray-400 leading-relaxed">
-                      If you have questions about these policies, contact us via{" "}
+                      {ui.questionsBodyPrefix}{" "}
                       <a className="text-text-main dark:text-white underline decoration-primary/70 hover:decoration-primary" href="/contact">
-                        the Contact page
+                        {ui.contactLink}
                       </a>
                       .
                     </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 import LotusAbroadLogo from "./LotusAbroadLogo";
@@ -9,7 +10,32 @@ const SOCIAL_LINKS = {
   x: "#",
 } as const;
 
+const FOOTER_COPY = {
+  tr: {
+    privacy: "Gizlilik Politikası",
+    terms: "Kullanım Şartları",
+    cookies: "Çerez Politikası",
+    rights: "Tüm hakları saklıdır.",
+  },
+  en: {
+    privacy: "Privacy Policy",
+    terms: "Terms of Service",
+    cookies: "Cookie Policy",
+    rights: "All rights reserved.",
+  },
+  de: {
+    privacy: "Datenschutz",
+    terms: "Nutzungsbedingungen",
+    cookies: "Cookie-Richtlinie",
+    rights: "Alle Rechte vorbehalten.",
+  },
+} as const;
+
 export default function SiteFooter() {
+  const router = useRouter();
+  const locale = (router.locale ?? "tr") as keyof typeof FOOTER_COPY;
+  const copy = FOOTER_COPY[locale] ?? FOOTER_COPY.tr;
+
   return (
     <footer className="bg-background-light dark:bg-background-dark pt-14 pb-8 border-t border-gray-200 dark:border-white/5">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,13 +47,13 @@ export default function SiteFooter() {
           <nav aria-label="Footer links" className="flex justify-center">
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-text-muted dark:text-gray-400">
               <Link className="hover:text-primary transition-colors" href="/privacy-policy">
-                Gizlilik Politikası
+                {copy.privacy}
               </Link>
               <Link className="hover:text-primary transition-colors" href="/terms-of-service">
-                Kullanım Şartları
+                {copy.terms}
               </Link>
               <Link className="hover:text-primary transition-colors" href="/cookie-policy">
-                Çerez Politikası
+                {copy.cookies}
               </Link>
             </div>
           </nav>
@@ -81,9 +107,10 @@ export default function SiteFooter() {
         </div>
 
         <div className="text-center mt-10 text-xs text-text-muted dark:text-gray-600">
-          © {new Date().getFullYear()} Lotus Abroad. Tüm hakları saklıdır.
+          © {new Date().getFullYear()} Lotus Abroad. {copy.rights}
         </div>
       </div>
     </footer>
   );
 }
+

@@ -1,7 +1,9 @@
 import Head from "next/head";
-import { useState } from "react";
-import SiteHeader from "../components/SiteHeader";
+import { useRouter } from "next/router";
+import React, { useEffect, useMemo, useState } from "react";
+
 import SiteFooter from "../components/SiteFooter";
+import SiteHeader from "../components/SiteHeader";
 
 const OFFICE_ADDRESS =
   "MAHFESIĞMAZ MAHALLESİ\n79129 SK. AZİZ KAYA SİTESİ SİT. A BLOK APT. NO: 9 -1/01\nÇUKUROVA / ADANA";
@@ -21,6 +23,178 @@ const MAPS_LINK_URL = `https://www.google.com/maps/search/?api=1&query=${encodeU
   OFFICE_ADDRESS,
 )}`;
 
+const COPY = {
+  tr: {
+    title: "İletişim | Lotus Abroad",
+    description:
+      "Lotus Abroad ile iletişime geçin: WhatsApp, e-posta veya form üzerinden ücretsiz değerlendirme talep edin.",
+    heroTitle: "İletişim",
+    heroSubtitle:
+      "Hedef ülke ve programınızı paylaşın; 24 saat içinde profilinize uygun net bir yol haritası ile size dönüş yapalım.",
+    badge: "Ücretsiz Değerlendirme",
+    cardTitle: "Bize Ulaşın",
+    cardSubtitle:
+      "Hedefinizi ve zaman planınızı paylaşın. Ekibimiz, sizin için en uygun rotayı netleştirip gerekli evrak ve adımları iletir.",
+    fullName: "Ad Soyad",
+    fullNamePh: "Adınız Soyadınız",
+    email: "E-posta",
+    emailPh: "ornek@eposta.com",
+    phone: "Telefon",
+    phonePh: "+90 5xx xxx xx xx",
+    country: "İlgilendiğiniz Ülke",
+    program: "İlgilendiğiniz Program",
+    programChoose: "Program Seçin",
+    message: "Mesajınız",
+    messagePh: "Hedefiniz, bütçeniz ve zaman planınız gibi detayları yazabilirsiniz.",
+    send: "Mesaj Gönder",
+    sending: "Gönderiliyor...",
+    success: "Mesajınız alındı. 24 saat içinde size dönüş yapacağız.",
+    averageResponse:
+      "Ortalama dönüş süresi: 24 saat (yoğun dönemlerde değişebilir).",
+    address: "Adres",
+    hours: "Çalışma Saatleri",
+    whatsapp: "WhatsApp",
+    whatsappCta: "WhatsApp ile hemen ulaş",
+    emailLabel: "E-posta",
+    mapsOpen: "Google Maps'te Aç",
+    book: "Ücretsiz Görüşme Planla",
+  },
+  en: {
+    title: "Contact | Lotus Abroad",
+    description:
+      "Get in touch with Lotus Abroad via WhatsApp, email or the contact form.",
+    heroTitle: "Contact",
+    heroSubtitle:
+      "Share your target country and program; we’ll get back within 24 hours with a clear roadmap tailored to your profile.",
+    badge: "Free Assessment",
+    cardTitle: "Get in Touch",
+    cardSubtitle:
+      "Tell us your goals and timeline. We’ll clarify the best route and share the required steps and documents.",
+    fullName: "Full Name",
+    fullNamePh: "Your name",
+    email: "Email",
+    emailPh: "you@example.com",
+    phone: "Phone",
+    phonePh: "+90 5xx xxx xx xx",
+    country: "Interested Country",
+    program: "Interested Program",
+    programChoose: "Select a program",
+    message: "Message",
+    messagePh: "Share your goals, budget, and timeline.",
+    send: "Send Message",
+    sending: "Sending...",
+    success: "We received your message. We’ll reply within 24 hours.",
+    averageResponse: "Average response time: 24 hours (may vary).",
+    address: "Address",
+    hours: "Business Hours",
+    whatsapp: "WhatsApp",
+    whatsappCta: "Message on WhatsApp",
+    emailLabel: "Email",
+    mapsOpen: "Open in Google Maps",
+    book: "Book a Free Consultation",
+  },
+  de: {
+    title: "Kontakt | Lotus Abroad",
+    description:
+      "Kontaktieren Sie Lotus Abroad per WhatsApp, E-Mail oder über das Kontaktformular.",
+    heroTitle: "Kontakt",
+    heroSubtitle:
+      "Teilen Sie Zielland und Programm – wir melden uns innerhalb von 24 Stunden mit einem klaren Fahrplan.",
+    badge: "Kostenlose Einschätzung",
+    cardTitle: "Kontakt aufnehmen",
+    cardSubtitle:
+      "Teilen Sie Ihre Ziele und Ihren Zeitplan. Wir klären die beste Route und senden die nötigen Schritte und Unterlagen.",
+    fullName: "Name",
+    fullNamePh: "Ihr Name",
+    email: "E-Mail",
+    emailPh: "name@beispiel.de",
+    phone: "Telefon",
+    phonePh: "+90 5xx xxx xx xx",
+    country: "Interessiertes Land",
+    program: "Interessiertes Programm",
+    programChoose: "Programm wählen",
+    message: "Nachricht",
+    messagePh: "Ziele, Budget und Zeitplan kurz beschreiben.",
+    send: "Nachricht senden",
+    sending: "Wird gesendet...",
+    success: "Nachricht erhalten. Wir melden uns innerhalb von 24 Stunden.",
+    averageResponse: "Ø Antwortzeit: 24 Stunden (kann variieren).",
+    address: "Adresse",
+    hours: "Öffnungszeiten",
+    whatsapp: "WhatsApp",
+    whatsappCta: "Per WhatsApp schreiben",
+    emailLabel: "E-Mail",
+    mapsOpen: "In Google Maps öffnen",
+    book: "Kostenlose Beratung buchen",
+  },
+} as const;
+
+const COUNTRY_OPTIONS = {
+  tr: [
+    "Birleşik Krallık",
+    "Almanya",
+    "ABD",
+    "Malta",
+    "Hollanda",
+    "İrlanda",
+    "Kanada",
+    "Diğer",
+  ],
+  en: [
+    "United Kingdom",
+    "Germany",
+    "USA",
+    "Malta",
+    "Netherlands",
+    "Ireland",
+    "Canada",
+    "Other",
+  ],
+  de: [
+    "Vereinigtes Königreich",
+    "Deutschland",
+    "USA",
+    "Malta",
+    "Niederlande",
+    "Irland",
+    "Kanada",
+    "Sonstiges",
+  ],
+} as const;
+
+const PROGRAM_OPTIONS = {
+  tr: [
+    "Ausbildung",
+    "Lisans",
+    "Yüksek Lisans",
+    "Doktora",
+    "Dil Okulu",
+    "Work and Travel",
+    "Denklik",
+    "Vize Danışmanlığı",
+  ],
+  en: [
+    "Ausbildung (Vocational Training)",
+    "Bachelor’s Degree",
+    "Master’s Degree",
+    "PhD",
+    "Language School",
+    "Work and Travel",
+    "Degree Recognition",
+    "Visa Consulting",
+  ],
+  de: [
+    "Ausbildung",
+    "Bachelor",
+    "Master",
+    "Promotion",
+    "Sprachschule",
+    "Work and Travel",
+    "Anerkennung (Denklik)",
+    "Visaberatung",
+  ],
+} as const;
+
 function InfoRow({
   icon,
   title,
@@ -38,28 +212,41 @@ function InfoRow({
         </span>
       </div>
       <div className="pt-0.5">
-        <div className="text-sm font-bold text-text-main dark:text-white">
-          {title}
-        </div>
+        <div className="text-sm font-bold text-text-main dark:text-white">{title}</div>
         <div className="text-sm text-text-muted dark:text-gray-400">{value}</div>
       </div>
     </div>
   );
 }
 
+type Locale = keyof typeof COPY;
+
 export default function ContactPage() {
+  const router = useRouter();
+  const locale = ((router.locale ?? "tr") as Locale) in COPY ? ((router.locale ?? "tr") as Locale) : "tr";
+  const copy = COPY[locale];
+
+  const countryOptions = useMemo(() => COUNTRY_OPTIONS[locale] ?? COUNTRY_OPTIONS.tr, [locale]);
+  const programOptions = useMemo(() => PROGRAM_OPTIONS[locale] ?? PROGRAM_OPTIONS.tr, [locale]);
+
   const [form, setForm] = useState({
     fullName: "",
     email: "",
     phone: "",
-    country: "Birleşik Krallık",
+    country: countryOptions[0] ?? "",
     program: "",
     message: "",
     company: "",
   });
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
-    "idle",
-  );
+
+  useEffect(() => {
+    setForm((prev) => {
+      if (prev.country && countryOptions.includes(prev.country as any)) return prev;
+      return { ...prev, country: countryOptions[0] ?? "" };
+    });
+  }, [countryOptions]);
+
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   const onFieldChange = (
@@ -80,7 +267,7 @@ export default function ContactPage() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, locale }),
       });
       const data = (await response.json().catch(() => null)) as
         | { ok: true }
@@ -94,7 +281,7 @@ export default function ContactPage() {
       }
 
       setStatus("success");
-      setStatusMessage("Mesajınız alındı. 24 saat içinde size dönüş yapacağız.");
+      setStatusMessage(copy.success);
       setForm((prev) => ({
         ...prev,
         fullName: "",
@@ -115,11 +302,8 @@ export default function ContactPage() {
   return (
     <>
       <Head>
-        <title>İletişim | Lotus Abroad</title>
-        <meta
-          name="description"
-          content="Lotus Abroad ile iletişime geçin: WhatsApp, e-posta veya form üzerinden ücretsiz değerlendirme talep edin."
-        />
+        <title>{copy.title}</title>
+        <meta name="description" content={copy.description} />
       </Head>
 
       <SiteHeader />
@@ -128,11 +312,10 @@ export default function ContactPage() {
         <section className="bg-gradient-to-b from-white via-background-light to-background-light dark:from-background-dark dark:via-background-dark dark:to-background-dark border-b border-gray-200/70 dark:border-white/10">
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
             <h1 className="text-4xl md:text-5xl font-black tracking-tight text-text-main dark:text-white">
-              İletişim
+              {copy.heroTitle}
             </h1>
             <p className="mt-4 text-sm md:text-base text-text-muted dark:text-gray-400 max-w-2xl leading-relaxed">
-              Hedef ülke ve programınızı paylaşın; 24 saat içinde profilinize uygun
-              net bir yol haritası ile size dönüş yapalım.
+              {copy.heroSubtitle}
             </p>
           </div>
         </section>
@@ -144,17 +327,14 @@ export default function ContactPage() {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <div className="inline-flex items-center gap-2 rounded-full bg-[#e9e8df] dark:bg-white/10 px-4 py-2 text-xs font-black text-text-main dark:text-white">
-                      <span className="material-symbols-outlined text-[16px]">
-                        support_agent
-                      </span>
-                      Ücretsiz Değerlendirme
+                      <span className="material-symbols-outlined text-[16px]">support_agent</span>
+                      {copy.badge}
                     </div>
                     <h2 className="mt-4 text-3xl font-black text-text-main dark:text-white">
-                      Bize Ulaşın
+                      {copy.cardTitle}
                     </h2>
                     <p className="mt-2 text-sm text-text-muted dark:text-gray-400 max-w-lg leading-relaxed">
-                      Hedefinizi ve zaman planınızı paylaşın. Ekibimiz, sizin için en uygun
-                      rotayı netleştirip gerekli evrak ve adımları iletir.
+                      {copy.cardSubtitle}
                     </p>
                   </div>
                   <div className="hidden md:flex size-12 rounded-2xl bg-black text-white items-center justify-center shadow-[0_18px_40px_rgba(0,0,0,0.18)]">
@@ -172,56 +352,57 @@ export default function ContactPage() {
                     value={form.company}
                     onChange={onFieldChange}
                   />
+
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-black text-text-main dark:text-white">
-                        Ad Soyad
+                        {copy.fullName}
                       </label>
                       <input
                         className="w-full h-11 px-4 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
-                        placeholder="Adınız Soyadınız"
                         name="fullName"
-                        value={form.fullName}
-                        onChange={onFieldChange}
+                        placeholder={copy.fullNamePh}
                         required
                         type="text"
+                        value={form.fullName}
+                        onChange={onFieldChange}
                       />
                     </div>
 
                     <div className="space-y-2">
                       <label className="text-sm font-black text-text-main dark:text-white">
-                        E-posta
+                        {copy.email}
                       </label>
                       <input
                         className="w-full h-11 px-4 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
-                        placeholder="ornek@eposta.com"
                         name="email"
-                        value={form.email}
-                        onChange={onFieldChange}
+                        placeholder={copy.emailPh}
                         required
                         type="email"
+                        value={form.email}
+                        onChange={onFieldChange}
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-sm font-black text-text-main dark:text-white">
-                      Telefon
+                      {copy.phone}
                     </label>
                     <input
                       className="w-full h-11 px-4 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
-                      placeholder="+90 5xx xxx xx xx"
                       name="phone"
+                      placeholder={copy.phonePh}
+                      type="tel"
                       value={form.phone}
                       onChange={onFieldChange}
-                      type="tel"
                     />
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-black text-text-main dark:text-white">
-                        İlgilendiğiniz Ülke
+                        {copy.country}
                       </label>
                       <div className="relative">
                         <select
@@ -230,14 +411,11 @@ export default function ContactPage() {
                           value={form.country}
                           onChange={onFieldChange}
                         >
-                          <option value="Birleşik Krallık">Birleşik Krallık</option>
-                          <option value="Almanya">Almanya</option>
-                          <option value="ABD">ABD</option>
-                          <option value="Malta">Malta</option>
-                          <option value="Hollanda">Hollanda</option>
-                          <option value="İrlanda">İrlanda</option>
-                          <option value="Kanada">Kanada</option>
-                          <option value="Diğer">Diğer</option>
+                          {countryOptions.map((opt) => (
+                            <option key={opt} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
                         </select>
                         <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
                           <span className="material-symbols-outlined">expand_more</span>
@@ -247,7 +425,7 @@ export default function ContactPage() {
 
                     <div className="space-y-2">
                       <label className="text-sm font-black text-text-main dark:text-white">
-                        İlgilendiğiniz Program
+                        {copy.program}
                       </label>
                       <div className="relative">
                         <select
@@ -256,15 +434,12 @@ export default function ContactPage() {
                           value={form.program}
                           onChange={onFieldChange}
                         >
-                          <option value="">Program Seçin</option>
-                          <option value="Ausbildung">Ausbildung</option>
-                          <option value="Lisans">Lisans</option>
-                          <option value="Yüksek Lisans">Yüksek Lisans</option>
-                          <option value="Doktora">Doktora</option>
-                          <option value="Dil Okulu">Dil Okulu</option>
-                          <option value="Work and Travel">Work and Travel</option>
-                          <option value="Denklik">Denklik</option>
-                          <option value="Vize Danışmanlığı">Vize Danışmanlığı</option>
+                          <option value="">{copy.programChoose}</option>
+                          {programOptions.map((opt) => (
+                            <option key={opt} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
                         </select>
                         <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
                           <span className="material-symbols-outlined">expand_more</span>
@@ -275,29 +450,27 @@ export default function ContactPage() {
 
                   <div className="space-y-2 flex flex-col flex-1">
                     <label className="text-sm font-black text-text-main dark:text-white">
-                      Mesajınız
+                      {copy.message}
                     </label>
                     <textarea
                       className="w-full flex-1 min-h-[140px] px-4 py-3 rounded-2xl bg-white/70 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark resize-none"
-                      placeholder="Hedefiniz, bütçeniz ve zaman planınız gibi detayları yazabilirsiniz."
                       name="message"
+                      placeholder={copy.messagePh}
+                      required
                       value={form.message}
                       onChange={onFieldChange}
-                      required
                     />
                   </div>
 
                   <button
                     className={[
                       "w-full h-14 rounded-full bg-primary text-black font-black text-base transition-all shadow-[0_18px_40px_rgba(249,245,6,0.28)] mt-2",
-                      status === "sending"
-                        ? "opacity-70 cursor-not-allowed"
-                        : "hover:brightness-105",
+                      status === "sending" ? "opacity-70 cursor-not-allowed" : "hover:brightness-105",
                     ].join(" ")}
                     disabled={status === "sending"}
                     type="submit"
                   >
-                    {status === "sending" ? "Gönderiliyor..." : "Mesaj Gönder"}
+                    {status === "sending" ? copy.sending : copy.send}
                   </button>
 
                   {statusMessage ? (
@@ -315,7 +488,7 @@ export default function ContactPage() {
                   ) : null}
 
                   <div className="text-xs text-text-muted dark:text-gray-400">
-                    Ortalama dönüş süresi: 24 saat (yoğun dönemlerde değişebilir).
+                    {copy.averageResponse}
                   </div>
                 </form>
               </div>
@@ -325,12 +498,12 @@ export default function ContactPage() {
                   <div className="space-y-5">
                     <InfoRow
                       icon="location_on"
-                      title="Adres"
+                      title={copy.address}
                       value={<span className="whitespace-pre-line">{OFFICE_ADDRESS}</span>}
                     />
                     <InfoRow
                       icon="chat"
-                      title="WhatsApp"
+                      title={copy.whatsapp}
                       value={
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                           <span className="font-medium text-text-main dark:text-white">
@@ -342,28 +515,22 @@ export default function ContactPage() {
                             rel="noreferrer"
                             target="_blank"
                           >
-                            <span className="material-symbols-outlined text-[16px]">
-                              chat
-                            </span>
-                            WhatsApp ile hemen ulaş
+                            <span className="material-symbols-outlined text-[16px]">chat</span>
+                            {copy.whatsappCta}
                           </a>
                         </div>
                       }
                     />
-                    <InfoRow icon="call" title="Telefon" value={WHATSAPP_NUMBER_DISPLAY} />
                     <InfoRow
                       icon="mail"
-                      title="E-posta"
+                      title={copy.emailLabel}
                       value={
-                        <a
-                          className="font-medium text-text-main dark:text-white hover:text-primary transition-colors"
-                          href={`mailto:${EMAIL_ADDRESS}`}
-                        >
+                        <a className="hover:text-primary transition-colors" href={`mailto:${EMAIL_ADDRESS}`}>
                           {EMAIL_ADDRESS}
                         </a>
                       }
                     />
-                    <InfoRow icon="schedule" title="Çalışma Saatleri" value="Pzt-Cum: 09:00-18:00" />
+                    <InfoRow icon="schedule" title={copy.hours} value="Pzt-Cum: 09:00-18:00" />
                   </div>
                 </div>
 
@@ -384,10 +551,8 @@ export default function ContactPage() {
                     rel="noreferrer"
                     target="_blank"
                   >
-                    <span className="material-symbols-outlined text-[18px]">
-                      open_in_new
-                    </span>
-                    Google Maps'te Aç
+                    <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+                    {copy.mapsOpen}
                   </a>
                 </div>
 
@@ -397,17 +562,16 @@ export default function ContactPage() {
                   data-calendly-open="true"
                   type="button"
                 >
-                  Ücretsiz Değerlendirme Al
+                  {copy.book}
                 </button>
               </div>
             </div>
           </div>
         </section>
-
-        <div className="h-10" />
       </main>
 
       <SiteFooter />
     </>
   );
 }
+

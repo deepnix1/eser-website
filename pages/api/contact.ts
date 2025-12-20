@@ -8,11 +8,10 @@ type ContactPayload = {
   program?: string;
   message: string;
   company?: string; // honeypot
+  locale?: "tr" | "en" | "de";
 };
 
-type ContactResponse =
-  | { ok: true }
-  | { ok: false; error: string };
+type ContactResponse = { ok: true } | { ok: false; error: string };
 
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
@@ -45,6 +44,11 @@ function rateLimit(ip: string) {
   return true;
 }
 
+function pickLocale(value: unknown): "tr" | "en" | "de" {
+  if (value === "en" || value === "de" || value === "tr") return value;
+  return "tr";
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ContactResponse>,
@@ -63,6 +67,42 @@ export default async function handler(
   }
 
   const body = (req.body ?? {}) as Partial<ContactPayload>;
+  const locale = pickLocale(body.locale);
+
+  const messages =
+    locale === "en"
+      ? {
+          rateLimit: "Too many requests. Please try again shortly.",
+          nameRequired: "Full name is required.",
+          emailInvalid: "Please enter a valid email address.",
+          messageShort: "Message must be at least 10 characters.",
+          notConfigured:
+            "Email service is not configured. Please add RESEND_API_KEY to Vercel environment variables.",
+          sendFailed: "Email could not be sent.",
+          serviceDown: "Could not reach email service. Please try again.",
+        }
+      : locale === "de"
+        ? {
+            rateLimit: "Zu viele Anfragen. Bitte versuche es später erneut.",
+            nameRequired: "Name ist erforderlich.",
+            emailInvalid: "Bitte gib eine gültige E-Mail-Adresse ein.",
+            messageShort: "Die Nachricht muss mindestens 10 Zeichen haben.",
+            notConfigured:
+              "E-Mail-Dienst ist nicht konfiguriert. Bitte RESEND_API_KEY in Vercel Environment Variables setzen.",
+            sendFailed: "E-Mail konnte nicht gesendet werden.",
+            serviceDown: "E-Mail-Dienst nicht erreichbar. Bitte erneut versuchen.",
+          }
+        : {
+            rateLimit:
+              "Çok hızlı istek gönderildi. Lütfen biraz sonra tekrar deneyin.",
+            nameRequired: "Ad Soyad gerekli.",
+            emailInvalid: "Geçerli bir e-posta girin.",
+            messageShort: "Mesaj en az 10 karakter olmalı.",
+            notConfigured:
+              "E-posta servisi yapılandırılmadı. Vercel ortam değişkenlerine RESEND_API_KEY ekleyin.",
+            sendFailed: "E-posta gönderilemedi.",
+            serviceDown: "E-posta servisine bağlanılamadı. Lütfen tekrar deneyin.",
+          };
 
   const payload: ContactPayload = {
     fullName: clampString(body.fullName, 120),
@@ -72,6 +112,7 @@ export default async function handler(
     program: clampString(body.program, 120),
     message: clampString(body.message, 4000),
     company: clampString(body.company, 120),
+    locale,
   };
 
   if (payload.company) {
@@ -79,15 +120,15 @@ export default async function handler(
   }
 
   if (!payload.fullName || payload.fullName.length < 2) {
-    return res.status(400).json({ ok: false, error: "Ad Soyad gerekli." });
+    return res.status(400).json({ ok: false, error: messages.nameRequired });
   }
 
   if (!payload.email || !isValidEmail(payload.email)) {
-    return res.status(400).json({ ok: false, error: "Geçerli bir e-posta girin." });
+    return res.status(400).json({ ok: false, error: messages.emailInvalid });
   }
 
   if (!payload.message || payload.message.length < 10) {
-    return res.status(400).json({ ok: false, error: "Mesaj en az 10 karakter olmalı." });
+    return res.status(400).json({ ok: false, error: messages.messageShort });
   }
 
   const toEmail = process.env.CONTACT_TO_EMAIL ?? "info@lotusabroad.net";
@@ -96,30 +137,67 @@ export default async function handler(
   const resendApiKey = process.env.RESEND_API_KEY ?? "";
 
   if (!resendApiKey) {
-    return res.status(500).json({
-      ok: false,
-      error:
-        "E-posta servisi yapılandırılmadı. Vercel ortam değişkenlerine RESEND_API_KEY ekleyin.",
-    });
+    return res.status(500).json({ ok: false, error: messages.notConfigured });
   }
 
-  const subject = `Yeni İletişim Formu: ${payload.fullName}`;
-  const text = [
-    "Yeni iletişim formu gönderimi",
-    "",
-    `Ad Soyad: ${payload.fullName}`,
-    `E-posta: ${payload.email}`,
-    payload.phone ? `Telefon: ${payload.phone}` : null,
-    payload.country ? `Ülke: ${payload.country}` : null,
-    payload.program ? `Program: ${payload.program}` : null,
-    "",
-    "Mesaj:",
-    payload.message,
-    "",
-    `IP: ${ip}`,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  const subject =
+    locale === "en"
+      ? `New Contact Form: ${payload.fullName}`
+      : locale === "de"
+        ? `Neues Kontaktformular: ${payload.fullName}`
+        : `Yeni İletişim Formu: ${payload.fullName}`;
+
+  const text =
+    locale === "en"
+      ? [
+          "New contact form submission",
+          "",
+          `Full Name: ${payload.fullName}`,
+          `Email: ${payload.email}`,
+          payload.phone ? `Phone: ${payload.phone}` : null,
+          payload.country ? `Country: ${payload.country}` : null,
+          payload.program ? `Program: ${payload.program}` : null,
+          "",
+          "Message:",
+          payload.message,
+          "",
+          `IP: ${ip}`,
+        ]
+          .filter(Boolean)
+          .join("\n")
+      : locale === "de"
+        ? [
+            "Neue Kontaktformular-Einsendung",
+            "",
+            `Name: ${payload.fullName}`,
+            `E-Mail: ${payload.email}`,
+            payload.phone ? `Telefon: ${payload.phone}` : null,
+            payload.country ? `Land: ${payload.country}` : null,
+            payload.program ? `Programm: ${payload.program}` : null,
+            "",
+            "Nachricht:",
+            payload.message,
+            "",
+            `IP: ${ip}`,
+          ]
+            .filter(Boolean)
+            .join("\n")
+        : [
+            "Yeni iletişim formu gönderimi",
+            "",
+            `Ad Soyad: ${payload.fullName}`,
+            `E-posta: ${payload.email}`,
+            payload.phone ? `Telefon: ${payload.phone}` : null,
+            payload.country ? `Ülke: ${payload.country}` : null,
+            payload.program ? `Program: ${payload.program}` : null,
+            "",
+            "Mesaj:",
+            payload.message,
+            "",
+            `IP: ${ip}`,
+          ]
+            .filter(Boolean)
+            .join("\n");
 
   try {
     const resp = await fetch("https://api.resend.com/emails", {
@@ -141,16 +219,13 @@ export default async function handler(
       const errorText = await resp.text().catch(() => "");
       return res.status(502).json({
         ok: false,
-        error: `E-posta gönderilemedi. (${resp.status}) ${errorText}`.trim(),
+        error: `${messages.sendFailed} (${resp.status}) ${errorText}`.trim(),
       });
     }
 
     return res.status(200).json({ ok: true });
   } catch {
-    return res.status(502).json({
-      ok: false,
-      error: "E-posta servisine bağlanılamadı. Lütfen tekrar deneyin.",
-    });
+    return res.status(502).json({ ok: false, error: messages.serviceDown });
   }
 }
 

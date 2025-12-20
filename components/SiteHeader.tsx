@@ -13,6 +13,8 @@ const LABELS = {
     about: "Hakkımızda",
     contact: "İletişim",
     cta: "Ücretsiz Görüşme",
+    theme: "Tema değiştir",
+    lang: "Dil seçimi",
   },
   en: {
     home: "Home",
@@ -22,47 +24,34 @@ const LABELS = {
     about: "About",
     contact: "Contact",
     cta: "Free Consultation",
+    theme: "Toggle theme",
+    lang: "Language",
   },
-  "en-GB": {
-    home: "Home",
-    programs: "Programs",
-    countries: "Countries",
+  de: {
+    home: "Startseite",
+    programs: "Programme",
+    countries: "Länder",
     blog: "Blog",
-    about: "About",
-    contact: "Contact",
-    cta: "Free Consultation",
+    about: "Über uns",
+    contact: "Kontakt",
+    cta: "Kostenlose Beratung",
+    theme: "Theme wechseln",
+    lang: "Sprache",
   },
 } as const;
 
 const LOCALE_MENU = [
-  { label: "TR", locale: "tr", flag: "🇹🇷", aria: "Türkçe" },
-  { label: "EN", locale: "en", flag: "🇺🇸", aria: "English" },
-  { label: "GB", locale: "en-GB", flag: "🇬🇧", aria: "English (UK)" },
+  { label: "TR", locale: "tr" },
+  { label: "EN", locale: "en" },
+  { label: "DE", locale: "de" },
 ] as const;
 
 type SupportedLocale = (typeof LOCALE_MENU)[number]["locale"];
 
-function FlagDot({ emoji, ariaLabel }: { emoji: string; ariaLabel: string }) {
-  return (
-    <span
-      aria-label={ariaLabel}
-      className="inline-flex size-6 items-center justify-center rounded-full bg-white dark:bg-white/10 ring-1 ring-black/10 dark:ring-white/10 overflow-hidden text-[14px] leading-none"
-      role="img"
-    >
-      {emoji}
-    </span>
-  );
-}
-
 export default function SiteHeader() {
   const router = useRouter();
   const currentLocale = (router.locale ?? "tr") as SupportedLocale;
-  const labels = LABELS[currentLocale] ?? LABELS.tr;
-
-  const activeLocaleItem = useMemo(
-    () => LOCALE_MENU.find((item) => item.locale === currentLocale) ?? LOCALE_MENU[0],
-    [currentLocale],
-  );
+  const labels = (LABELS as any)[currentLocale] ?? LABELS.tr;
 
   const [languageOpen, setLanguageOpen] = useState(false);
   const languageButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -115,8 +104,8 @@ export default function SiteHeader() {
   const languageAriaLabel = useMemo(() => {
     const active =
       LOCALE_MENU.find((item) => item.locale === currentLocale)?.label ?? "TR";
-    return `Dil seçimi (aktif: ${active})`;
-  }, [currentLocale]);
+    return `${labels.lang} (aktif: ${active})`;
+  }, [currentLocale, labels.lang]);
 
   return (
     <nav className="fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 dark:bg-background-dark/80 border-b border-gray-100 dark:border-gray-800">
@@ -162,28 +151,22 @@ export default function SiteHeader() {
           </nav>
 
           <div className="relative flex items-center gap-3 shrink-0">
-            <div className="relative hidden sm:block">
+            <div className="relative">
               <button
                 aria-expanded={languageOpen}
                 aria-haspopup="menu"
                 aria-label={languageAriaLabel}
-                className="inline-flex items-center gap-2 h-9 px-2.5 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                className="hidden sm:flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                 onClick={() => setLanguageOpen((prev) => !prev)}
                 ref={languageButtonRef}
                 type="button"
               >
-                <FlagDot emoji={activeLocaleItem.flag} ariaLabel={activeLocaleItem.aria} />
-                <span className="text-[11px] font-black tracking-wider text-text-main dark:text-white">
-                  {activeLocaleItem.label}
-                </span>
-                <span className="material-symbols-outlined text-[18px] text-gray-500 dark:text-gray-300">
-                  expand_more
-                </span>
+                <span className="material-symbols-outlined text-sm">translate</span>
               </button>
 
               {languageOpen ? (
                 <div
-                  className="absolute right-0 mt-2 w-36 rounded-2xl bg-white/95 dark:bg-[#2b2a18]/95 border border-gray-200/70 dark:border-white/10 shadow-[0_16px_45px_rgba(0,0,0,0.16)] backdrop-blur-md p-1"
+                  className="absolute right-0 mt-2 w-28 rounded-xl bg-white/95 dark:bg-[#2b2a18]/95 border border-gray-200/70 dark:border-white/10 shadow-[0_16px_45px_rgba(0,0,0,0.16)] backdrop-blur-md p-1"
                   ref={languageMenuRef}
                   role="menu"
                 >
@@ -192,21 +175,18 @@ export default function SiteHeader() {
                     return (
                       <button
                         key={item.locale}
-                        aria-checked={active}
                         className={[
-                          "w-full flex items-center justify-between gap-3 px-2 py-2 rounded-xl text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+                          "w-full flex items-center justify-between gap-2 px-2.5 py-2 rounded-lg text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
                           active
                             ? "bg-primary/15 text-text-main dark:text-white ring-1 ring-primary/20"
                             : "text-text-main dark:text-white hover:bg-gray-100/80 dark:hover:bg-white/10",
                         ].join(" ")}
                         onClick={() => onSelectLocale(item.locale)}
                         role="menuitemradio"
+                        aria-checked={active}
                         type="button"
                       >
-                        <span className="flex items-center gap-2.5">
-                          <FlagDot emoji={item.flag} ariaLabel={item.aria} />
-                          <span className="tracking-wide">{item.label}</span>
-                        </span>
+                        <span className="tracking-wide">{item.label}</span>
                         <span
                           aria-hidden="true"
                           className={[
@@ -224,7 +204,7 @@ export default function SiteHeader() {
             </div>
 
             <button
-              aria-label="Tema değiştir"
+              aria-label={labels.theme}
               className="flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               onClick={toggleTheme}
               type="button"
