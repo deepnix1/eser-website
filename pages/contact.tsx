@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useState } from "react";
 import SiteHeader from "../components/SiteHeader";
 import SiteFooter from "../components/SiteFooter";
 
@@ -47,6 +48,70 @@ function InfoRow({
 }
 
 export default function ContactPage() {
+  const [form, setForm] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    country: "Birleşik Krallık",
+    program: "",
+    message: "",
+    company: "",
+  });
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
+    "idle",
+  );
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+
+  const onFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = event.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (status === "sending") return;
+
+    setStatus("sending");
+    setStatusMessage(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = (await response.json().catch(() => null)) as
+        | { ok: true }
+        | { ok: false; error: string }
+        | null;
+
+      if (!response.ok || !data?.ok) {
+        throw new Error(
+          data && "error" in data ? data.error : "Mesaj gönderilemedi. Lütfen tekrar deneyin.",
+        );
+      }
+
+      setStatus("success");
+      setStatusMessage("Mesajınız alındı. 24 saat içinde size dönüş yapacağız.");
+      setForm((prev) => ({
+        ...prev,
+        fullName: "",
+        email: "",
+        phone: "",
+        program: "",
+        message: "",
+        company: "",
+      }));
+    } catch (err) {
+      setStatus("error");
+      setStatusMessage(
+        err instanceof Error ? err.message : "Bir hata oluştu. Lütfen tekrar deneyin.",
+      );
+    }
+  };
+
   return (
     <>
       <Head>
@@ -97,7 +162,16 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <form className="mt-8 flex flex-col flex-1 gap-5">
+                <form className="mt-8 flex flex-col flex-1 gap-5" onSubmit={handleSubmit}>
+                  <input
+                    aria-hidden="true"
+                    autoComplete="off"
+                    className="hidden"
+                    name="company"
+                    tabIndex={-1}
+                    value={form.company}
+                    onChange={onFieldChange}
+                  />
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-black text-text-main dark:text-white">
@@ -106,6 +180,10 @@ export default function ContactPage() {
                       <input
                         className="w-full h-11 px-4 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
                         placeholder="Adınız Soyadınız"
+                        name="fullName"
+                        value={form.fullName}
+                        onChange={onFieldChange}
+                        required
                         type="text"
                       />
                     </div>
@@ -117,6 +195,10 @@ export default function ContactPage() {
                       <input
                         className="w-full h-11 px-4 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
                         placeholder="ornek@eposta.com"
+                        name="email"
+                        value={form.email}
+                        onChange={onFieldChange}
+                        required
                         type="email"
                       />
                     </div>
@@ -129,6 +211,9 @@ export default function ContactPage() {
                     <input
                       className="w-full h-11 px-4 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
                       placeholder="+90 5xx xxx xx xx"
+                      name="phone"
+                      value={form.phone}
+                      onChange={onFieldChange}
                       type="tel"
                     />
                   </div>
@@ -139,15 +224,20 @@ export default function ContactPage() {
                         İlgilendiğiniz Ülke
                       </label>
                       <div className="relative">
-                        <select className="w-full h-11 pl-4 pr-11 rounded-full bg-white/70 dark:bg-white/5 bg-none border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark appearance-none cursor-pointer">
-                          <option>Birleşik Krallık</option>
-                          <option>Almanya</option>
-                          <option>ABD</option>
-                          <option>Malta</option>
-                          <option>Hollanda</option>
-                          <option>İrlanda</option>
-                          <option>Kanada</option>
-                          <option>Diğer</option>
+                        <select
+                          className="w-full h-11 pl-4 pr-11 rounded-full bg-white/70 dark:bg-white/5 bg-none border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark appearance-none cursor-pointer"
+                          name="country"
+                          value={form.country}
+                          onChange={onFieldChange}
+                        >
+                          <option value="Birleşik Krallık">Birleşik Krallık</option>
+                          <option value="Almanya">Almanya</option>
+                          <option value="ABD">ABD</option>
+                          <option value="Malta">Malta</option>
+                          <option value="Hollanda">Hollanda</option>
+                          <option value="İrlanda">İrlanda</option>
+                          <option value="Kanada">Kanada</option>
+                          <option value="Diğer">Diğer</option>
                         </select>
                         <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
                           <span className="material-symbols-outlined">expand_more</span>
@@ -160,16 +250,21 @@ export default function ContactPage() {
                         İlgilendiğiniz Program
                       </label>
                       <div className="relative">
-                        <select className="w-full h-11 pl-4 pr-11 rounded-full bg-white/70 dark:bg-white/5 bg-none border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark appearance-none cursor-pointer">
-                          <option>Program Seçin</option>
-                          <option>Ausbildung</option>
-                          <option>Lisans</option>
-                          <option>Yüksek Lisans</option>
-                          <option>Doktora</option>
-                          <option>Dil Okulu</option>
-                          <option>Work and Travel</option>
-                          <option>Denklik</option>
-                          <option>Vize Danışmanlığı</option>
+                        <select
+                          className="w-full h-11 pl-4 pr-11 rounded-full bg-white/70 dark:bg-white/5 bg-none border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark appearance-none cursor-pointer"
+                          name="program"
+                          value={form.program}
+                          onChange={onFieldChange}
+                        >
+                          <option value="">Program Seçin</option>
+                          <option value="Ausbildung">Ausbildung</option>
+                          <option value="Lisans">Lisans</option>
+                          <option value="Yüksek Lisans">Yüksek Lisans</option>
+                          <option value="Doktora">Doktora</option>
+                          <option value="Dil Okulu">Dil Okulu</option>
+                          <option value="Work and Travel">Work and Travel</option>
+                          <option value="Denklik">Denklik</option>
+                          <option value="Vize Danışmanlığı">Vize Danışmanlığı</option>
                         </select>
                         <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
                           <span className="material-symbols-outlined">expand_more</span>
@@ -185,15 +280,39 @@ export default function ContactPage() {
                     <textarea
                       className="w-full flex-1 min-h-[140px] px-4 py-3 rounded-2xl bg-white/70 dark:bg-white/5 border border-gray-200/80 dark:border-white/10 outline-none transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark resize-none"
                       placeholder="Hedefiniz, bütçeniz ve zaman planınız gibi detayları yazabilirsiniz."
+                      name="message"
+                      value={form.message}
+                      onChange={onFieldChange}
+                      required
                     />
                   </div>
 
                   <button
-                    className="w-full h-14 rounded-full bg-primary text-black font-black text-base hover:brightness-105 transition-all shadow-[0_18px_40px_rgba(249,245,6,0.28)] mt-2"
-                    type="button"
+                    className={[
+                      "w-full h-14 rounded-full bg-primary text-black font-black text-base transition-all shadow-[0_18px_40px_rgba(249,245,6,0.28)] mt-2",
+                      status === "sending"
+                        ? "opacity-70 cursor-not-allowed"
+                        : "hover:brightness-105",
+                    ].join(" ")}
+                    disabled={status === "sending"}
+                    type="submit"
                   >
-                    Mesaj Gönder
+                    {status === "sending" ? "Gönderiliyor..." : "Mesaj Gönder"}
                   </button>
+
+                  {statusMessage ? (
+                    <div
+                      className={[
+                        "text-sm rounded-2xl px-4 py-3 border",
+                        status === "error"
+                          ? "bg-red-50 border-red-200 text-red-800 dark:bg-red-500/10 dark:border-red-500/20 dark:text-red-200"
+                          : "bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-emerald-500/10 dark:border-emerald-500/20 dark:text-emerald-200",
+                      ].join(" ")}
+                      role={status === "error" ? "alert" : "status"}
+                    >
+                      {statusMessage}
+                    </div>
+                  ) : null}
 
                   <div className="text-xs text-text-muted dark:text-gray-400">
                     Ortalama dönüş süresi: 24 saat (yoğun dönemlerde değişebilir).
