@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  i18n: {
+    locales: ["tr", "en", "en-GB"],
+    defaultLocale: "tr",
+  },
 
   async headers() {
     const contentSecurityPolicy = [
@@ -63,4 +67,3 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-

@@ -1,35 +1,52 @@
-import { Head, Html, Main, NextScript } from "next/document";
+import Document, {
+  Head,
+  Html,
+  Main,
+  NextScript,
+  type DocumentContext,
+  type DocumentInitialProps,
+} from "next/document";
 
-export default function Document() {
-  return (
-    <Html className="light" lang="tr">
-      <Head>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-        <meta content="#f9f506" name="theme-color" />
+type Props = DocumentInitialProps & { locale?: string };
 
-        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-        <link href="/favicon.svg" rel="icon" sizes="any" />
-        <link href="/landing_page_logo.png" rel="apple-touch-icon" />
+export default class MyDocument extends Document<Props> {
+  static async getInitialProps(ctx: DocumentContext) {
+    const initialProps = await Document.getInitialProps(ctx);
+    return { ...initialProps, locale: ctx.locale };
+  }
 
-        <link href="https://fonts.googleapis.com" rel="preconnect" />
-        <link crossOrigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-          rel="stylesheet"
-        />
+  render() {
+    const locale = this.props.locale ?? "tr";
 
-        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+    return (
+      <Html className="light" lang={locale}>
+        <Head>
+          <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+          <meta content="#f9f506" name="theme-color" />
+
+          <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+          <link href="/favicon.svg" rel="icon" sizes="any" />
+          <link href="/landing_page_logo.png" rel="apple-touch-icon" />
+
+          <link href="https://fonts.googleapis.com" rel="preconnect" />
+          <link crossOrigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet"
+          />
+
+          <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries" />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
               tailwind.config = {
                 darkMode: "class",
                 theme: {
@@ -74,10 +91,10 @@ export default function Document() {
                 },
               }
             `,
-          }}
-          id="tailwind-config"
-        />
-        <style>{`
+            }}
+            id="tailwind-config"
+          />
+          <style>{`
           .no-scrollbar::-webkit-scrollbar {
             display: none;
           }
@@ -176,11 +193,13 @@ export default function Document() {
             }
           }
         `}</style>
-      </Head>
-      <body className="font-display bg-background-light dark:bg-background-dark text-text-main dark:text-white transition-colors duration-300">
-        <Main />
-        <NextScript />
-      </body>
-    </Html>
-  );
+        </Head>
+        <body className="font-display bg-background-light dark:bg-background-dark text-text-main dark:text-white transition-colors duration-300">
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
 }
+

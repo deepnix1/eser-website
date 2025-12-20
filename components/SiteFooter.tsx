@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 import LotusAbroadLogo from "./LotusAbroadLogo";
@@ -19,15 +20,15 @@ export default function SiteFooter() {
 
           <nav aria-label="Footer links" className="flex justify-center">
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-text-muted dark:text-gray-400">
-              <a className="hover:text-primary transition-colors" href="/privacy-policy">
+              <Link className="hover:text-primary transition-colors" href="/privacy-policy">
                 Gizlilik Politikası
-              </a>
-              <a className="hover:text-primary transition-colors" href="/terms-of-service">
+              </Link>
+              <Link className="hover:text-primary transition-colors" href="/terms-of-service">
                 Kullanım Şartları
-              </a>
-              <a className="hover:text-primary transition-colors" href="/cookie-policy">
+              </Link>
+              <Link className="hover:text-primary transition-colors" href="/cookie-policy">
                 Çerez Politikası
-              </a>
+              </Link>
             </div>
           </nav>
 
@@ -86,4 +87,3 @@ export default function SiteFooter() {
     </footer>
   );
 }
-
