@@ -1,25 +1,42 @@
 import Head from "next/head";
 import type { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
 
 import SiteFooter from "../../components/SiteFooter";
 import SiteHeader from "../../components/SiteHeader";
-import { BLOG_ARTICLES, CATEGORY_LABELS_TR, type BlogArticle } from "../../lib/blogData";
+import {
+  BLOG_ARTICLE_IDS,
+  getBlogArticleById,
+  getCategoryLabels,
+  type BlogArticle,
+} from "../../lib/blogData";
+import { normalizeLocale } from "../../lib/i18n";
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async (ctx) => {
+  const locales = ctx.locales ?? [];
   return {
-    paths: BLOG_ARTICLES.map((a) => ({ params: { id: a.id } })),
+    paths: (locales.length ? locales : [undefined]).flatMap((locale) =>
+      BLOG_ARTICLE_IDS.map((id) => ({
+        params: { id },
+        ...(locale ? { locale } : {}),
+      })),
+    ),
     fallback: false,
   };
 };
 
 export const getStaticProps: GetStaticProps<{ article: BlogArticle }> = async (ctx) => {
   const id = String(ctx.params?.id ?? "");
-  const article = BLOG_ARTICLES.find((a) => a.id === id);
+  const article = getBlogArticleById(id, ctx.locale);
   if (!article) return { notFound: true };
   return { props: { article } };
 };
 
 export default function BlogArticlePage({ article }: { article: BlogArticle }) {
+  const router = useRouter();
+  const locale = normalizeLocale(router.locale);
+  const categoryLabels = getCategoryLabels(locale);
+
   return (
     <>
       <Head>
@@ -41,7 +58,7 @@ export default function BlogArticlePage({ article }: { article: BlogArticle }) {
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-10">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1 rounded-full bg-white/90 text-black text-[11px] font-black px-3 py-1">
-                    {CATEGORY_LABELS_TR[article.category]}
+                    {categoryLabels[article.category]}
                   </span>
                   <span className="inline-flex items-center gap-1 rounded-full bg-white/20 text-white text-[11px] font-bold px-3 py-1 backdrop-blur">
                     {article.readTime}

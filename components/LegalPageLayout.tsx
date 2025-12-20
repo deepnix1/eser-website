@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -87,9 +88,12 @@ export default function LegalPageLayout({
                     </div>
                     <div className="mt-1 text-sm text-text-muted dark:text-gray-400 leading-relaxed">
                       {ui.questionsBodyPrefix}{" "}
-                      <a className="text-text-main dark:text-white underline decoration-primary/70 hover:decoration-primary" href="/contact">
+                      <Link
+                        className="text-text-main dark:text-white underline decoration-primary/70 hover:decoration-primary"
+                        href="/contact"
+                      >
                         {ui.contactLink}
-                      </a>
+                      </Link>
                       .
                     </div>
                   </div>

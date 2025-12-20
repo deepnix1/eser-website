@@ -1,13 +1,16 @@
 import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
 import {
-  BLOG_ARTICLES,
-  CATEGORY_LABELS_TR,
+  getBlogArticles,
+  getCategoryLabels,
   type BlogCategory,
 } from "../lib/blogData";
+import { normalizeLocale } from "../lib/i18n";
 
 type BlogCategoryFilter = BlogCategory | "All";
 
@@ -19,13 +22,80 @@ const CATEGORIES: BlogCategoryFilter[] = [
   "Student Life",
 ];
 
-const CATEGORY_FILTER_LABEL_TR: Record<BlogCategoryFilter, string> = {
-  All: "Tümü",
-  Guides: CATEGORY_LABELS_TR.Guides,
-  Visa: CATEGORY_LABELS_TR.Visa,
-  Scholarships: CATEGORY_LABELS_TR.Scholarships,
-  "Student Life": CATEGORY_LABELS_TR["Student Life"],
-};
+const BLOG_UI = {
+  tr: {
+    headTitle: "Blog | Lotus Abroad",
+    description:
+      "Yurtdışı eğitim ve vize süreçleri için rehberler: net adımlar, gerçekçi takvimler ve güçlü başvuru önerileri.",
+    heroTitle: "Blog",
+    featured: "Öne Çıkan",
+    freeAssessment: "Ücretsiz Değerlendirme Al",
+    readMore: "Devamını Oku",
+    all: "Tümü",
+    bottomCtaTitle: "En doğru rotayı seçmekte zorlanıyor musunuz?",
+    bottomCtaBody:
+      "Hedef ülkenizi, programınızı ve zaman planınızı paylaşın. Lotus Abroad size net bir plan ve kontrol listesi hazırlasın.",
+    seoHiddenTitle: "Yurtdışı Eğitim Rehberleri",
+    seoKeywords: [
+      "yurtdışı eğitim",
+      "öğrenci vizesi",
+      "work and travel",
+      "ausbildung",
+      "vize danışmanlığı",
+      "burs başvurusu",
+      "yaşam maliyeti",
+      "konaklama",
+    ],
+  },
+  en: {
+    headTitle: "Blog | Lotus Abroad",
+    description:
+      "Guides for studying abroad and visa processes: clear steps, realistic timelines, and strong application tips.",
+    heroTitle: "Blog",
+    featured: "Featured",
+    freeAssessment: "Get a Free Assessment",
+    readMore: "Continue Reading",
+    all: "All",
+    bottomCtaTitle: "Not sure which route is best for you?",
+    bottomCtaBody:
+      "Share your target country, program, and timeline. Lotus Abroad will prepare a clear plan and checklist for you.",
+    seoHiddenTitle: "Study Abroad Guides",
+    seoKeywords: [
+      "study abroad",
+      "student visa",
+      "work and travel",
+      "ausbildung",
+      "visa consulting",
+      "scholarships",
+      "cost of living",
+      "accommodation",
+    ],
+  },
+  de: {
+    headTitle: "Blog | Lotus Abroad",
+    description:
+      "Leitfäden zu Auslandsstudium und Visa: klare Schritte, realistische Timelines und starke Bewerbungstipps.",
+    heroTitle: "Blog",
+    featured: "Empfohlen",
+    freeAssessment: "Kostenlose Einschätzung",
+    readMore: "Weiterlesen",
+    all: "Alle",
+    bottomCtaTitle: "Unsicher, welche Route am besten passt?",
+    bottomCtaBody:
+      "Teilen Sie Zielland, Programm und Zeitplan. Lotus Abroad erstellt einen klaren Plan und eine Checkliste.",
+    seoHiddenTitle: "Leitfäden Auslandsstudium",
+    seoKeywords: [
+      "Auslandsstudium",
+      "Studentenvisum",
+      "Work and Travel",
+      "Ausbildung",
+      "Visaberatung",
+      "Stipendien",
+      "Lebenshaltungskosten",
+      "Unterkunft",
+    ],
+  },
+} as const;
 
 function CategoryPill({
   active,
@@ -53,12 +123,26 @@ function CategoryPill({
 }
 
 export default function BlogPage() {
+  const router = useRouter();
+  const locale = normalizeLocale(router.locale);
+  const ui = BLOG_UI[locale];
+  const categoryLabels = getCategoryLabels(locale);
+  const categoryFilterLabel: Record<BlogCategoryFilter, string> = {
+    All: ui.all,
+    Guides: categoryLabels.Guides,
+    Visa: categoryLabels.Visa,
+    Scholarships: categoryLabels.Scholarships,
+    "Student Life": categoryLabels["Student Life"],
+  };
+
   const [activeCategory, setActiveCategory] = useState<BlogCategoryFilter>("All");
 
+  const articles = useMemo(() => getBlogArticles(locale), [locale]);
+
   const filteredPosts = useMemo(() => {
-    if (activeCategory === "All") return BLOG_ARTICLES;
-    return BLOG_ARTICLES.filter((p) => p.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === "All") return articles;
+    return articles.filter((p) => p.category === activeCategory);
+  }, [activeCategory, articles]);
 
   const featured = filteredPosts[0] ?? null;
   const rest = filteredPosts.slice(1);
@@ -66,11 +150,8 @@ export default function BlogPage() {
   return (
     <>
       <Head>
-        <title>Blog | Lotus Abroad</title>
-        <meta
-          name="description"
-          content="Yurtdışı eğitim ve vize süreçleri için rehberler: net adımlar, gerçekçi takvimler ve güçlü başvuru önerileri."
-        />
+        <title>{ui.headTitle}</title>
+        <meta name="description" content={ui.description} />
       </Head>
 
       <SiteHeader />
@@ -81,11 +162,10 @@ export default function BlogPage() {
             <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
               <div>
                 <h1 className="text-4xl md:text-5xl font-black tracking-tight text-text-main dark:text-white">
-                  Blog
+                  {ui.heroTitle}
                 </h1>
                 <p className="mt-4 text-sm md:text-base text-text-muted dark:text-gray-400 max-w-2xl leading-relaxed">
-                  Yurtdışı eğitim ve vize süreçleri için rehberler: net adımlar,
-                  gerçekçi takvimler ve güçlü başvuru önerileri.
+                  {ui.description}
                 </p>
               </div>
 
@@ -94,7 +174,7 @@ export default function BlogPage() {
                   <CategoryPill
                     active={activeCategory === cat}
                     key={cat}
-                    label={CATEGORY_FILTER_LABEL_TR[cat]}
+                    label={categoryFilterLabel[cat]}
                     onClick={() => setActiveCategory(cat)}
                   />
                 ))}
@@ -116,10 +196,10 @@ export default function BlogPage() {
                   <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="inline-flex items-center gap-1 rounded-full bg-primary text-black text-[11px] font-black px-3 py-1">
-                        Öne Çıkan
+                        {ui.featured}
                       </span>
                       <span className="inline-flex items-center gap-1 rounded-full bg-white/15 text-white text-[11px] font-bold px-3 py-1 backdrop-blur">
-                        {CATEGORY_LABELS_TR[featured.category]}
+                        {categoryLabels[featured.category]}
                       </span>
                       <span className="inline-flex items-center gap-1 rounded-full bg-white/15 text-white text-[11px] font-bold px-3 py-1 backdrop-blur">
                         {featured.readTime}
@@ -138,14 +218,14 @@ export default function BlogPage() {
                         data-calendly-open="true"
                         type="button"
                       >
-                        Ücretsiz Değerlendirme Al
+                        {ui.freeAssessment}
                       </button>
-                      <a
+                      <Link
                         className="h-11 px-6 rounded-full bg-white/15 text-white text-sm font-bold flex items-center justify-center hover:bg-white/20 transition-colors backdrop-blur"
                         href={`/blog/${featured.id}`}
                       >
-                        Devamını Oku
-                      </a>
+                        {ui.readMore}
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -166,7 +246,7 @@ export default function BlogPage() {
                     <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/70" />
                     <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
                       <span className="inline-flex items-center gap-1 rounded-full bg-white/90 text-black text-[11px] font-black px-3 py-1">
-                        {CATEGORY_LABELS_TR[post.category]}
+                        {categoryLabels[post.category]}
                       </span>
                       <span className="inline-flex items-center gap-1 rounded-full bg-white/20 text-white text-[11px] font-bold px-3 py-1 backdrop-blur">
                         {post.readTime}
@@ -185,15 +265,15 @@ export default function BlogPage() {
                       {post.excerpt}
                     </div>
                     <div className="pt-2">
-                      <a
+                      <Link
                         className="inline-flex items-center gap-2 text-sm font-black text-text-main dark:text-white hover:text-primary transition-colors"
                         href={`/blog/${post.id}`}
                       >
-                        Devamını Oku
+                        {ui.readMore}
                         <span className="material-symbols-outlined text-[18px]">
                           arrow_outward
                         </span>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -204,11 +284,10 @@ export default function BlogPage() {
               <div className="flex items-center justify-between gap-6 flex-wrap">
                 <div>
                   <div className="text-xl md:text-2xl font-black">
-                    En doğru rotayı seçmekte zorlanıyor musunuz?
+                    {ui.bottomCtaTitle}
                   </div>
                   <div className="mt-2 text-sm text-white/70 max-w-2xl">
-                    Hedef ülkenizi, programınızı ve zaman planınızı paylaşın. Lotus
-                    Abroad size net bir plan ve kontrol listesi hazırlasın.
+                    {ui.bottomCtaBody}
                   </div>
                 </div>
                 <button
@@ -217,10 +296,16 @@ export default function BlogPage() {
                   data-calendly-open="true"
                   type="button"
                 >
-                  Ücretsiz Değerlendirme Al
+                  {ui.freeAssessment}
                 </button>
               </div>
             </div>
+
+            {/* SEO: UI'da görünmez anahtar kelimeler */}
+            <section aria-hidden="true" className="sr-only">
+              <h2>{ui.seoHiddenTitle}</h2>
+              <p>{ui.seoKeywords.join(" • ")}</p>
+            </section>
           </div>
         </section>
       </main>

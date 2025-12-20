@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -117,20 +118,20 @@ export default function AboutPage() {
               </p>
 
               <div className="mt-10 flex flex-wrap gap-3">
-                <a
+                <button
                   className="h-11 px-7 rounded-full bg-primary text-black text-sm font-black flex items-center justify-center hover:brightness-105 transition-all shadow-[0_18px_40px_rgba(249,245,6,0.22)]"
                   aria-haspopup="dialog"
                   data-calendly-open="true"
-                  href="/contact"
+                  type="button"
                 >
                   {copy.ctaPrimary}
-                </a>
-                <a
+                </button>
+                <Link
                   className="h-11 px-7 rounded-full bg-white/70 dark:bg-white/5 border border-gray-200/70 dark:border-white/10 text-text-main dark:text-white text-sm font-black flex items-center justify-center hover:bg-white dark:hover:bg-white/10 transition-colors"
                   href="/programs"
                 >
                   {copy.ctaSecondary}
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -164,4 +165,3 @@ export default function AboutPage() {
     </>
   );
 }
-

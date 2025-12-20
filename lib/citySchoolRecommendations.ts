@@ -1,3 +1,5 @@
+import type { AppLocale } from "./i18n";
+import { normalizeLocale } from "./i18n";
 import type { CountryId } from "./programCatalog";
 
 export type CitySchoolRecommendation = {
@@ -7,169 +9,167 @@ export type CitySchoolRecommendation = {
   note?: string;
 };
 
-export const CITY_SCHOOL_RECOMMENDATIONS: Record<
-  CountryId,
-  readonly CitySchoolRecommendation[]
-> = {
+type CitySchoolRecommendationSource = {
+  city: string;
+  highlights: Record<AppLocale, string[]>;
+  schools: string[];
+  note?: Record<AppLocale, string>;
+};
+
+const DATA: Record<CountryId, readonly CitySchoolRecommendationSource[]> = {
   Germany: [
     {
       city: "Berlin",
-      highlights: ["İngilizce program çeşitliliği", "Teknoloji & start-up ekosistemi"],
+      highlights: {
+        tr: ["İngilizce program çeşitliliği", "Teknoloji & start-up ekosistemi", "Uluslararası ortam"],
+        en: ["English program variety", "Tech & startup ecosystem", "International environment"],
+        de: ["Viele englische Programme", "Tech- & Startup-Ökosystem", "Internationales Umfeld"],
+      },
       schools: ["TU Berlin", "Humboldt-Universität zu Berlin", "Freie Universität Berlin"],
     },
     {
       city: "Münih",
-      highlights: ["Güçlü mühendislik ekosistemi", "Yüksek yaşam kalitesi"],
+      highlights: {
+        tr: ["Güçlü mühendislik ekosistemi", "Yüksek yaşam kalitesi", "Kariyer odaklı"],
+        en: ["Strong engineering ecosystem", "High quality of life", "Career-focused"],
+        de: ["Starkes Engineering-Ökosystem", "Hohe Lebensqualität", "Karrierefokus"],
+      },
       schools: ["TUM", "LMU München"],
     },
     {
       city: "Köln",
-      highlights: ["Öğrenci şehri", "Ulaşım ve yaşam dengesi"],
+      highlights: {
+        tr: ["Öğrenci şehri", "Ulaşım ve yaşam dengesi", "Geniş bölüm seçenekleri"],
+        en: ["Student city", "Great commute & life balance", "Broad program options"],
+        de: ["Studentenstadt", "Gute Balance", "Viele Studienoptionen"],
+      },
       schools: ["Universität zu Köln", "TH Köln"],
-    },
-    {
-      city: "Hamburg",
-      highlights: ["Uluslararası şehir", "Lojistik & iş dünyası"],
-      schools: ["Universität Hamburg", "HAW Hamburg"],
-    },
-    {
-      city: "Frankfurt",
-      highlights: ["Finans merkezi", "Kariyer odaklı fırsatlar"],
-      schools: ["Goethe-Universität Frankfurt", "Frankfurt UAS"],
-    },
-    {
-      city: "Stuttgart",
-      highlights: ["Otomotiv & endüstri", "Mühendislik odaklı"],
-      schools: ["Universität Stuttgart", "HfT Stuttgart"],
     },
   ],
   USA: [
     {
       city: "New York",
-      highlights: ["Küresel network", "Geniş program seçenekleri"],
-      schools: ["NYU", "Columbia University", "CUNY (çeşitli kampüsler)"],
+      highlights: {
+        tr: ["Küresel network", "Geniş program seçenekleri", "Hızlı şehir yaşamı"],
+        en: ["Global network", "Wide program options", "Fast-paced city life"],
+        de: ["Globales Netzwerk", "Viele Programme", "Dynamisches Stadtleben"],
+      },
+      schools: ["NYU", "Columbia University", "CUNY (various campuses)"],
     },
     {
       city: "Boston",
-      highlights: ["Öğrenci & akademi odağı", "İnovasyon ekosistemi"],
+      highlights: {
+        tr: ["Akademi odağı", "İnovasyon ekosistemi", "Öğrenci kültürü"],
+        en: ["Academic hub", "Innovation ecosystem", "Student culture"],
+        de: ["Akademisches Zentrum", "Innovations-Ökosystem", "Studentenkultur"],
+      },
       schools: ["Boston University", "Northeastern University"],
-    },
-    {
-      city: "Los Angeles",
-      highlights: ["Yaratıcı endüstriler", "Çeşitli kampüs seçenekleri"],
-      schools: ["UCLA", "USC"],
-    },
-    {
-      city: "Chicago",
-      highlights: ["Büyük şehir fırsatları", "Kariyer odaklı"],
-      schools: ["University of Chicago", "UIC"],
-    },
-    {
-      city: "Miami",
-      highlights: ["Turizm & hizmet sektörü", "Dinamik şehir"],
-      schools: ["Florida International University (FIU)", "University of Miami"],
     },
   ],
   Netherlands: [
     {
       city: "Amsterdam",
-      highlights: ["Uluslararası ortam", "İngilizce programlar"],
+      highlights: {
+        tr: ["Uluslararası ortam", "İngilizce programlar", "Kariyer fırsatları"],
+        en: ["International environment", "English-taught options", "Career opportunities"],
+        de: ["Internationales Umfeld", "Englische Programme", "Karrierechancen"],
+      },
       schools: ["University of Amsterdam", "Vrije Universiteit Amsterdam"],
     },
     {
-      city: "Rotterdam",
-      highlights: ["İşletme & ekonomi odağı", "Liman & endüstri"],
-      schools: ["Erasmus University Rotterdam"],
-    },
-    {
       city: "Delft",
-      highlights: ["Mühendislik odağı", "Teknoloji ekosistemi"],
+      highlights: {
+        tr: ["Mühendislik odağı", "Teknoloji ekosistemi", "Araştırma kültürü"],
+        en: ["Engineering focus", "Tech ecosystem", "Research culture"],
+        de: ["Engineering-Fokus", "Tech-Ökosystem", "Forschungskultur"],
+      },
       schools: ["TU Delft"],
-    },
-    {
-      city: "Utrecht",
-      highlights: ["Öğrenci şehri", "Yaşam dengesi"],
-      schools: ["Utrecht University"],
     },
   ],
   "United Kingdom": [
     {
       city: "London",
-      highlights: ["Küresel merkez", "Kariyer & network"],
+      highlights: {
+        tr: ["Küresel merkez", "Kariyer & network", "Prestijli okullar"],
+        en: ["Global hub", "Career & networking", "Prestigious schools"],
+        de: ["Globales Zentrum", "Karriere & Networking", "Renommierte Hochschulen"],
+      },
       schools: ["UCL", "King's College London", "Imperial College London"],
     },
     {
       city: "Manchester",
-      highlights: ["Öğrenci şehri", "Geniş bölüm çeşitliliği"],
+      highlights: {
+        tr: ["Öğrenci şehri", "Geniş bölüm çeşitliliği", "Kampüs kültürü"],
+        en: ["Student city", "Broad program variety", "Campus culture"],
+        de: ["Studentenstadt", "Viele Studiengänge", "Campus-Kultur"],
+      },
       schools: ["University of Manchester"],
-    },
-    {
-      city: "Edinburgh",
-      highlights: ["Prestijli akademi", "Güçlü araştırma"],
-      schools: ["University of Edinburgh"],
-    },
-    {
-      city: "Birmingham",
-      highlights: ["Ulaşım merkezî", "Kampüs hayatı"],
-      schools: ["University of Birmingham"],
     },
   ],
   Canada: [
     {
       city: "Toronto",
-      highlights: ["Kariyer fırsatları", "Çok kültürlü şehir"],
+      highlights: {
+        tr: ["Kariyer fırsatları", "Çok kültürlü şehir", "Güçlü kampüs ekosistemi"],
+        en: ["Career opportunities", "Multicultural city", "Strong campus ecosystem"],
+        de: ["Karrierechancen", "Multikulturelle Stadt", "Starkes Campus-Ökosystem"],
+      },
       schools: ["University of Toronto", "Toronto Metropolitan University"],
     },
     {
       city: "Vancouver",
-      highlights: ["Yaşam kalitesi", "Teknoloji & start-up"],
-      schools: ["University of British Columbia (UBC)", "SFU"],
-    },
-    {
-      city: "Montreal",
-      highlights: ["İngilizce/Fransızca seçenekleri", "Öğrenci dostu"],
-      schools: ["McGill University", "Université de Montréal"],
-    },
-    {
-      city: "Ottawa",
-      highlights: ["Başkent", "Teknoloji & kamu ekosistemi"],
-      schools: ["University of Ottawa", "Carleton University"],
+      highlights: {
+        tr: ["Yaşam kalitesi", "Teknoloji & start-up", "Doğa ve şehir dengesi"],
+        en: ["Quality of life", "Tech & startups", "Nature-city balance"],
+        de: ["Lebensqualität", "Tech & Startups", "Natur-Stadt-Balance"],
+      },
+      schools: ["University of British Columbia (UBC)", "Simon Fraser University (SFU)"],
     },
   ],
   Ireland: [
     {
       city: "Dublin",
-      highlights: ["Teknoloji şirketleri", "İngilizce konuşulan AB"],
+      highlights: {
+        tr: ["Teknoloji şirketleri", "İngilizce konuşulan AB", "Kariyer odaklı"],
+        en: ["Tech companies", "English-speaking EU", "Career-focused"],
+        de: ["Tech-Unternehmen", "Englischsprachige EU", "Karrierefokus"],
+      },
       schools: ["Trinity College Dublin", "University College Dublin"],
-    },
-    {
-      city: "Cork",
-      highlights: ["Öğrenci şehri", "Daha sakin yaşam"],
-      schools: ["University College Cork"],
-    },
-    {
-      city: "Galway",
-      highlights: ["Kültür & yaşam dengesi", "Öğrenci topluluğu"],
-      schools: ["University of Galway"],
     },
   ],
   Malta: [
     {
       city: "St. Julian's",
-      highlights: ["Dil okulu yoğunluğu", "Sosyal yaşam"],
-      schools: ["Dil okulları (bölgesel kampüsler)"],
-      note: "Dil okulları ve program uygunluğu, başlangıç tarihlerine göre değişebilir.",
-    },
-    {
-      city: "Sliema",
-      highlights: ["Ulaşım kolaylığı", "Konaklama seçenekleri"],
-      schools: ["Dil okulları (yakın bölge)"],
-    },
-    {
-      city: "Valletta",
-      highlights: ["Merkezî lokasyon", "Kültürel deneyim"],
-      schools: ["Dil okulları (şehir merkezi)"],
+      highlights: {
+        tr: ["Dil okulu yoğunluğu", "Sosyal yaşam", "Kolay ulaşım"],
+        en: ["Language school hub", "Social life", "Easy commute"],
+        de: ["Sprachschulzentrum", "Soziales Leben", "Gute Erreichbarkeit"],
+      },
+      schools: ["Language schools (regional campuses)"],
+      note: {
+        tr: "Okul ve program uygunluğu başlangıç tarihlerine göre değişebilir.",
+        en: "School availability may vary by start date.",
+        de: "Verfügbarkeit kann je Starttermin variieren.",
+      },
     },
   ],
 } as const;
+
+export function getCitySchoolRecommendations(
+  localeInput?: string,
+): Record<CountryId, readonly CitySchoolRecommendation[]> {
+  const locale = normalizeLocale(localeInput);
+  const result = {} as Record<CountryId, readonly CitySchoolRecommendation[]>;
+
+  for (const key of Object.keys(DATA) as CountryId[]) {
+    result[key] = DATA[key].map((item) => ({
+      city: item.city,
+      highlights: item.highlights[locale] ?? item.highlights.tr,
+      schools: item.schools,
+      note: item.note ? item.note[locale] ?? item.note.tr : undefined,
+    }));
+  }
+
+  return result;
+}
 

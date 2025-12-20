@@ -1,12 +1,14 @@
-import React, { useMemo } from "react";
+import React from "react";
 
-import type { CountryId } from "../../lib/programCatalog";
-import {
-  CITY_SCHOOL_RECOMMENDATIONS,
-  type CitySchoolRecommendation,
-} from "../../lib/citySchoolRecommendations";
+import type { CitySchoolRecommendation } from "../../lib/citySchoolRecommendations";
 
-function RecommendationCard({ item }: { item: CitySchoolRecommendation }) {
+function RecommendationCard({
+  item,
+  cardTitle,
+}: {
+  item: CitySchoolRecommendation;
+  cardTitle: string;
+}) {
   return (
     <div
       className={[
@@ -53,7 +55,7 @@ function RecommendationCard({ item }: { item: CitySchoolRecommendation }) {
           <span className="material-symbols-outlined text-[18px] text-text-muted dark:text-gray-300">
             school
           </span>
-          Okul Önerileri
+          {cardTitle}
         </div>
         <ul className="mt-3 space-y-2 text-base text-text-muted dark:text-gray-400">
           {item.schools.slice(0, 4).map((school) => (
@@ -83,17 +85,20 @@ function RecommendationCard({ item }: { item: CitySchoolRecommendation }) {
 }
 
 export default function CitySchoolRecommendations({
-  countryId,
   countryLabel,
+  items,
+  ui,
 }: {
-  countryId: CountryId;
   countryLabel: string;
+  items: readonly CitySchoolRecommendation[];
+  ui: {
+    title: string;
+    description: (countryLabel: string) => string;
+    badge: string;
+    cardTitle: string;
+    footerNote: string;
+  };
 }) {
-  const items = useMemo(
-    () => CITY_SCHOOL_RECOMMENDATIONS[countryId] ?? [],
-    [countryId],
-  );
-
   if (!items.length) return null;
 
   return (
@@ -101,26 +106,29 @@ export default function CitySchoolRecommendations({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-xl md:text-2xl font-black text-text-main dark:text-white">
-            Şehir / Okul Önerileri
+            {ui.title}
           </div>
           <div className="mt-1 text-base text-text-muted dark:text-gray-400">
-            {countryLabel} için popüler şehirler ve örnek okul seçenekleri.
+            {ui.description(countryLabel)}
           </div>
         </div>
         <span className="inline-flex items-center rounded-full bg-primary text-black text-[11px] font-black px-3 py-1">
-          Öneriler
+          {ui.badge}
         </span>
       </div>
 
       <div className="mt-5 grid md:grid-cols-2 xl:grid-cols-3 gap-4">
         {items.slice(0, 6).map((item) => (
-          <RecommendationCard key={`${countryId}-${item.city}`} item={item} />
+          <RecommendationCard
+            key={`${countryLabel}-${item.city}`}
+            item={item}
+            cardTitle={ui.cardTitle}
+          />
         ))}
       </div>
 
       <div className="mt-4 text-sm text-text-muted dark:text-gray-400">
-        Not: Okul örnekleri bilgilendirme amaçlıdır; program uygunluğu ve kontenjan
-        dönemlere göre değişebilir.
+        {ui.footerNote}
       </div>
     </section>
   );

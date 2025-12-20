@@ -1,3 +1,6 @@
+import type { AppLocale } from "./i18n";
+import { normalizeLocale } from "./i18n";
+
 export type ProgramDetails = {
   overview: string;
   whoFor: string[];
@@ -23,861 +26,6 @@ export type CountryPrograms = {
   programs: readonly Program[];
 };
 
-const HERO_GERMANY_IMG_URL =
-  "https://lh3.googleusercontent.com/aida-public/" +
-  "AB6AXuBariXW4-TEYcf68MStOrgBGkl8Z078-X5bI-6Suol-vIO8iZC2Jrdcz_Dt" +
-  "NSGnM9_9zVHJmg6A0v-JR8gukpZ803P9o3_bDbOxUr-ve4ilDx7aqmlkg6_ZIG" +
-  "C9iLko_DzE-KsVSCqxhXCSWmpZWQnQYgqVs3mptUXS6hm7G2606vk25qhTSm9k" +
-  "AIk48VCi8MTB4urv3I2mLOB_EZ_Kcrsm-80iWtkx_sDI-LsC2rZMJ4AtR44NvW" +
-  "c53WKnTFIbzXuP3xFe6mLn4Hb-";
-
-const HERO_USA_IMG_URL =
-  "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b" +
-  "?auto=format&fit=crop&w=2400&q=80";
-
-const HERO_UK_IMG_URL =
-  "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad" +
-  "?auto=format&fit=crop&w=2400&q=80";
-
-const HERO_MALTA_IMG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/" +
-  "A_Glowing_Night_Over_the_Grand_Harbour.jpg/" +
-  "3200px-A_Glowing_Night_Over_the_Grand_Harbour.jpg";
-
-const HERO_NETHERLANDS_IMG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/" +
-  "Amsterdam_Canal_Houses_at_Night_%2852555856777%29.jpg/" +
-  "3200px-Amsterdam_Canal_Houses_at_Night_%2852555856777%29.jpg";
-
-const HERO_IRELAND_IMG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/" +
-  "O%27Brien%27s_Tower_at_Cliffs_of_Moher.jpg/" +
-  "3200px-O%27Brien%27s_Tower_at_Cliffs_of_Moher.jpg";
-
-const HERO_CANADA_IMG_URL =
-  "https://images.unsplash.com/photo-1503614472-8c93d56e92ce" +
-  "?auto=format&fit=crop&w=2400&q=80";
-
-const baseDocs = [
-  "Pasaport (en az 12 ay geçerli)",
-  "CV (İngilizce) + motivasyon mektubu",
-  "Diploma ve transkriptler (gerekirse tercümeli)",
-  "Finansal yeterlilik / sponsor evrakları (gerekirse)",
-] as const;
-
-function makeDetails(input: {
-  overview: string;
-  whoFor: string[];
-  advantages: string[];
-  duration: string;
-  workRights?: string;
-  steps?: string[];
-  docs?: string[];
-  feesAndVisa: string;
-  notes?: string;
-}): ProgramDetails {
-  return {
-    overview: input.overview,
-    whoFor: input.whoFor,
-    keyAdvantages: input.advantages,
-    duration: input.duration,
-    workRights: input.workRights,
-    applicationSteps:
-      input.steps ??
-      [
-        "Ücretsiz profil değerlendirmesi ve uygunluk kontrolü",
-        "Evrak hazırlığı + uygunluk doğrulaması",
-        "Başvuru gönderimi ve takip",
-        "Vize & seyahat planlama (uygunsa)",
-        "Uçuş öncesi bilgilendirme + varış desteği",
-      ],
-    requiredDocuments: Array.from(new Set([...(input.docs ?? []), ...baseDocs])),
-    feesAndVisa: input.feesAndVisa,
-    notes: input.notes,
-  };
-}
-
-const sharedAuPair: Program = {
-  id: "au-pair",
-  title: "Au Pair Programı",
-  tagline: "Bir aile yanında yaşayın, dilinizi geliştirin ve kültürel deneyim kazanın.",
-  badge: "Shared",
-  details: makeDetails({
-    overview:
-      "Bir ev sahibi aile yanında yaşadığınız, çocuk bakımı ve hafif ev işlerine destek verdiğiniz; aynı zamanda dil kurslarına katılabildiğiniz yapılandırılmış bir kültürel değişim programıdır.",
-    whoFor: [
-      "Bütçe dostu bir yurtdışı deneyimi isteyen öğrenciler ve genç yetişkinler",
-      "Yurt yerine aile ortamını tercih eden adaylar",
-      "Dil pratiğini günlük yaşamla hızlı geliştirmek isteyenler",
-    ],
-    advantages: [
-      "Konaklama ve yemek çoğu zaman ev sahibi aile tarafından karşılanır",
-      "Net haftalık program ve destekli süreç",
-      "Günlük pratikle hızlı dil gelişimi",
-      "Uzun vadeli eğitim/çalışma planları için güçlü bir başlangıç",
-    ],
-    duration: "6–12 ay (yaygın), uzatma ülkeye göre değişir",
-    workRights:
-      "Au pair görevleri ev sahibi aile anlaşması ve yerel kurallarla belirlenir; harçlık ödemesi yapılır.",
-    feesAndVisa:
-      "Vize kuralları, sigorta ve yerleştirme ücretleri ülkeye ve profile göre değişir. Doğru vize türünü ve evrak listesini netleştiririz.",
-    notes: "Almanya ve ABD altında ortak program olarak listelenir.",
-  }),
-};
-
-export const PROGRAM_CATALOG = {
-  Germany: {
-    heroImageUrl: HERO_GERMANY_IMG_URL,
-    programs: [
-      {
-        id: "ausbildung",
-        title: "Ausbildung (Maaşlı Mesleki Eğitim)",
-        tagline: "Maaş alarak eğitim + çalışma; uzun vadeli kariyer yolu.",
-        badge: "Popular",
-        details: makeDetails({
-          overview:
-            "Ausbildung, Almanya’nın maaşlı mesleki eğitim modelidir. Okul eğitimi ile işyerinde uygulamalı eğitimi birleştirir ve çoğu alanda sözleşmeli bir çalışma düzeni sunar.",
-          whoFor: [
-            "Pratik, meslek odaklı bir rota arayan adaylar",
-            "Okurken çalışmayı tercih eden öğrenciler",
-            "Almanya’da uzun vadeli çalışma/yerleşim hedefleyenler",
-          ],
-          advantages: [
-            "Program süresince aylık maaş",
-            "Mezuniyet sonrası yüksek istihdam şansı",
-            "Net yapı ve işveren desteği",
-            "Çok sayıda alan (sağlık, IT, turizm, teknik meslekler)",
-          ],
-          duration: "2–3,5 yıl (mesleğe göre değişir)",
-          workRights:
-            "Eğitim sözleşmesi kapsamında çalışma; maaş ve çalışma saatleri işveren sözleşmesine göre belirlenir.",
-          feesAndVisa:
-            "Ana maliyetler tercüme, sigorta ve vize başvuru ücretleridir. Maaş yaşam giderlerini destekleyebilir; finansal yeterlilik gerekliliği rotaya göre değişir.",
-        }),
-      },
-      {
-        id: "bachelors",
-        title: "Lisans Programı",
-        tagline: "Güçlü uluslararası tanınırlığa sahip kaliteli üniversiteler.",
-        details: makeDetails({
-          overview:
-            "Almanya, güçlü akademik standartlara sahip ve çoğu zaman düşük harçlı/uygun maliyetli lisans programları sunar.",
-          whoFor: [
-            "Yurtdışında tam lisans eğitimi planlayan lise mezunları",
-            "Seçenekleri artırmak için Almanca öğrenmeye açık adaylar",
-            "Mühendislik, işletme veya uygulamalı bilim hedefleyenler",
-          ],
-          advantages: [
-            "Güçlü üniversite itibarı ve sektör bağlantıları",
-            "Uygun dönemlik ücretler (eyalet/üniversiteye göre değişir)",
-            "Yasal sınırlar içinde part-time çalışma imkânı",
-            "Mezuniyet sonrası iş arama/kalış opsiyonları (kurallara göre)",
-          ],
-          duration: "Genellikle 3 yıl (programa göre değişir)",
-          workRights:
-            "Öğrenci çalışma hakkı vize türüne ve mevzuata göre değişir; profilinize göre netleştiririz.",
-          feesAndVisa:
-            "Ücretler üniversiteye göre değişir; vize için finansal yeterlilik ve sigorta gerekir. Bütçe planı ve evrak kontrol listesi hazırlarız.",
-        }),
-      },
-      {
-        id: "masters",
-        title: "Yüksek Lisans Programı",
-        tagline: "Araştırma veya uygulamalı programlarla uzmanlaşın.",
-        details: makeDetails({
-          overview:
-            "Almanya’daki yüksek lisans programları; uzmanlaşma, Avrupa’daki sektör ve araştırma ekosistemlerine erişim açısından güçlü fırsatlar sunar.",
-          whoFor: [
-            "Uzmanlaşmak veya alan değiştirmek isteyen lisans mezunları",
-            "STEM, business analytics veya araştırma odaklı adaylar",
-            "Avrupa merkezli kariyer hedefleyen öğrenciler",
-          ],
-          advantages: [
-            "İngilizce ve Almanca program seçenekleri (üniversiteye göre)",
-            "Güçlü staj ve istihdam ekosistemi",
-            "Şeffaf başvuru kriterleri",
-            "Planlı başvuru stratejisiyle kabul ihtimali artar",
-          ],
-          duration: "1–2 yıl",
-          workRights:
-            "Öğrenci çalışma hakkı vize türüne ve mevzuata göre değişir; profilinize göre yönlendiririz.",
-          feesAndVisa:
-            "Dönemlik ücretler/harçlar üniversiteye göre değişir. Vize planında finansal yeterlilik ve sigorta yer alır; zaman çizelgesi ve evrak planı çıkarırız.",
-        }),
-      },
-      {
-        id: "phd",
-        title: "Doktora (PhD) Programları",
-        tagline: "Araştırma odaklı rotalar ve danışman eşleştirme desteği.",
-        details: makeDetails({
-          overview:
-            "Almanya’da doktora başvuruları çoğunlukla araştırma önerisi ve danışman uyumu gerektirir; bazı rotalarda fonlu pozisyon seçenekleri bulunur.",
-          whoFor: [
-            "Akademi veya Ar-Ge kariyeri hedefleyen yüksek lisans mezunları",
-            "Araştırma deneyimi veya güçlü projeleri olan adaylar",
-            "Mümkünse fonlu araştırma rolü arayanlar",
-          ],
-          advantages: [
-            "Güçlü araştırma altyapısı ve laboratuvarlar",
-            "Araştırma grupları ve hibelerle fon ihtimali",
-            "Uluslararası akademik ağ",
-            "Akademi ve endüstri Ar-Ge’de kariyer seçenekleri",
-          ],
-          duration: "3–5 yıl",
-          feesAndVisa:
-            "Fon ve sözleşme şartları değişkendir. Vize rotası program türüne göre (çalışma vs. eğitim) belirlenir; doğru yol ve evraklarla yönlendiririz.",
-        }),
-      },
-      sharedAuPair,
-      {
-        id: "degree-recognition",
-        title: "Denklik (Diploma Tanıma)",
-        tagline: "Resmî denklik ve mesleki uygunluk süreçleri için rehberlik.",
-        details: makeDetails({
-          overview:
-            "Denklik, önceki eğitiminizin Almanya’daki kurumlar veya regüle meslekler için değerlendirilmesi ve tanınması sürecidir.",
-          whoFor: [
-            "Regüle mesleklere geçiş yapmak isteyen mezunlar",
-            "Lisanslama/işveren için resmî denklik belgesi gereken adaylar",
-            "Uzun vadeli kariyer planı yapan profesyoneller",
-          ],
-          advantages: [
-            "Resmî şartlara uygun, net bir dosya hazırlığı",
-            "Kabul ve işe alım süreçlerinde avantaj",
-            "Kurumlarla yazışma/geri dönüşleri azaltır",
-            "Tercüme ve evrak kontrolüyle daha az gecikme",
-          ],
-          duration: "Genellikle 4–16 hafta (kurum ve dosya durumuna göre değişir)",
-          feesAndVisa:
-            "Maliyetler kurum ücretleri ve tercümelere bağlıdır. Gecikmeleri azaltmak için dosyayı eksiksiz hazırlamanıza yardımcı oluruz.",
-        }),
-      },
-      {
-        id: "healthcare-placement",
-        title: "Hemşire & Doktor İş Yerleştirme",
-        tagline: "Sağlık alanında iş eşleştirme ve lisans/denklik adımlarında destek.",
-        details: makeDetails({
-          overview:
-            "Sağlık profesyonelleri için işveren eşleştirme desteği ve lisans/denklik adımlarını kapsayan yönlendirmeli bir süreçtir.",
-          whoFor: [
-            "Almanya’da çalışmak isteyen hemşire ve doktorlar",
-            "Dil ve denklik adımlarını tamamlamaya hazır adaylar",
-            "AB’de uzun vadeli kariyer rotası arayan profesyoneller",
-          ],
-          advantages: [
-            "İşveren uyumu ve yapılandırılmış onboarding",
-            "Net lisans/denklik yol haritası ve evrak listesi",
-            "Zaman planlamasıyla gecikmeleri azaltır",
-            "Taşınma ve yerleşim planında destek",
-          ],
-          duration: "Denklik + işveren zamanına göre değişir (çoğunlukla 3–9 ay)",
-          workRights:
-            "Çalışma temelli rota; çalışma hakkı sözleşme türü ve lisans aşamasına göre değişir.",
-          feesAndVisa:
-            "Denklik ücretleri, tercümeler ve vize maliyetleri bulunur. Bazı işverenler destek sunabilir; sorumlulukları baştan netleştiririz.",
-        }),
-      },
-      {
-        id: "visa-consulting",
-        title: "Vize Danışmanlığı",
-        tagline: "Vize stratejisi, dosya hazırlığı ve randevu desteği.",
-        details: makeDetails({
-          overview:
-            "Seçtiğiniz programa göre özelleştirilmiş vize desteği: evraklarınızın ve zaman planınızın konsolosluk beklentileriyle uyumlu olmasını hedefler.",
-          whoFor: [
-            "Kontrol listesiyle ilerleyen, stressiz bir süreç isteyen adaylar",
-            "Farklı şartlara sahip birden fazla programa başvuran öğrenciler",
-            "Evrak stratejisi ve tercüme kontrolü ihtiyacı olan profesyoneller",
-          ],
-          advantages: [
-            "Net yol haritası, kilometre taşları ve deadline’lar",
-            "Ret riskini azaltan evrak kontrolü",
-            "Bütçe planı ve finansal yeterlilik yönlendirmesi",
-            "Uçuş öncesi bilgilendirme ve seyahat kontrol listesi",
-          ],
-          duration: "Genellikle 2–6 hafta (hazırlık ve randevu bulunabilirliğine göre)",
-          feesAndVisa:
-            "Danışmanlık ücreti kapsamına göre değişir. Resmî konsolosluk ücretleri ayrıdır; kalem kalem şeffaf bir özet sunarız.",
-        }),
-      },
-    ],
-  },
-  USA: {
-    heroImageUrl: HERO_USA_IMG_URL,
-    programs: [
-      {
-        id: "usa-language",
-        title: "Dil Okulları",
-        tagline: "Esnek başlangıç tarihleri ve farklı şehir/kampüs seçenekleriyle İngilizcenizi geliştirin.",
-        details: makeDetails({
-          overview:
-            "Seviye tespit ve kur ilerleme sistemi olan; kısa veya uzun dönem İngilizce eğitimleri. Bazı kurumlarda üniversiteye geçiş (pathway) opsiyonu bulunur.",
-          whoFor: [
-            "Üniversite başvurularına hazırlanan öğrenciler",
-            "Kariyer hedefi için İngilizcesini geliştirmek isteyen profesyoneller",
-            "Kısa süreli, planlı bir yurtdışı eğitim isteyen adaylar",
-          ],
-          advantages: [
-            "Birden fazla başlangıç tarihi ve süre seçeneği",
-            "Seviye tespit ve düzenli kur ilerlemesi",
-            "Şehir ve kampüs çeşitliliği",
-            "Seçili kurumlarda pathway programları",
-          ],
-          duration: "4–36 hafta (esnek)",
-          feesAndVisa:
-            "Birçok program için F-1 öğrenci vizesi gerekir; I-20, finansal yeterlilik, sigorta ve mülakat hazırlığında destek veririz.",
-        }),
-      },
-      {
-        id: "work-and-travel",
-        title: "Work and Travel",
-        tagline: "Sezonluk çalışma deneyimi + seyahati birleştiren kültürel değişim programı.",
-        badge: "Popular",
-        details: makeDetails({
-          overview:
-            "Uygun öğrencilerin tatil dönemlerinde ABD’de çalışıp sonrasında seyahat edebildiği yapılandırılmış sezonluk program.",
-          whoFor: [
-            "Uygunluk kriterlerini karşılayan üniversite öğrencileri",
-            "Bütçe dostu şekilde ABD’de çalışma deneyimi isteyen adaylar",
-            "Kısa süreli taahhütleri tercih eden öğrenciler",
-          ],
-          advantages: [
-            "Program süresince gelir elde etme fırsatı",
-            "Uluslararası katılımcılarla kültürel değişim",
-            "Hizmet/turizm alanlarında güçlü CV deneyimi",
-            "Çalışma sonrası seyahat edebilme seçeneği",
-          ],
-          duration: "Genellikle 3–5 ay (sezona bağlı)",
-          workRights: "Çalışma izni program kapsamındadır ve sponsor kurallarına tabidir.",
-          feesAndVisa:
-            "Sponsor ve vize ücretleri bulunur. Sponsor koordinasyonu, evraklar, mülakat hazırlığı ve seyahat kontrol listesinde destek oluruz.",
-        }),
-      },
-      {
-        id: "camp-usa",
-        title: "Camp USA",
-        tagline: "Yaz kamplarında çalışın; konaklama ve yemek çoğu zaman dahildir.",
-        details: makeDetails({
-          overview:
-            "Yaz kamplarında staff/counselor olarak çalışıp yapılandırılmış bir ortamda kültürel deneyim kazandığınız program.",
-          whoFor: [
-            "İletişimi güçlü öğrenciler ve genç yetişkinler",
-            "Takım çalışmasına uyumlu adaylar",
-            "Daha düşük yaşam maliyetiyle yaz dönemi yurtdışı deneyimi isteyenler",
-          ],
-          advantages: [
-            "Konaklama ve yemek çoğu zaman dahildir",
-            "Güçlü topluluk ve destek yapısı",
-            "Liderlik ve takım çalışması deneyimi",
-            "Kısa sürede yüksek deneyim değeri",
-          ],
-          duration: "8–12 hafta (yaz sezonu)",
-          workRights: "Çalışma izni program kapsamındadır ve sponsor kurallarına tabidir.",
-          feesAndVisa:
-            "Sponsor yerleştirme ve vize ücretleri bulunur. Uygunluk, evraklar ve sponsor zaman planında destek veririz.",
-        }),
-      },
-      {
-        id: "h2b",
-        title: "H-2B Çalışma Vizesi",
-        tagline: "İşveren sponsorluğu ile sezonluk (tarım dışı) çalışma rotası.",
-        details: makeDetails({
-          overview:
-            "Uygun sezonluk işlerde, işverenin H-2B kapsamında çalışma izni sürecini sponsorladığı rota.",
-          whoFor: [
-            "İşveren sponsorluğu ile sezonluk rol hedefleyen adaylar",
-            "Zaman planına bağlı ilerleyebilen adaylar",
-            "Tekrarlanabilir sezonluk çalışma döngüsü arayanlar",
-          ],
-          advantages: [
-            "İşveren sponsorlu çalışma izni",
-            "Aynı işverenle tekrar sezon fırsatı",
-            "Net sezonluk iş kategorileri",
-            "Düzenli uyum ve onboarding",
-          ],
-          duration: "9 aya kadar (sezona bağlı, işverene göre değişir)",
-          workRights:
-            "Çalışma, sponsor işveren ve onaylı süre ile sınırlıdır.",
-          feesAndVisa:
-            "İşveren dilekçesi ve vize adımları değişebilir; evrak, mülakat hazırlığı ve uyum kurallarında destek veririz.",
-        }),
-      },
-      {
-        id: "usa-university",
-        title: "Üniversite (Lisans)",
-        tagline: "Kabul stratejisi + burs odaklı planlama ile ABD üniversiteleri.",
-        details: makeDetails({
-          overview:
-            "Okul listeleme, başvuru stratejisi ve uygun profiller için burs/finansal destek konumlandırmasını içeren yapılandırılmış kabul süreci.",
-          whoFor: [
-            "ABD’de tam lisans eğitimi hedefleyen öğrenciler",
-            "Güçlü kampüs ve kariyer ekosistemi arayan adaylar",
-            "Takvimli, adım adım başvuru planı isteyen öğrenciler",
-          ],
-          advantages: [
-            "Geniş bölüm ve kampüs seçeneği",
-            "Birçok kurumda güçlü staj/kariyer servisleri",
-            "Burs fırsatları (uygunluğa göre değişir)",
-            "Net, adım adım kabul planı",
-          ],
-          duration: "Genellikle 4 yıl",
-          feesAndVisa:
-            "Ücretler kuruma göre geniş aralıkta değişir. F-1 vizesi için I-20 ve finansal yeterlilik gerekir; dosya ve mülakat hazırlığında destek oluruz.",
-        }),
-      },
-      sharedAuPair,
-      {
-        id: "visa-consulting",
-        title: "Vize Danışmanlığı",
-        tagline: "Dosya kontrolü, mülakat hazırlığı ve zaman planı desteği.",
-        details: makeDetails({
-          overview:
-            "Seçtiğiniz ABD program rotası için; netlik, uygunluk ve güven odaklı vize destek hizmeti.",
-          whoFor: [
-            "Yapılandırılmış kontrol listesi ve dosya incelemesi isteyen adaylar",
-            "Sponsor evrakları dahil çoklu belgeyle ilerleyen öğrenciler",
-            "Finansal yeterlilik stratejisini netleştirmek isteyen aileler",
-          ],
-          advantages: [
-            "Programa göre kişiselleştirilmiş evrak listesi",
-            "Mülakat hazırlığı ve güven kazandırma",
-            "Sponsor/DS-2019/I-20 uyumluluğu desteği (uygunsa)",
-            "Net zaman planı, hatırlatmalar ve bir sonraki adımlar",
-          ],
-          duration: "Genellikle 1–4 hafta",
-          feesAndVisa:
-            "Danışmanlık ücreti kapsamına göre değişir. Resmî konsolosluk ücretleri ve varsa sponsor ücretleri ayrıdır.",
-        }),
-      },
-    ],
-  },
-  Netherlands: {
-    heroImageUrl: HERO_NETHERLANDS_IMG_URL,
-    programs: [
-      {
-        id: "nl-summer-schools",
-        title: "Yaz Okulları (Lisans & Yüksek Lisans)",
-        tagline: "Uluslararası sınıflarla kısa süreli akademik programlar.",
-        details: makeDetails({
-          overview:
-            "Yaz okulları; Hollanda eğitim sistemini deneyimlemek, sertifika almak ve uluslararası network kurmak için üniversitelerde yoğun, kısa süreli programlar sunar.",
-          whoFor: [
-            "İleride yurtdışında tam eğitim düşünen öğrenciler",
-            "Kısa ama etkisi yüksek akademik deneyim isteyen adaylar",
-            "Uluslararası network ve sertifika hedefleyenler",
-          ],
-          advantages: [
-            "Kısa ve esnek katılım",
-            "Sertifika ve transkript opsiyonları",
-            "Uluslararası öğrenci ağı",
-            "Profil güçlendirme için ideal",
-          ],
-          duration: "2–8 hafta",
-          feesAndVisa:
-            "Vize gereklilikleri vatandaşlık ve süreye göre değişir. Doğru giriş/vize türünü ve evrakları netleştiririz.",
-        }),
-      },
-      {
-        id: "nl-bachelors",
-        title: "Lisans Programı",
-        tagline: "İngilizce eğitim seçenekleri ve güçlü Avrupa kariyer rotaları.",
-        details: makeDetails({
-          overview:
-            "Hollanda; İngilizce eğitimli programları ve çok uluslu kampüs ortamıyla öne çıkar.",
-          whoFor: [
-            "Avrupa’da İngilizce lisans eğitimi isteyen öğrenciler",
-            "Uygulamalı ve yenilikçi eğitim modelini hedefleyen adaylar",
-            "Uluslararası kampüs deneyimini önemseyen öğrenciler",
-          ],
-          advantages: [
-            "Çok sayıda İngilizce program seçeneği",
-            "Güçlü uluslararası öğrenci ekosistemi",
-            "Uygulamalı ve araştırma üniversitesi alternatifleri",
-            "AB’de staj ve network fırsatları",
-          ],
-          duration: "3–4 yıl (programa göre)",
-          feesAndVisa:
-            "Ücretler AB/AB dışı statüsüne göre değişir. Başvuru takvimi, konaklama planı ve oturum izni adımlarında destek oluruz.",
-        }),
-      },
-      {
-        id: "nl-masters",
-        title: "Yüksek Lisans Programı",
-        tagline: "1 ve 2 yıllık seçenekler; araştırma ve uygulamalı rotalar.",
-        details: makeDetails({
-          overview:
-            "Hollanda’daki yüksek lisans programları; güçlü araştırma çıktısı ve sektörle pratik bağlantılar sunar; birçok program İngilizcedir.",
-          whoFor: [
-            "Avrupa pazarında uzmanlaşmak isteyen mezunlar",
-            "STEM, işletme ve sosyal bilimler odaklı adaylar",
-            "Hızlı 1 yıllık yüksek lisans seçenekleri arayan öğrenciler",
-          ],
-          advantages: [
-            "Çok sayıda İngilizce program",
-            "Seçili alanlarda güçlü sektör iş birliği",
-            "Net kabul kriterleri ve başvuru takvimi",
-            "Uluslararası sınıf deneyimi",
-          ],
-          duration: "1–2 years",
-          feesAndVisa:
-            "Oturum izni, sigorta ve finansal yeterlilik planı kritik. Net kontrol listesi ve zaman planı sağlarız.",
-        }),
-      },
-      {
-        id: "visa-consulting",
-        title: "Vize/Oturum Danışmanlığı",
-        tagline: "Oturum izni planı, evrak kontrolü ve süreç takibi.",
-        details: makeDetails({
-          overview:
-            "Kabul ve oturum izni adımlarının; eksiksiz evrakla, doğru sırada ve zamanında ilerlemesini sağlayan premium destek.",
-          whoFor: [
-            "AB dışı oturum izni gerekliliklerini yöneten adaylar",
-            "Sıkı deadline ve konaklama kısıtı olan öğrenciler",
-            "Uçtan uca yapılandırılmış süreç isteyen adaylar",
-          ],
-          advantages: [
-            "Net zaman planı ve hatırlatmalar",
-            "Evrak kontrolü ve tercüme yönetimi",
-            "Bütçe ve finansal yeterlilik yönlendirmesi",
-            "Uçuş öncesi kontrol listesi ve yerleşim ipuçları",
-          ],
-          duration: "Genellikle 1–4 hafta",
-          feesAndVisa:
-            "Danışmanlık ücreti kapsamına göre değişir. Resmî ücretler kurumlara ve oturum izni kurallarına göre belirlenir.",
-        }),
-      },
-    ],
-  },
-  "United Kingdom": {
-    heroImageUrl: HERO_UK_IMG_URL,
-    programs: [
-      {
-        id: "uk-language",
-        title: "Dil Okulları",
-        tagline: "Esnek süreler ve şehir seçenekleriyle İngilizce immersion.",
-        details: makeDetails({
-          overview:
-            "Birleşik Krallık dil okulları; yoğun programlar ve güçlü immersion ortamıyla İngilizceyi hızlandırmak için idealdir.",
-          whoFor: [
-            "UK üniversitelerine hazırlanan öğrenciler",
-            "İngilizcesini kısa sürede geliştirmek isteyen profesyoneller",
-            "Kısa süreli, net hedefli eğitim arayan adaylar",
-          ],
-          advantages: [
-            "Yüksek immersion ortamı",
-            "Farklı yoğunlukta kurs seçenekleri",
-            "Kısa ve uzun dönem alternatifler",
-            "Şehir bazlı geniş seçenek",
-          ],
-          duration: "2–36 hafta",
-          feesAndVisa:
-            "Vize gereklilikleri süre ve profile göre değişir. Doğru vize rotası ve evrak listesini netleştiririz.",
-        }),
-      },
-      {
-        id: "uk-bachelors",
-        title: "Lisans Programı",
-        tagline: "Dünya çapında üniversiteler ve güçlü küresel marka değeri.",
-        details: makeDetails({
-          overview:
-            "UK lisans programları; güçlü akademik yapı ve kariyer ekosistemiyle dünya çapında tanınır.",
-          whoFor: [
-            "Küresel ölçekte tanınan kurumları hedefleyen öğrenciler",
-            "Tamamen İngilizce eğitim rotasını tercih eden adaylar",
-            "Uluslararası taşınabilir diploma hedefleyenler",
-          ],
-          advantages: [
-            "Küresel tanınırlık ve alumni network’leri",
-            "Net program yapısı ve modüller",
-            "Güçlü öğrenci servisleri ve kampüs hayatı",
-            "Staj ve projelerle kariyer deneyimi (programa göre değişir)",
-          ],
-          duration: "3–4 yıl (programa göre)",
-          feesAndVisa:
-            "Ücretler geniş aralıkta değişir. Vize planında CAS, finansal yeterlilik ve zaman planı yer alır; uçtan uca destek veririz.",
-        }),
-      },
-      {
-        id: "uk-masters",
-        title: "Yüksek Lisans Programı",
-        tagline: "Güçlü uzmanlaşma seçenekleriyle hızlı 1 yıllık programlar.",
-        details: makeDetails({
-          overview:
-            "UK yüksek lisans programlarının bir kısmı 1 yıllık yoğun eğitim sunar; hızlı uzmanlaşma ve kariyer dönüşümü için idealdir.",
-          whoFor: [
-            "Hızlı bir yüksek lisans rotası isteyen mezunlar",
-            "Güçlü küresel bir yetkinlik belgesi hedefleyen profesyoneller",
-            "Uzmanlaşmış programları hedefleyen adaylar (işletme, teknoloji, analitik)",
-          ],
-          advantages: [
-            "Hızlı tamamlanma süresi",
-            "Güçlü akademik marka ve networking",
-            "Geniş uzmanlık alanı çeşitliliği",
-            "Net kabul kriterleri ve intake dönemleri",
-          ],
-          duration: "Genellikle 1 yıl",
-          feesAndVisa:
-            "Vize ve CAS takvimleri sıkıdır. Yapılandırılmış plan, bütçe özeti ve evrak kontrolü sağlarız.",
-        }),
-      },
-      {
-        id: "visa-consulting",
-        title: "Vize Danışmanlığı",
-        tagline: "CAS odaklı zaman planı ve premium dosya hazırlığı.",
-        details: makeDetails({
-          overview:
-            "UK odaklı öğrenci vizesi danışmanlığı: CAS hazırlığı, finansal yeterlilik kontrolleri ve randevu planlaması dahil.",
-          whoFor: [
-            "Sıkı zaman planı ve kontrol listesi isteyen adaylar",
-            "Çoklu finansal evrakla ilerleyen öğrenciler",
-            "Netlik ve daha az stres isteyen aileler",
-          ],
-          advantages: [
-            "Deadline kontrolü ve hatırlatmalar",
-            "Ret riskini azaltan finansal evrak kontrolleri",
-            "Dosya sunumu ve evrak stratejisi",
-            "Uçuş öncesi kontrol listesi ve varış yönlendirmesi",
-          ],
-          duration: "Genellikle 1–3 hafta",
-          feesAndVisa:
-            "Danışmanlık ücreti kapsamına göre değişir. Resmî vize ücretleri ve varsa sağlık harcı ayrıdır.",
-        }),
-      },
-    ],
-  },
-  Canada: {
-    heroImageUrl: HERO_CANADA_IMG_URL,
-    programs: [
-      {
-        id: "ca-language",
-        title: "Dil Okulları",
-        tagline: "Güvenli şehirler ve esnek tarihlerle İngilizce/Fransızca geliştirme.",
-        details: makeDetails({
-          overview:
-            "Kanada dil okulları; kaliteli eğitim ortamı ve öğrenci dostu yaşam tarzıyla öne çıkar.",
-          whoFor: [
-            "Kanada kolej/üniversitelerine hazırlanan öğrenciler",
-            "Kariyer planı için dilini geliştirmek isteyen profesyoneller",
-            "Güvenli ve planlı bir yurtdışı eğitim deneyimi isteyen adaylar",
-          ],
-          advantages: [
-            "Kaliteli eğitim ortamı",
-            "Güvenli şehirler ve güçlü öğrenci desteği",
-            "Birden fazla başlangıç tarihi ve süre seçeneği",
-            "Seçili kurumlarda pathway opsiyonları",
-          ],
-          duration: "4–36 hafta",
-          feesAndVisa:
-            "Study permit gereklilikleri programa ve süreye göre değişir. Finansal yeterlilik, evraklar ve zaman planında destek oluruz.",
-        }),
-      },
-      {
-        id: "ca-bachelors",
-        title: "Lisans Programı",
-        tagline: "Güçlü istihdam ekosistemi ve kampüs desteğiyle kaliteli diplomalar.",
-        details: makeDetails({
-          overview:
-            "Kanada üniversiteleri; güçlü öğrenci servisleri ve kariyer desteğiyle dünya çapında tanınan diplomalar sunar.",
-          whoFor: [
-            "Uzun vadeli yurtdışı eğitim rotası hedefleyen öğrenciler",
-            "Kampüs desteği ve güvenli yaşamı önemseyen adaylar",
-            "Güçlü istihdam ekosistemi arayan adaylar",
-          ],
-          advantages: [
-            "Güçlü öğrenci servisleri ve kampüs hayatı",
-            "Araştırma ve uygulamalı derece seçenekleri",
-            "Co-op/staj modelleri (programa göre değişir)",
-            "Uluslararası tanınırlık",
-          ],
-          duration: "Genellikle 4 yıl",
-          feesAndVisa:
-            "Ücretler eyalet ve kuruma göre değişir. Study permit için finansal yeterlilik ve evrak gerekir; dosya ve zaman planını yapılandırırız.",
-        }),
-      },
-      {
-        id: "ca-masters",
-        title: "Yüksek Lisans Programı",
-        tagline: "Araştırma ve profesyonel master seçenekleri; net intake dönemleri.",
-        details: makeDetails({
-          overview:
-            "Kanada’da yüksek lisans; üniversite ve alana göre araştırma dereceleri veya profesyonel programlar şeklinde sunulur.",
-          whoFor: [
-            "Uzmanlaşmak veya araştırma yönünü güçlendirmek isteyen mezunlar",
-            "Güçlü küresel bir yetkinlik belgesi hedefleyen profesyoneller",
-            "Uygun yerlerde co-op/profesyonel program hedefleyen adaylar",
-          ],
-          advantages: [
-            "Birçok üniversitede güçlü araştırma çıktısı",
-            "Net kabul dönemleri ve gereklilikler",
-            "Seçili programlarda co-op opsiyonu",
-            "Öğrenciler için yüksek yaşam kalitesi",
-          ],
-          duration: "1–2 years",
-          feesAndVisa:
-            "Study permit ve finansal planlama kritik. Net kontrol listesi sunar, evrak stratejisini uçtan uca yönetiriz.",
-        }),
-      },
-      {
-        id: "visa-consulting",
-        title: "Vize/Oturum Danışmanlığı",
-        tagline: "Study permit dosyası için zaman planı ve evrak kontrolü.",
-        details: makeDetails({
-          overview:
-            "Study permit başarısına odaklı yapılandırılmış danışmanlık: netlik, eksiksizlik ve güven.",
-          whoFor: [
-            "Karmaşık finansal evrakları olan adaylar",
-            "Sıkı intake deadline’ı olan öğrenciler",
-            "Adım adım net yönlendirme isteyen aileler",
-          ],
-          advantages: [
-            "Evrak ve finansal yeterlilik kontrolü",
-            "Zaman planı ve hatırlatmalar",
-            "Statement/motivasyon metni kurgusu",
-            "Uçuş öncesi kontrol listesi ve yerleşim notları",
-          ],
-          duration: "Genellikle 1–3 hafta",
-          feesAndVisa:
-            "Danışmanlık ücreti kapsamına göre değişir. Resmî permit ücretleri ayrıdır; şeffaf bir özet sunarız.",
-        }),
-      },
-    ],
-  },
-  Ireland: {
-    heroImageUrl: HERO_IRELAND_IMG_URL,
-    programs: [
-      {
-        id: "ie-work-study",
-        title: "Work and Study Programı",
-        tagline: "Dil okulu + part-time çalışma rotası (uygunluğa bağlı).",
-        badge: "Popular",
-        details: makeDetails({
-          overview:
-            "Vize ve program türüne bağlı olarak; yasal sınırlar içinde part-time çalışma potansiyeliyle dil eğitimini birleştiren yapılandırılmış rota.",
-          whoFor: [
-            "Çalışma esnekliği potansiyeli olan bir eğitim rotası arayan adaylar",
-            "İngilizce konuşulan bir AB destinasyonu isteyen öğrenciler",
-            "Bütçe ve zaman planı net olan adaylar",
-          ],
-          advantages: [
-            "İngilizce konuşulan ortam",
-            "Part-time çalışma ile maliyeti dengeleme potansiyeli (kurallar geçerlidir)",
-            "Esnek başlangıç tarihleri",
-            "Güçlü uluslararası öğrenci topluluğu",
-          ],
-          duration:
-            "Uzun süreli rotalar için genellikle 25+ hafta (programa göre değişir)",
-          workRights:
-            "Çalışma hakkı vize/program türüne bağlıdır. Doğru rota ve uyum kurallarında destek veririz.",
-          feesAndVisa:
-            "Vize ve kayıt gereklilikleri vatandaşlık ve süreye göre değişir. Yapılandırılmış kontrol listesi ve zaman planı sunarız.",
-        }),
-      },
-      {
-        id: "visa-consulting",
-        title: "Vize Danışmanlığı",
-        tagline: "İrlanda eğitim rotanız için planlama ve evrak yönetimi.",
-        details: makeDetails({
-          overview:
-            "Rotanızı planlamak, evrakları eksiksiz hazırlamak ve vize stresini azaltmak için özel destek.",
-          whoFor: [
-            "Adım adım net süreç isteyen adaylar",
-            "Finansal yeterlilik şartlarını yöneten öğrenciler",
-            "Zaman kontrolü ve hatırlatma ihtiyacı olan adaylar",
-          ],
-          advantages: [
-            "Kontrol listesiyle hazırlık ve inceleme",
-            "Bütçe planı ve finansal yeterlilik stratejisi",
-            "Uçuş öncesi bilgilendirme ve varış adımları",
-            "Kayıt ve yerleşim yönlendirmesinde destek",
-          ],
-          duration: "Genellikle 1–3 hafta",
-          feesAndVisa:
-            "Danışmanlık ücreti kapsamına göre değişir. Resmî ücretler rotaya bağlıdır; şeffaf bir özet sunarız.",
-        }),
-      },
-    ],
-  },
-  Malta: {
-    heroImageUrl: HERO_MALTA_IMG_URL,
-    programs: [
-      {
-        id: "mt-language",
-        title: "Dil Okulu",
-        tagline: "Akdeniz yaşam tarzında esnek dönemlerle İngilizce eğitimi.",
-        details: makeDetails({
-          overview:
-            "Malta; esnek kurs seçenekleri ve rahat yaşam temposuyla İngilizce eğitim için popüler bir destinasyondur.",
-          whoFor: [
-            "Bütçe dostu bir İngilizce eğitim destinasyonu arayan öğrenciler",
-            "Kısa süreli dil immersion isteyen adaylar",
-            "Eğitimi seyahat deneyimiyle birleştirmek isteyenler",
-          ],
-          advantages: [
-            "Esnek başlangıç tarihleri ve süreler",
-            "İngilizce konuşulan ortam",
-            "Çekici yaşam tarzı ve iklim",
-            "Birçok konaklama seçeneği",
-          ],
-          duration: "1–24+ hafta",
-          feesAndVisa:
-            "Vize gereklilikleri süre ve vatandaşlığa göre değişir. Doğru rota ve evrak listesini netleştiririz.",
-        }),
-      },
-      {
-        id: "mt-internship",
-        title: "Staj (Work and Study)",
-        tagline:
-          "Pratik deneyim için eğitim + staj rotası (uygunluğa bağlı).",
-        details: makeDetails({
-          overview:
-            "Program ve uygunluğa bağlı olarak; eğitimi yapılandırılmış staj yerleştirmesiyle birleştiren rota.",
-          whoFor: [
-            "Okurken pratik deneyim kazanmak isteyen adaylar",
-            "Uluslararası deneyimle CV’sini güçlendirmek isteyen öğrenciler",
-            "Yapılandırılmış ve yönlendirmeli yerleştirmeyi tercih eden adaylar",
-          ],
-          advantages: [
-            "Pratik deneyim ve CV gelişimi",
-            "Yapılandırılmış zaman planı ve destek",
-            "Daha düşük giriş bariyeriyle uluslararası ortam",
-            "İlk yurtdışı deneyimi için ideal",
-          ],
-          duration: "Genellikle 8–26 hafta (programa göre değişir)",
-          workRights:
-            "Çalışma/staj izinleri program kurallarına bağlıdır; uyum ve evrak konusunda yönlendiririz.",
-          feesAndVisa:
-            "Maliyetler eğitim ücreti ve varsa yerleştirme ücretlerini içerir. Vize gereklilikleri değişir; net bir dosya planı sunarız.",
-        }),
-      },
-      {
-        id: "visa-consulting",
-        title: "Vize Danışmanlığı",
-        tagline: "Malta eğitim rotaları için premium plan ve evrak yönetimi.",
-        details: makeDetails({
-          overview:
-            "Malta rotanızı eksiksiz evrak ve düzenli zaman planıyla hazırlamak için özel destek.",
-          whoFor: [
-            "Kontrol listesiyle ilerlemek isteyen adaylar",
-            "Seyahat tarihi yakın olan öğrenciler",
-            "Ücretler ve evraklar konusunda netlik isteyen adaylar",
-          ],
-          advantages: [
-            "Evrak eksiksizlik kontrolleri",
-            "Hatırlatmalarla zaman planı",
-            "Ücret ve vize rotasını net anlatım",
-            "Uçuş öncesi kontrol listesi ve varış yönlendirmesi",
-          ],
-          duration: "Genellikle 1–2 hafta",
-          feesAndVisa:
-            "Danışmanlık ücreti kapsamına göre değişir. Resmî vize ücretleri rotaya bağlıdır; şeffaf bir özet sunarız.",
-        }),
-      },
-    ],
-  },
-} as const satisfies Record<string, CountryPrograms>;
-
-export type CountryId = keyof typeof PROGRAM_CATALOG;
-
 export const COUNTRY_ORDER = [
   "Germany",
   "USA",
@@ -886,4 +34,1150 @@ export const COUNTRY_ORDER = [
   "Canada",
   "Ireland",
   "Malta",
-] as const satisfies readonly CountryId[];
+] as const;
+
+export type CountryId = (typeof COUNTRY_ORDER)[number];
+
+type Localized<T> = Record<AppLocale, T>;
+
+type ProgramSource = {
+  id: string;
+  badge?: Program["badge"];
+  title: Localized<string>;
+  tagline: Localized<string>;
+  getDetails: (locale: AppLocale) => ProgramDetails;
+};
+
+type CountrySource = {
+  heroImageUrl: string;
+  programs: readonly ProgramSource[];
+};
+
+const DEFAULT_STEPS: Localized<string[]> = {
+  tr: [
+    "Ücretsiz profil değerlendirmesi ve uygunluk kontrolü",
+    "Evrak hazırlığı + uygunluk doğrulaması",
+    "Başvuru gönderimi ve takip",
+    "Vize & seyahat planlama (uygunsa)",
+    "Uçuş öncesi bilgilendirme + varış desteği",
+  ],
+  en: [
+    "Free profile review & eligibility check",
+    "Document preparation + eligibility validation",
+    "Application submission & follow-up",
+    "Visa & travel planning (if applicable)",
+    "Pre-departure briefing + arrival support",
+  ],
+  de: [
+    "Kostenlose Profilprüfung & Eignungscheck",
+    "Unterlagen vorbereiten + Eignung bestätigen",
+    "Bewerbung einreichen & nachverfolgen",
+    "Visa- & Reiseplanung (falls zutreffend)",
+    "Vorbereitung vor Abreise + Unterstützung nach Ankunft",
+  ],
+};
+
+const BASE_DOCS: Localized<string[]> = {
+  tr: [
+    "Pasaport (en az 12 ay geçerli)",
+    "CV + motivasyon mektubu",
+    "Diploma ve transkriptler (gerekirse tercümeli)",
+    "Finansal yeterlilik / sponsor evrakları (gerekirse)",
+  ],
+  en: [
+    "Passport (valid for at least 12 months)",
+    "CV + motivation letter",
+    "Diploma and transcripts (translated if needed)",
+    "Proof of funds / sponsor documents (if required)",
+  ],
+  de: [
+    "Reisepass (mind. 12 Monate gültig)",
+    "Lebenslauf + Motivationsschreiben",
+    "Diplom und Transkripte (ggf. übersetzt)",
+    "Finanzierungsnachweis / Sponsorunterlagen (falls erforderlich)",
+  ],
+};
+
+function unique(items: string[]) {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const item of items) {
+    if (seen.has(item)) continue;
+    seen.add(item);
+    result.push(item);
+  }
+  return result;
+}
+
+function detailsBase(
+  locale: AppLocale,
+  input: Omit<ProgramDetails, "applicationSteps" | "requiredDocuments"> & {
+    applicationSteps?: string[];
+    requiredDocuments?: string[];
+  },
+): ProgramDetails {
+  return {
+    overview: input.overview,
+    whoFor: input.whoFor,
+    keyAdvantages: input.keyAdvantages,
+    duration: input.duration,
+    workRights: input.workRights,
+    applicationSteps: input.applicationSteps ?? DEFAULT_STEPS[locale],
+    requiredDocuments: unique([...(input.requiredDocuments ?? []), ...BASE_DOCS[locale]]),
+    feesAndVisa: input.feesAndVisa,
+    notes: input.notes,
+  };
+}
+
+const COUNTRY_LABELS: Localized<Record<CountryId, string>> = {
+  tr: {
+    Germany: "Almanya",
+    USA: "ABD",
+    Netherlands: "Hollanda",
+    "United Kingdom": "Birleşik Krallık",
+    Canada: "Kanada",
+    Ireland: "İrlanda",
+    Malta: "Malta",
+  },
+  en: {
+    Germany: "Germany",
+    USA: "USA",
+    Netherlands: "Netherlands",
+    "United Kingdom": "United Kingdom",
+    Canada: "Canada",
+    Ireland: "Ireland",
+    Malta: "Malta",
+  },
+  de: {
+    Germany: "Deutschland",
+    USA: "USA",
+    Netherlands: "Niederlande",
+    "United Kingdom": "Vereinigtes Königreich",
+    Canada: "Kanada",
+    Ireland: "Irland",
+    Malta: "Malta",
+  },
+};
+
+function academicDetails(opts: {
+  countryId: CountryId;
+  level: "bachelor" | "master" | "phd";
+  duration: Localized<string>;
+  workRights?: Localized<string>;
+}): ProgramSource["getDetails"] {
+  return (locale) => {
+    const country = COUNTRY_LABELS[locale][opts.countryId];
+    const levelLabel =
+      locale === "tr"
+        ? opts.level === "bachelor"
+          ? "Lisans"
+          : opts.level === "master"
+            ? "Yüksek Lisans"
+            : "Doktora (PhD)"
+        : locale === "de"
+          ? opts.level === "bachelor"
+            ? "Bachelor"
+            : opts.level === "master"
+              ? "Master"
+              : "Promotion (PhD)"
+          : opts.level === "bachelor"
+            ? "Bachelor's"
+            : opts.level === "master"
+              ? "Master's"
+              : "PhD";
+
+    const overview =
+      locale === "tr"
+        ? `${country} ${levelLabel} programlarında hedefinize uygun bölüm seçimi, başvuru dosyası, kabul stratejisi ve vize planı birlikte yürütülür.`
+        : locale === "de"
+          ? `Für ${country} ${levelLabel}-Programme begleiten wir Programmauswahl, Bewerbungsunterlagen, Zulassungsstrategie und Visa-Planung.`
+          : `For ${country} ${levelLabel} programs, we guide program selection, application files, admission strategy, and visa planning.`;
+
+    const whoFor =
+      locale === "tr"
+        ? [
+            `${country}’da ${levelLabel.toLowerCase()} hedefleyen adaylar`,
+            "Net zaman planı ve dosya standardı isteyenler",
+            "Burs/finansman ve vize adımlarını sistemli yönetmek isteyenler",
+          ]
+        : locale === "de"
+          ? [
+              `Bewerber:innen für ${levelLabel}-Programme in ${country}`,
+              "Personen mit Bedarf an klarer Timeline und sauberen Unterlagen",
+              "Kandidat:innen, die Finanzierung und Visa-Schritte strukturiert planen möchten",
+            ]
+          : [
+              `Applicants targeting ${levelLabel} programs in ${country}`,
+              "Those who want a clear timeline and clean documentation",
+              "Candidates who want structured funding and visa planning",
+            ];
+
+    const keyAdvantages =
+      locale === "tr"
+        ? [
+            "Profil odaklı program/okul listesi",
+            "Evrak ve deadline yönetimi",
+            "Risk odaklı vize ve dosya kontrolü",
+          ]
+        : locale === "de"
+          ? [
+              "Program-/Schulliste nach Profil",
+              "Dokumente & Deadlines im Griff",
+              "Risikoorientierte Visa- und Unterlagenprüfung",
+            ]
+          : [
+              "Profile-fit program/school shortlist",
+              "Document and deadline management",
+              "Risk-focused visa and file review",
+            ];
+
+    const feesAndVisa =
+      locale === "tr"
+        ? "Ücretler kuruma göre değişir. Vize için finansal yeterlilik, sigorta ve evrak seti kritik olabilir; adımları netleştiririz."
+        : locale === "de"
+          ? "Gebühren variieren je Institution. Für das Visum können Finanzierungsnachweis, Versicherung und Unterlagen entscheidend sein; wir klären die Schritte."
+          : "Fees vary by institution. Proof of funds, insurance, and documentation may be critical for the visa; we clarify the steps.";
+
+    return detailsBase(locale, {
+      overview,
+      whoFor,
+      keyAdvantages,
+      duration: opts.duration[locale],
+      workRights: opts.workRights?.[locale],
+      feesAndVisa,
+    });
+  };
+}
+
+function visaDetails(countryId: CountryId): ProgramSource["getDetails"] {
+  return (locale) => {
+    const country = COUNTRY_LABELS[locale][countryId];
+    return detailsBase(locale, {
+      overview:
+        locale === "tr"
+          ? `${country} için vize sürecini netleştirir; evrak setinizi konsolosluk beklentilerine göre düzenler ve zaman planınızı birlikte oluştururuz.`
+          : locale === "de"
+            ? `Wir klären den Visaprozess für ${country}, strukturieren Unterlagen nach Konsulatsanforderungen und erstellen eine klare Timeline.`
+            : `We clarify the visa flow for ${country}, organize your documents to match consulate expectations, and build a clear timeline.`,
+      whoFor:
+        locale === "tr"
+          ? [`${country} vizesine başvuracak adaylar`, "Evrak ve randevu planında destek isteyenler"]
+          : locale === "de"
+            ? [`Bewerber:innen für ein Visum nach ${country}`, "Support bei Unterlagen und Terminplanung"]
+            : [
+                `Applicants applying for a ${country} visa`,
+                "Those needing document and appointment planning support",
+              ],
+      keyAdvantages:
+        locale === "tr"
+          ? ["Checklist + timeline", "Dosya kontrolü", "Mülakat/biyometri hazırlığı"]
+          : locale === "de"
+            ? ["Checkliste + Timeline", "Unterlagenprüfung", "Interview/Biometrics Vorbereitung"]
+            : ["Checklist + timeline", "File review", "Interview/biometrics preparation"],
+      duration:
+        locale === "tr"
+          ? "Ülkeye göre değişir (çoğu rota 2–8 hafta planlama gerektirir)"
+          : locale === "de"
+            ? "Je nach Land (meist 2–8 Wochen Planung)"
+            : "Varies by country (most routes require 2–8 weeks of planning)",
+      workRights:
+        locale === "tr"
+          ? "Vize türüne göre değişir."
+          : locale === "de"
+            ? "Abhängig vom Visatyp."
+            : "Depends on visa type.",
+      feesAndVisa:
+        locale === "tr"
+          ? "Konsolosluk/vize ücretleri ülkeye göre değişir. Hizmet kapsamını şeffaf şekilde planlarız."
+          : locale === "de"
+            ? "Konsular-/Visa-Gebühren variieren. Umfang und Schritte bleiben transparent."
+            : "Consular/visa fees vary. We keep scope and steps transparent.",
+    });
+  };
+}
+
+const sharedAuPair: ProgramSource = {
+  id: "au-pair",
+  badge: "Shared",
+  title: { tr: "Au Pair Programı", en: "Au Pair Program", de: "Au-pair Programm" },
+  tagline: {
+    tr: "Bir aile yanında yaşayın, dilinizi geliştirin ve kültürel deneyim kazanın.",
+    en: "Live with a host family, improve your language, and gain cultural experience.",
+    de: "Bei einer Gastfamilie leben, Sprache verbessern und Erfahrung sammeln.",
+  },
+  getDetails: (locale) =>
+    detailsBase(locale, {
+      overview:
+        locale === "tr"
+          ? "Au pair; ev sahibi aile yanında konaklayıp çocuk bakımı ve hafif ev işlerine destek verirken aynı zamanda dil kurslarına katılabildiğiniz yapılandırılmış bir kültürel değişim rotasıdır."
+          : locale === "de"
+            ? "Au-pair ist eine strukturierte Austauschroute: bei einer Gastfamilie wohnen, Kinderbetreuung/leichte Hausarbeiten unterstützen und Sprachkurse besuchen."
+            : "Au pair is a structured exchange route: live with a host family, support childcare/light tasks, and attend language courses.",
+      whoFor:
+        locale === "tr"
+          ? ["Bütçe dostu yurtdışı deneyimi isteyenler", "Günlük pratikle dili geliştirmek isteyenler"]
+          : locale === "de"
+            ? ["Budgetfreundlicher Auslandsaufenthalt", "Sprache durch Alltagspraxis verbessern"]
+            : ["Budget-friendly abroad experience", "Improve language through daily immersion"],
+      keyAdvantages:
+        locale === "tr"
+          ? ["Konaklama + yemek çoğu zaman aile tarafından karşılanır", "Planlı süreç", "Hızlı dil gelişimi"]
+          : locale === "de"
+            ? ["Unterkunft/Verpflegung oft inklusive", "Strukturierter Ablauf", "Schneller Sprachfortschritt"]
+            : ["Accommodation/meals often included", "Structured process", "Fast language improvement"],
+      duration: locale === "tr" ? "6–12 ay (yaygın)" : locale === "de" ? "6–12 Monate" : "6–12 months",
+      workRights:
+        locale === "tr"
+          ? "Görevler aile anlaşması ve yerel kurallarla belirlenir; harçlık ödemesi yapılır."
+          : locale === "de"
+            ? "Aufgaben nach Vereinbarung und lokalen Regeln; Taschengeld wird gezahlt."
+            : "Duties depend on agreement/local rules; a stipend is provided.",
+      feesAndVisa:
+        locale === "tr"
+          ? "Vize, sigorta ve yerleştirme ücretleri ülkeye göre değişir; doğru vize türünü birlikte netleştiririz."
+          : locale === "de"
+            ? "Visa-, Versicherungs- und Vermittlungsgebühren variieren; wir klären den passenden Visatyp."
+            : "Visa, insurance, and placement fees vary; we help choose the right visa type.",
+      notes:
+        locale === "tr"
+          ? "Almanya ve ABD altında ortak program olarak listelenir."
+          : locale === "de"
+            ? "Als gemeinsames Programm unter Deutschland und USA gelistet."
+            : "Listed as a shared program under Germany and the USA.",
+    }),
+};
+
+const HERO: Record<CountryId, string> = {
+  Germany:
+    "https://images.unsplash.com/photo-1528728329032-2972f65dfb3f?auto=format&fit=crop&w=2400&q=80",
+  USA:
+    "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=2400&q=80",
+  Netherlands:
+    "https://images.unsplash.com/photo-1468436385273-8abca6dfd8d3?auto=format&fit=crop&w=2400&q=80",
+  "United Kingdom":
+    "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=2400&q=80",
+  Canada:
+    "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&w=2400&q=80",
+  Ireland:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/O%27Brien%27s_Tower_at_Cliffs_of_Moher.jpg/2400px-O%27Brien%27s_Tower_at_Cliffs_of_Moher.jpg",
+  Malta:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/A_Glowing_Night_Over_the_Grand_Harbour.jpg/2400px-A_Glowing_Night_Over_the_Grand_Harbour.jpg",
+};
+
+const GERMANY_PROGRAMS: readonly ProgramSource[] = [
+  {
+    id: "ausbildung",
+    badge: "Popular",
+    title: {
+      tr: "Ausbildung (Maaşlı Mesleki Eğitim)",
+      en: "Ausbildung (Paid Vocational Training)",
+      de: "Ausbildung (Vergütete Berufsausbildung)",
+    },
+    tagline: {
+      tr: "Teori + işyeri pratiğiyle meslek edin, maaş al.",
+      en: "Combine theory with company training and earn a salary.",
+      de: "Theorie + Praxis im Betrieb und dabei Vergütung erhalten.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Ausbildung, Almanya’nın maaşlı mesleki eğitim modelidir. Okul + işyeri pratiğini birleştirir."
+            : locale === "de"
+              ? "Ausbildung ist das vergütete Berufsbildungsmodell in Deutschland: Berufsschule + Praxis im Betrieb."
+              : "Ausbildung is Germany’s paid vocational training model combining school and on-the-job practice.",
+        whoFor:
+          locale === "tr"
+            ? ["Pratik, meslek odaklı rota isteyenler", "Okurken çalışmayı tercih edenler"]
+            : locale === "de"
+              ? ["Praxisnahe, berufsorientierte Route", "Während der Ausbildung arbeiten"]
+              : ["Practical, job-focused route", "Work while learning"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Program süresince maaş", "Mezuniyet sonrası güçlü istihdam", "Net sözleşme ve süreç"]
+            : locale === "de"
+              ? ["Vergütung während der Ausbildung", "Gute Jobchancen danach", "Klare Vertragsstruktur"]
+              : ["Salary during the program", "Strong job prospects", "Clear contract structure"],
+        duration: locale === "tr" ? "2–3,5 yıl" : locale === "de" ? "2–3,5 Jahre" : "2–3.5 years",
+        workRights:
+          locale === "tr"
+            ? "Eğitim sözleşmesi kapsamında çalışma; maaş ve saatler işverene göre belirlenir."
+            : locale === "de"
+              ? "Arbeit im Rahmen des Ausbildungsvertrags; Bedingungen je Arbeitgeber."
+              : "Work is covered under the training contract; terms vary by employer.",
+        feesAndVisa:
+          locale === "tr"
+            ? "Ana maliyetler tercüme, sigorta ve vize ücretleridir; maaş yaşam giderlerini destekleyebilir."
+            : locale === "de"
+              ? "Hauptkosten: Übersetzungen, Versicherung, Visa-Gebühren; Vergütung kann Lebenshaltungskosten decken."
+              : "Main costs are translations, insurance, and visa fees; salary can support living costs.",
+      }),
+  },
+  {
+    id: "bachelors",
+    title: { tr: "Lisans Programları", en: "Bachelor’s Degree", de: "Bachelorstudium" },
+    tagline: {
+      tr: "Uygun maliyetli ve güçlü akademik ekosistem.",
+      en: "Strong academics with cost-effective options.",
+      de: "Starke Akademik mit oft kosteneffizienten Optionen.",
+    },
+    getDetails: academicDetails({
+      countryId: "Germany",
+      level: "bachelor",
+      duration: { tr: "Genellikle 3 yıl", en: "Typically 3 years", de: "Meist 3 Jahre" },
+    }),
+  },
+  {
+    id: "masters",
+    title: { tr: "Yüksek Lisans", en: "Master’s Degree", de: "Masterstudium" },
+    tagline: {
+      tr: "Uzmanlaşma ve Avrupa kariyeri için güçlü fırsatlar.",
+      en: "Specialize and access European career networks.",
+      de: "Spezialisieren und europäische Karrierenetzwerke nutzen.",
+    },
+    getDetails: academicDetails({
+      countryId: "Germany",
+      level: "master",
+      duration: { tr: "1–2 yıl", en: "1–2 years", de: "1–2 Jahre" },
+    }),
+  },
+  {
+    id: "phd",
+    title: { tr: "Doktora (PhD)", en: "PhD Programs", de: "Promotion (PhD)" },
+    tagline: {
+      tr: "Araştırma odaklı rotalar ve danışman eşleştirme.",
+      en: "Research-focused routes and supervisor matching.",
+      de: "Forschungsorientierte Route und Betreuer-Matching.",
+    },
+    getDetails: academicDetails({
+      countryId: "Germany",
+      level: "phd",
+      duration: { tr: "3–5 yıl", en: "3–5 years", de: "3–5 Jahre" },
+    }),
+  },
+  sharedAuPair,
+  {
+    id: "degree-recognition",
+    title: { tr: "Denklik (Diploma Tanıma)", en: "Degree Recognition", de: "Anerkennung (Denklik)" },
+    tagline: {
+      tr: "Resmi tanıma süreçleri ve uygunluk kontrolü.",
+      en: "Guidance for official recognition steps.",
+      de: "Begleitung bei Anerkennungsprozessen.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Denklik; diplomanın/mesleki yeterliliğin Almanya’daki karşılığının değerlendirilmesidir. Süreç mesleğe göre değişir."
+            : locale === "de"
+              ? "Anerkennung prüft, wie Ihr Abschluss in Deutschland eingeordnet wird. Anforderungen variieren je Beruf."
+              : "Recognition checks how your qualification maps to German standards. Requirements vary by profession.",
+        whoFor:
+          locale === "tr"
+            ? ["Regule mesleklerde çalışmak isteyen mezunlar", "Kariyer geçişi planlayan profesyoneller"]
+            : locale === "de"
+              ? ["Reglementierte Berufe", "Professionals mit Karrierewechsel"]
+              : ["Regulated professions", "Professionals planning a career transition"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Doğru kurum ve evrak seti", "Daha az gecikme", "Net adımlar ve takip"]
+            : locale === "de"
+              ? ["Passende Stelle & Unterlagen", "Weniger Verzögerung", "Klare Schritte und Follow-up"]
+              : ["Right institution and docs", "Less delay", "Clear steps and follow-up"],
+        duration:
+          locale === "tr"
+            ? "Kurum ve mesleğe göre değişir"
+            : locale === "de"
+              ? "Je nach Stelle und Beruf"
+              : "Varies by institution and profession",
+        feesAndVisa:
+          locale === "tr"
+            ? "Kurum ücretleri ve tercüme maliyetleri değişkendir. Vize rotası hedefe göre planlanır."
+            : locale === "de"
+              ? "Gebühren und Übersetzungen variieren. Visa-Route wird nach Ziel geplant."
+              : "Fees and translations vary. Visa route is planned based on your target.",
+      }),
+  },
+  {
+    id: "nurse-doctor-placement",
+    title: {
+      tr: "Hemşire & Doktor İş Yerleştirme",
+      en: "Nurse & Doctor Job Placement",
+      de: "Jobvermittlung: Pflege & Ärzt:innen",
+    },
+    tagline: {
+      tr: "Sağlık alanında iş yerleştirme ve süreç desteği.",
+      en: "Placement and process support for healthcare roles.",
+      de: "Vermittlung und Prozess-Support im Gesundheitsbereich.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Sağlık alanında iş hedefleyen adaylar için; uygunluk, evrak düzeni, denklik ve vize adımlarını bütünsel planlarız."
+            : locale === "de"
+              ? "Für Gesundheitsberufe planen wir Eignung, Unterlagen, Anerkennung und Visa-Schritte ganzheitlich."
+              : "For healthcare candidates, we plan eligibility, documentation, recognition and visa steps end-to-end.",
+        whoFor:
+          locale === "tr"
+            ? ["Hemşireler ve doktorlar", "Denklik ve iş arama sürecinde destek isteyenler"]
+            : locale === "de"
+              ? ["Pflegekräfte und Ärzt:innen", "Support bei Anerkennung und Jobsuche"]
+              : ["Nurses and doctors", "Applicants needing structured recognition/job search support"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Profil odaklı rota", "Sistemli dosya yönetimi", "İşveren beklentisine uygun paket"]
+            : locale === "de"
+              ? ["Route nach Profil", "System bei Unterlagen", "Bewerbung passend zum Arbeitgeber"]
+              : ["Profile-based route", "Systematic file management", "Employer-aligned package"],
+        duration:
+          locale === "tr"
+            ? "Profile ve kurumlara göre değişir"
+            : locale === "de"
+              ? "Je nach Profil und Institution"
+              : "Varies by profile and institution",
+        feesAndVisa:
+          locale === "tr"
+            ? "Kurum/denklik ücretleri ve vize maliyetleri değişkendir; süreci şeffaf planlarız."
+            : locale === "de"
+              ? "Gebühren und Visa-Kosten variieren; wir planen transparent."
+              : "Fees and visa costs vary; we keep the process transparent.",
+      }),
+  },
+  {
+    id: "visa-consulting",
+    title: { tr: "Vize Danışmanlığı", en: "Visa Consulting", de: "Visaberatung" },
+    tagline: {
+      tr: "Vize stratejisi, evrak hazırlığı ve randevu desteği.",
+      en: "Visa strategy, documents, and appointment support.",
+      de: "Visa-Strategie, Unterlagen und Termin-Support.",
+    },
+    getDetails: visaDetails("Germany"),
+  },
+];
+
+const USA_PROGRAMS: readonly ProgramSource[] = [
+  {
+    id: "language-courses",
+    title: { tr: "Dil Kursları", en: "Language Courses", de: "Sprachkurse" },
+    tagline: {
+      tr: "Kısa/uzun süreli dil eğitimi ve vize planı.",
+      en: "Language study routes with visa planning.",
+      de: "Sprachkurs-Routen mit Visa-Planung.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "ABD dil okulları; yoğun programlarla kısa sürede seviyenizi yükseltmenizi hedefler. Süre ve kuruma göre vize gereklilikleri değişir."
+            : locale === "de"
+              ? "Sprachschulen in den USA bieten intensive Programme. Visa-Anforderungen hängen von Dauer und Schule ab."
+              : "US language schools offer intensive programs. Visa requirements vary by duration and institution.",
+        whoFor:
+          locale === "tr"
+            ? ["İngilizce seviyesini hızlı yükseltmek isteyenler", "Akademik/iş hedefi için temel isteyenler"]
+            : locale === "de"
+              ? ["Englisch schnell verbessern", "Basis für akademische/berufliche Ziele"]
+              : ["Improve English quickly", "Build a base for academic/career goals"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Esnek başlangıç tarihleri (kuruma göre)", "Seviye bazlı sınıflar", "Şehir seçenekleri"]
+            : locale === "de"
+              ? ["Flexible Starttermine", "Niveau-Klassen", "Viele Städte"]
+              : ["Flexible start dates", "Level-based classes", "Many city options"],
+        duration:
+          locale === "tr"
+            ? "4–48 hafta (programa göre)"
+            : locale === "de"
+              ? "4–48 Wochen (je nach Programm)"
+              : "4–48 weeks (depends on program)",
+        workRights:
+          locale === "tr"
+            ? "Vize türüne göre değişir (çoğu rota kısıtlıdır)."
+            : locale === "de"
+              ? "Abhängig vom Visum (oft eingeschränkt)."
+              : "Depends on visa type (often limited).",
+        feesAndVisa:
+          locale === "tr"
+            ? "Program ücreti, konaklama ve sigorta değişir. Vize evrak seti ve timeline planlanır."
+            : locale === "de"
+              ? "Gebühren, Unterkunft und Versicherung variieren. Unterlagen und Timeline werden geplant."
+              : "Tuition, accommodation, and insurance vary. We plan documents and timeline.",
+      }),
+  },
+  {
+    id: "work-and-travel",
+    badge: "Popular",
+    title: { tr: "Work and Travel", en: "Work and Travel", de: "Work and Travel" },
+    tagline: {
+      tr: "Sezonluk çalışma + seyahat deneyimi.",
+      en: "Seasonal work combined with travel.",
+      de: "Saisonarbeit kombiniert mit Reisen.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Uygun öğrencilerin ABD’de sezonluk çalışıp sonrasında seyahat edebildiği sponsor destekli program."
+            : locale === "de"
+              ? "Sponsor-gestütztes Saisonprogramm: arbeiten in den USA und anschließend reisen (bei Eignung)."
+              : "Sponsor-supported seasonal program: work in the US and travel afterwards (if eligible).",
+        whoFor:
+          locale === "tr"
+            ? ["Üniversite öğrencileri (uygunluk şartlarına göre)", "Kültürel değişim + deneyim isteyenler"]
+            : locale === "de"
+              ? ["Studierende (Eignung erforderlich)", "Austausch + Erfahrung"]
+              : ["University students (eligibility required)", "Cultural exchange + experience"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Sponsor destekli süreç", "İngilizce pratiği", "Kısa sürede güçlü deneyim"]
+            : locale === "de"
+              ? ["Sponsor-Support", "Englischpraxis", "Starkes Erlebnis in kurzer Zeit"]
+              : ["Sponsor support", "English practice", "High impact in a short time"],
+        duration: locale === "tr" ? "Sezonluk" : locale === "de" ? "Saisonal" : "Seasonal",
+        workRights:
+          locale === "tr"
+            ? "Çalışma izni program kapsamındadır ve sponsor kurallarına tabidir."
+            : locale === "de"
+              ? "Arbeitserlaubnis im Programmrahmen, nach Sponsor-Regeln."
+              : "Work authorization is included under the program and sponsor rules.",
+        feesAndVisa:
+          locale === "tr"
+            ? "Sponsor/SEVIS, vize, uçuş ve konaklama maliyetleri planlanır; evrak ve mülakat hazırlığı yapılır."
+            : locale === "de"
+              ? "Planung inkl. Sponsor/SEVIS, Visa, Flug und Unterkunft; Unterstützung bei Unterlagen und Interview."
+              : "We plan sponsor/SEVIS, visa, flight and accommodation; support documents and interview prep.",
+      }),
+  },
+  {
+    id: "camp-usa",
+    title: { tr: "Camp USA", en: "Camp USA", de: "Camp USA" },
+    tagline: {
+      tr: "Yaz kamplarında staff/counselor olarak çalışma.",
+      en: "Work as staff/counselor at summer camps.",
+      de: "Arbeiten als Staff/Counselor in Sommercamps.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Yaz kamplarında çalışıp yapılandırılmış bir ortamda kültürel deneyim kazanacağınız program."
+            : locale === "de"
+              ? "Programm: im Sommercamp arbeiten und kulturelle Erfahrung sammeln."
+              : "Program: work at summer camps and gain cultural experience.",
+        whoFor:
+          locale === "tr"
+            ? ["Yaz dönemini verimli değerlendirmek isteyenler", "Çocuklarla çalışmaya uygun adaylar"]
+            : locale === "de"
+              ? ["Sommer sinnvoll nutzen", "Gern mit Kindern arbeiten"]
+              : ["Use summer efficiently", "Applicants comfortable with childcare"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Sponsor destekli süreç", "İngilizce pratiği", "Güçlü kültürel deneyim"]
+            : locale === "de"
+              ? ["Sponsor-Support", "Englischpraxis", "Starkes kulturelles Erlebnis"]
+              : ["Sponsor support", "English practice", "Strong cultural experience"],
+        duration: locale === "tr" ? "Yaz sezonu" : locale === "de" ? "Sommersaison" : "Summer season",
+        workRights:
+          locale === "tr"
+            ? "Çalışma izni program kapsamındadır ve sponsor kurallarına tabidir."
+            : locale === "de"
+              ? "Arbeitserlaubnis im Programmrahmen, nach Sponsor-Regeln."
+              : "Work authorization is included under the program and sponsor rules.",
+        feesAndVisa:
+          locale === "tr"
+            ? "Sponsor ve vize adımları programa göre değişir. Evrak ve mülakat hazırlığı sunarız."
+            : locale === "de"
+              ? "Sponsor- und Visa-Schritte variieren. Wir unterstützen Unterlagen und Interview."
+              : "Sponsor and visa steps vary. We support documents and interview prep.",
+      }),
+  },
+  {
+    id: "h2b",
+    title: { tr: "H-2B Çalışma Vizesi", en: "H-2B Work Visa", de: "H-2B Arbeitsvisum" },
+    tagline: {
+      tr: "İşveren sponsorluğu ile sezonluk çalışma rotası.",
+      en: "Employer-sponsored seasonal work route.",
+      de: "Arbeitgebergesponserte saisonale Arbeitsroute.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "H-2B; sezonluk/temporary pozisyonlar için işveren sponsorluğu ile ilerleyen çalışma vizesi rotasıdır."
+            : locale === "de"
+              ? "H-2B ist eine arbeitgebergesponserte Route für temporäre/saisonale Jobs."
+              : "H-2B is an employer-sponsored route for temporary/seasonal roles.",
+        whoFor:
+          locale === "tr"
+            ? ["Sezonluk işlerde çalışmak isteyen adaylar", "Sponsorlu rota arayanlar"]
+            : locale === "de"
+              ? ["Saisonarbeit", "Route mit Arbeitgeber-Sponsoring"]
+              : ["Seasonal work", "Employer-sponsored route seekers"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Net sözleşme ve süreç", "Dosya ve takip desteği", "Uygunluk kontrolü"]
+            : locale === "de"
+              ? ["Klarer Vertrag", "Unterlagen & Follow-up", "Eignungscheck"]
+              : ["Clear contract", "Documents & follow-up", "Eligibility check"],
+        duration: locale === "tr" ? "Sezonluk" : locale === "de" ? "Saisonal" : "Seasonal",
+        workRights:
+          locale === "tr"
+            ? "Onaylanan iş ve işveren kapsamında çalışma."
+            : locale === "de"
+              ? "Arbeit nur im genehmigten Job/Arbeitgeber."
+              : "Work limited to approved employer/role.",
+        feesAndVisa:
+          locale === "tr"
+            ? "Süreç işveren ve dönemlere göre değişir. Evrak seti ve zaman planını netleştiririz."
+            : locale === "de"
+              ? "Ablauf variiert je Arbeitgeber/Saison. Wir klären Unterlagen und Timing."
+              : "Process varies by employer/season. We clarify documents and timing.",
+      }),
+  },
+  {
+    id: "university-bachelors",
+    title: { tr: "Üniversite (Lisans)", en: "University (Bachelor’s)", de: "Universität (Bachelor)" },
+    tagline: {
+      tr: "Okul listesi, başvuru dosyası ve kabul stratejisi.",
+      en: "School list, application file, and admission strategy.",
+      de: "Schulliste, Unterlagen und Zulassungsstrategie.",
+    },
+    getDetails: academicDetails({
+      countryId: "USA",
+      level: "bachelor",
+      duration: { tr: "Genellikle 4 yıl", en: "Typically 4 years", de: "Meist 4 Jahre" },
+    }),
+  },
+  sharedAuPair,
+  {
+    id: "visa-consulting",
+    title: { tr: "Vize Danışmanlığı", en: "Visa Consulting", de: "Visaberatung" },
+    tagline: {
+      tr: "Vize stratejisi, evrak hazırlığı ve randevu desteği.",
+      en: "Visa strategy, documents, and appointment support.",
+      de: "Visa-Strategie, Unterlagen und Termin-Support.",
+    },
+    getDetails: visaDetails("USA"),
+  },
+];
+
+const NETHERLANDS_PROGRAMS: readonly ProgramSource[] = [
+  {
+    id: "summer-schools",
+    title: {
+      tr: "Yaz Okulları (Lisans & Yüksek Lisans)",
+      en: "Summer Schools (Bachelor’s & Master’s)",
+      de: "Summer Schools (Bachelor & Master)",
+    },
+    tagline: {
+      tr: "Kısa süreli akademik programlar ve sertifika rotaları.",
+      en: "Short academic programs and certificate routes.",
+      de: "Kurze akademische Programme und Zertifikate.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Yaz okulları; kısa sürede sertifika almak, üniversite deneyimi yaşamak ve uluslararası network kurmak için idealdir."
+            : locale === "de"
+              ? "Summer Schools: Zertifikat, Uni-Erfahrung und internationales Networking in kurzer Zeit."
+              : "Summer schools are ideal to earn a certificate and build an international network in a short time.",
+        whoFor:
+          locale === "tr"
+            ? ["Kısa süreli akademik deneyim isteyenler", "Dosyasını güçlendirmek isteyen adaylar"]
+            : locale === "de"
+              ? ["Kurze akademische Erfahrung", "Profil für Bewerbungen stärken"]
+              : ["Short academic experience seekers", "Applicants strengthening their profile"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Kısa sürede sertifika", "Uluslararası sınıflar", "Üniversite deneyimi"]
+            : locale === "de"
+              ? ["Zertifikat", "Internationale Klasse", "Uni-Exposure"]
+              : ["Certificate", "International classroom", "University exposure"],
+        duration: locale === "tr" ? "2–8 hafta" : locale === "de" ? "2–8 Wochen" : "2–8 weeks",
+        feesAndVisa:
+          locale === "tr"
+            ? "Program ücretleri üniversiteye göre değişir. Vize ve konaklama planı birlikte yapılır."
+            : locale === "de"
+              ? "Gebühren variieren je Universität. Visa und Unterkunft werden gemeinsam geplant."
+              : "Fees vary by university. We plan visa and accommodation together.",
+      }),
+  },
+  {
+    id: "bachelors",
+    title: { tr: "Lisans Programları", en: "Bachelor’s Degree", de: "Bachelorstudium" },
+    tagline: {
+      tr: "İngilizce program seçenekleriyle uluslararası ortam.",
+      en: "International environment with English-taught options.",
+      de: "Internationales Umfeld mit englischen Programmen.",
+    },
+    getDetails: academicDetails({
+      countryId: "Netherlands",
+      level: "bachelor",
+      duration: { tr: "3–4 yıl", en: "3–4 years", de: "3–4 Jahre" },
+    }),
+  },
+  {
+    id: "masters",
+    title: { tr: "Yüksek Lisans", en: "Master’s Degree", de: "Masterstudium" },
+    tagline: {
+      tr: "Araştırma/uygulama odaklı İngilizce master programları.",
+      en: "English-taught master programs with strong output.",
+      de: "Englische Masterprogramme mit starkem Output.",
+    },
+    getDetails: academicDetails({
+      countryId: "Netherlands",
+      level: "master",
+      duration: { tr: "1–2 yıl", en: "1–2 years", de: "1–2 Jahre" },
+    }),
+  },
+  {
+    id: "visa-consulting",
+    title: { tr: "Vize Danışmanlığı", en: "Visa Consulting", de: "Visaberatung" },
+    tagline: {
+      tr: "Vize stratejisi, evrak hazırlığı ve randevu desteği.",
+      en: "Visa strategy, documents, and appointment support.",
+      de: "Visa-Strategie, Unterlagen und Termin-Support.",
+    },
+    getDetails: visaDetails("Netherlands"),
+  },
+];
+
+const UK_PROGRAMS: readonly ProgramSource[] = [
+  {
+    id: "language-courses",
+    title: { tr: "Dil Kursları", en: "Language Courses", de: "Sprachkurse" },
+    tagline: {
+      tr: "Yoğun programlarla İngilizceyi hızlandırın.",
+      en: "Accelerate English with intensive courses.",
+      de: "Englisch mit Intensivkursen beschleunigen.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "UK dil okulları; yoğun programlar ve güçlü immersion ortamıyla İngilizceyi hızlandırmak için idealdir."
+            : locale === "de"
+              ? "Sprachschulen im UK: intensive Programme und Immersion für schnellen Fortschritt."
+              : "UK language schools offer intensive programs and immersion for fast progress.",
+        whoFor:
+          locale === "tr"
+            ? ["Kısa sürede dil seviyesini yükseltmek isteyenler", "Akademik hedef için hazırlık yapanlar"]
+            : locale === "de"
+              ? ["Sprachniveau schnell erhöhen", "Vorbereitung auf akademische Ziele"]
+              : ["Improve quickly", "Prepare for academic goals"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Yoğun eğitim", "Immersion", "Esnek süre seçenekleri"]
+            : locale === "de"
+              ? ["Intensiv", "Immersion", "Flexible Dauer"]
+              : ["Intensive", "Immersion", "Flexible duration"],
+        duration: locale === "tr" ? "2–36 hafta" : locale === "de" ? "2–36 Wochen" : "2–36 weeks",
+        feesAndVisa:
+          locale === "tr"
+            ? "Program ücreti ve konaklama değişkendir. Vize tipi ve evrak seti rotaya göre netleşir."
+            : locale === "de"
+              ? "Gebühren und Unterkunft variieren. Visum und Unterlagen hängen von der Route ab."
+              : "Tuition and accommodation vary. Visa and documents depend on the route.",
+      }),
+  },
+  {
+    id: "bachelors",
+    title: { tr: "Lisans Programları", en: "Bachelor’s Degree", de: "Bachelorstudium" },
+    tagline: {
+      tr: "Prestijli okullar ve güçlü kariyer ekosistemi.",
+      en: "Prestigious schools with strong career ecosystems.",
+      de: "Renommierte Hochschulen mit starkem Karrierenetzwerk.",
+    },
+    getDetails: academicDetails({
+      countryId: "United Kingdom",
+      level: "bachelor",
+      duration: { tr: "3–4 yıl", en: "3–4 years", de: "3–4 Jahre" },
+    }),
+  },
+  {
+    id: "masters",
+    badge: "Popular",
+    title: { tr: "Yüksek Lisans", en: "Master’s Degree", de: "Masterstudium" },
+    tagline: {
+      tr: "Hızlı 1 yıllık yoğun programlar ve uzmanlaşma.",
+      en: "Fast 1-year programs and specialization.",
+      de: "Schnelle 1-jährige Programme und Spezialisierung.",
+    },
+    getDetails: academicDetails({
+      countryId: "United Kingdom",
+      level: "master",
+      duration: { tr: "1 yıl (yaygın)", en: "1 year (common)", de: "1 Jahr (häufig)" },
+    }),
+  },
+  {
+    id: "visa-consulting",
+    title: { tr: "Vize Danışmanlığı", en: "Visa Consulting", de: "Visaberatung" },
+    tagline: {
+      tr: "Vize stratejisi, evrak hazırlığı ve randevu desteği.",
+      en: "Visa strategy, documents, and appointment support.",
+      de: "Visa-Strategie, Unterlagen und Termin-Support.",
+    },
+    getDetails: visaDetails("United Kingdom"),
+  },
+];
+
+const CANADA_PROGRAMS: readonly ProgramSource[] = [
+  {
+    id: "language-courses",
+    title: { tr: "Dil Kursları", en: "Language Courses", de: "Sprachkurse" },
+    tagline: {
+      tr: "Dil eğitimi + rota planlama (kuruma göre).",
+      en: "Language study + route planning (by institution).",
+      de: "Sprachkurs + Routenplanung (je Institution).",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Kanada dil okulları; süre ve hedefe göre farklı vize rotalarıyla planlanır. Kurum seçimi ve bütçe planı önemlidir."
+            : locale === "de"
+              ? "Sprachschulen in Kanada: Visa-Route je nach Dauer/Ziel. Schulwahl und Budget sind wichtig."
+              : "Canadian language routes depend on duration/goals. School selection and budgeting matter.",
+        whoFor:
+          locale === "tr"
+            ? ["İngilizce seviyesini yükseltmek isteyenler", "Kanada’yı deneyimlemek isteyenler"]
+            : locale === "de"
+              ? ["Englisch verbessern", "Kanada erleben"]
+              : ["Improve English", "Experience Canada"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Güvenli yaşam", "Çeşitli şehir seçenekleri", "Esnek programlar (kuruma göre)"]
+            : locale === "de"
+              ? ["Sicheres Leben", "Viele Städte", "Flexible Programme"]
+              : ["Safe living", "Many cities", "Flexible programs"],
+        duration: locale === "tr" ? "4–48 hafta" : locale === "de" ? "4–48 Wochen" : "4–48 weeks",
+        feesAndVisa:
+          locale === "tr"
+            ? "Study permit gereklilikleri rotaya göre değişir. Finansman ve evrak planı yapılır."
+            : locale === "de"
+              ? "Study-Permit-Anforderungen variieren. Finanzierung und Unterlagenplan werden erstellt."
+              : "Study permit requirements vary. We plan funding and documents.",
+      }),
+  },
+  {
+    id: "bachelors",
+    title: { tr: "Lisans Programları", en: "Bachelor’s Degree", de: "Bachelorstudium" },
+    tagline: {
+      tr: "Kampüs hayatı ve co-op seçenekleri (programa göre).",
+      en: "Campus life and co-op options (by program).",
+      de: "Campusleben und Co-op Optionen (je nach Programm).",
+    },
+    getDetails: academicDetails({
+      countryId: "Canada",
+      level: "bachelor",
+      duration: { tr: "3–4 yıl", en: "3–4 years", de: "3–4 Jahre" },
+    }),
+  },
+  {
+    id: "masters",
+    title: { tr: "Yüksek Lisans", en: "Master’s Degree", de: "Masterstudium" },
+    tagline: {
+      tr: "Araştırma veya profesyonel master seçenekleri.",
+      en: "Research or professional master options.",
+      de: "Forschungs- oder professionelle Masteroptionen.",
+    },
+    getDetails: academicDetails({
+      countryId: "Canada",
+      level: "master",
+      duration: { tr: "1–2 yıl", en: "1–2 years", de: "1–2 Jahre" },
+    }),
+  },
+  {
+    id: "visa-consulting",
+    title: { tr: "Vize Danışmanlığı", en: "Visa Consulting", de: "Visaberatung" },
+    tagline: {
+      tr: "Vize stratejisi, evrak hazırlığı ve randevu desteği.",
+      en: "Visa strategy, documents, and appointment support.",
+      de: "Visa-Strategie, Unterlagen und Termin-Support.",
+    },
+    getDetails: visaDetails("Canada"),
+  },
+];
+
+const IRELAND_PROGRAMS: readonly ProgramSource[] = [
+  {
+    id: "work-and-study",
+    badge: "Popular",
+    title: { tr: "Work and Study Programı", en: "Work and Study Program", de: "Work-and-Study Programm" },
+    tagline: {
+      tr: "Dil eğitimi + vizeye bağlı çalışma potansiyeli (kurallara göre).",
+      en: "Language study with work potential (based on visa rules).",
+      de: "Sprachkurs mit Arbeitsmöglichkeiten (nach Visaregeln).",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Work and Study; vize ve program türüne bağlı olarak yasal sınırlar içinde part-time çalışma potansiyeliyle dil eğitimini birleştiren rotadır."
+            : locale === "de"
+              ? "Work and Study verbindet Sprachkurs mit möglicher Teilzeit-Arbeit (je nach Visum/Regeln)."
+              : "Work and Study combines language learning with potential part-time work depending on visa rules.",
+        whoFor:
+          locale === "tr"
+            ? ["Dil eğitimi alırken deneyim kazanmak isteyenler", "İrlanda’da İngilizce öğrenmek isteyenler"]
+            : locale === "de"
+              ? ["Erfahrung während Sprachkurs", "Englisch in Irland lernen"]
+              : ["Gain experience while studying", "Learn English in Ireland"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Planlı rota", "Immersion", "Uygunsa part-time çalışma"]
+            : locale === "de"
+              ? ["Geplante Route", "Immersion", "Teilzeit möglich (falls geeignet)"]
+              : ["Planned route", "Immersion", "Part-time work if eligible"],
+        duration: locale === "tr" ? "Genellikle 25+ hafta" : locale === "de" ? "Oft 25+ Wochen" : "Often 25+ weeks",
+        workRights:
+          locale === "tr"
+            ? "Çalışma hakkı vize/program türüne bağlıdır."
+            : locale === "de"
+              ? "Arbeitsrecht hängt von Visum/Programm ab."
+              : "Work rights depend on visa/program type.",
+        feesAndVisa:
+          locale === "tr"
+            ? "Okul, konaklama ve sigorta maliyetleri değişir. Vize adımlarını ve timeline’ı netleştiririz."
+            : locale === "de"
+              ? "Kosten variieren. Visa-Schritte und Timeline werden geklärt."
+              : "Costs vary. We clarify visa steps and timeline.",
+      }),
+  },
+  {
+    id: "visa-consulting",
+    title: { tr: "Vize Danışmanlığı", en: "Visa Consulting", de: "Visaberatung" },
+    tagline: {
+      tr: "Vize stratejisi, evrak hazırlığı ve randevu desteği.",
+      en: "Visa strategy, documents, and appointment support.",
+      de: "Visa-Strategie, Unterlagen und Termin-Support.",
+    },
+    getDetails: visaDetails("Ireland"),
+  },
+];
+
+const MALTA_PROGRAMS: readonly ProgramSource[] = [
+  {
+    id: "language-school",
+    title: { tr: "Dil Okulu", en: "Language School", de: "Sprachschule" },
+    tagline: {
+      tr: "İngilizce eğitim ve Akdeniz yaşamı.",
+      en: "English education and Mediterranean lifestyle.",
+      de: "Englisch lernen und mediterraner Lifestyle.",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Malta dil okulları; esnek başlangıç tarihleri ve yoğun program seçenekleriyle İngilizce gelişimi için popülerdir."
+            : locale === "de"
+              ? "Sprachschulen auf Malta: flexible Starttermine und Intensivkurse."
+              : "Malta language schools are popular with flexible start dates and intensive options.",
+        whoFor:
+          locale === "tr"
+            ? ["İngilizcesini geliştirmek isteyenler", "Kısa/orta vadeli rota arayanlar"]
+            : locale === "de"
+              ? ["Englisch verbessern", "Kurz-/Mittelfristige Route"]
+              : ["Improve English", "Short/mid-term routes"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Esnek süre", "Yoğun kurslar", "Sosyal ve güvenli ortam"]
+            : locale === "de"
+              ? ["Flexible Dauer", "Intensivkurse", "Soziales Umfeld"]
+              : ["Flexible duration", "Intensive courses", "Social environment"],
+        duration: locale === "tr" ? "2–36 hafta" : locale === "de" ? "2–36 Wochen" : "2–36 weeks",
+        feesAndVisa:
+          locale === "tr"
+            ? "Program ücreti, konaklama ve sigorta değişir. Vize adımları ve evrak seti planlanır."
+            : locale === "de"
+              ? "Gebühren variieren. Visa-Schritte und Unterlagen werden geplant."
+              : "Costs vary. Visa steps and documents are planned.",
+      }),
+  },
+  {
+    id: "internship-work-study",
+    title: { tr: "Staj (Work and Study)", en: "Internship (Work and Study)", de: "Praktikum (Work and Study)" },
+    tagline: {
+      tr: "Eğitimle birlikte staj/iş deneyimi rotası (uygunsa).",
+      en: "Study with internship/work experience (if eligible).",
+      de: "Studium mit Praktikum/Arbeitserfahrung (falls möglich).",
+    },
+    getDetails: (locale) =>
+      detailsBase(locale, {
+        overview:
+          locale === "tr"
+            ? "Bazı rotalarda eğitimle birlikte staj/iş deneyimi hedeflenebilir. Uygunluk vize ve kurum koşullarına göre değişir."
+            : locale === "de"
+              ? "Manche Routen kombinieren Kurs/Studium mit Praktikum/Arbeitserfahrung. Eignung hängt von Visum/Institution ab."
+              : "Some routes combine study with internship/work experience. Eligibility depends on visa and institution.",
+        whoFor:
+          locale === "tr"
+            ? ["Eğitim + deneyim isteyenler", "CV güçlendirmek isteyen adaylar"]
+            : locale === "de"
+              ? ["Studium + Erfahrung", "CV stärken"]
+              : ["Study + experience seekers", "Applicants strengthening their CV"],
+        keyAdvantages:
+          locale === "tr"
+            ? ["Deneyim odaklı rota", "Dil pratiği", "Network fırsatı"]
+            : locale === "de"
+              ? ["Erfahrungsfokus", "Sprachpraxis", "Networking"]
+              : ["Experience-focused route", "Language practice", "Networking"],
+        duration: locale === "tr" ? "8–52 hafta" : locale === "de" ? "8–52 Wochen" : "8–52 weeks",
+        workRights:
+          locale === "tr"
+            ? "Vize ve kurum kurallarına göre değişir."
+            : locale === "de"
+              ? "Abhängig von Visum/Institution."
+              : "Depends on visa/institution rules.",
+        feesAndVisa:
+          locale === "tr"
+            ? "Uygunluk ve maliyetler rotaya göre değişir; evrak ve timeline netleştirilir."
+            : locale === "de"
+              ? "Eignung und Kosten variieren; Unterlagen und Timeline werden geklärt."
+              : "Eligibility and costs vary; documents and timeline are clarified.",
+      }),
+  },
+  {
+    id: "visa-consulting",
+    title: { tr: "Vize Danışmanlığı", en: "Visa Consulting", de: "Visaberatung" },
+    tagline: {
+      tr: "Vize stratejisi, evrak hazırlığı ve randevu desteği.",
+      en: "Visa strategy, documents, and appointment support.",
+      de: "Visa-Strategie, Unterlagen und Termin-Support.",
+    },
+    getDetails: visaDetails("Malta"),
+  },
+];
+
+const PROGRAM_CATALOG_SOURCE: Record<CountryId, CountrySource> = {
+  Germany: { heroImageUrl: HERO.Germany, programs: GERMANY_PROGRAMS },
+  USA: { heroImageUrl: HERO.USA, programs: USA_PROGRAMS },
+  Netherlands: { heroImageUrl: HERO.Netherlands, programs: NETHERLANDS_PROGRAMS },
+  "United Kingdom": { heroImageUrl: HERO["United Kingdom"], programs: UK_PROGRAMS },
+  Canada: { heroImageUrl: HERO.Canada, programs: CANADA_PROGRAMS },
+  Ireland: { heroImageUrl: HERO.Ireland, programs: IRELAND_PROGRAMS },
+  Malta: { heroImageUrl: HERO.Malta, programs: MALTA_PROGRAMS },
+} as const;
+
+export function getProgramCatalog(localeInput?: string): Record<CountryId, CountryPrograms> {
+  const locale = normalizeLocale(localeInput);
+  const result = {} as Record<CountryId, CountryPrograms>;
+
+  for (const countryId of COUNTRY_ORDER) {
+    const country = PROGRAM_CATALOG_SOURCE[countryId];
+    result[countryId] = {
+      heroImageUrl: country.heroImageUrl,
+      programs: country.programs.map((program) => ({
+        id: program.id,
+        badge: program.badge,
+        title: program.title[locale] ?? program.title.tr,
+        tagline: program.tagline[locale] ?? program.tagline.tr,
+        details: program.getDetails(locale),
+      })),
+    };
+  }
+
+  return result;
+}

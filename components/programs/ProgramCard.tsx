@@ -6,16 +6,11 @@ type ProgramCardProps = {
   program: Program;
   isActive: boolean;
   onSelect: () => void;
-};
-
-const BADGE_LABEL_TR: Record<NonNullable<Program["badge"]>, string> = {
-  Shared: "Ortak",
-  Popular: "Popüler",
-  New: "Yeni",
+  badgeLabels: Record<NonNullable<Program["badge"]>, string>;
 };
 
 const ProgramCard = forwardRef<HTMLButtonElement, ProgramCardProps>(
-  function ProgramCard({ program, isActive, onSelect }, ref) {
+  function ProgramCard({ program, isActive, onSelect, badgeLabels }, ref) {
     return (
       <button
         ref={ref}
@@ -50,7 +45,7 @@ const ProgramCard = forwardRef<HTMLButtonElement, ProgramCardProps>(
                   : "bg-primary text-black",
               ].join(" ")}
             >
-              {BADGE_LABEL_TR[program.badge] ?? program.badge}
+              {badgeLabels[program.badge] ?? program.badge}
             </span>
           ) : null}
         </div>

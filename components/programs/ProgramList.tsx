@@ -8,6 +8,14 @@ type ProgramListProps = {
   programs: readonly Program[];
   selectedProgramId: string | null;
   onSelectProgram: (programId: string) => void;
+  ui: {
+    listTitle: string;
+    listHint: string;
+    listAria: string;
+    listEmptyTitle: string;
+    listEmptyBody: string;
+  };
+  badgeLabels: Record<NonNullable<Program["badge"]>, string>;
   isLoading?: boolean;
 };
 
@@ -15,6 +23,8 @@ export default function ProgramList({
   programs,
   selectedProgramId,
   onSelectProgram,
+  ui,
+  badgeLabels,
   isLoading = false,
 }: ProgramListProps) {
   const buttonRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -63,17 +73,17 @@ export default function ProgramList({
     <div className="lg:sticky lg:top-28">
       <div className="flex items-center justify-between">
         <div className="text-base font-black text-text-main dark:text-white">
-          Programlar
+          {ui.listTitle}
         </div>
         <div className="text-xs font-bold text-text-muted dark:text-gray-400">
-          Detay için seçin
+          {ui.listHint}
         </div>
       </div>
 
       <div
         className="mt-4 space-y-3"
         role="listbox"
-        aria-label="Programlar"
+        aria-label={ui.listAria}
         tabIndex={0}
         onKeyDown={onKeyDown}
       >
@@ -90,6 +100,7 @@ export default function ProgramList({
               program={program}
               isActive={program.id === selectedProgramId}
               onSelect={() => onSelectProgram(program.id)}
+              badgeLabels={badgeLabels}
               ref={(node) => {
                 buttonRefs.current[index] = node;
               }}
@@ -98,10 +109,10 @@ export default function ProgramList({
         ) : (
           <div className="rounded-3xl border border-gray-100 dark:border-white/10 bg-white/70 dark:bg-white/5 p-5">
             <div className="text-sm font-black text-text-main dark:text-white">
-              Program bulunamadı
+              {ui.listEmptyTitle}
             </div>
             <div className="mt-1 text-sm text-text-muted dark:text-gray-400">
-              Lütfen başka bir ülke seçin veya ücretsiz görüşme planlayın.
+              {ui.listEmptyBody}
             </div>
           </div>
         )}

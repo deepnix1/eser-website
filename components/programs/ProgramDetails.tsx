@@ -5,6 +5,25 @@ import type { Program } from "../../lib/programCatalog";
 type ProgramDetailsProps = {
   countryLabel: string;
   program: Program | null;
+  ui: {
+    detailsEmptyTitle: string;
+    detailsEmptyBody: string;
+    section: {
+      overview: string;
+      whoFor: string;
+      advantages: string;
+      duration: string;
+      workRights: string;
+      steps: string;
+      docs: string;
+      fees: string;
+    };
+    badges: Record<NonNullable<Program["badge"]>, string>;
+    workRightsFallback: string;
+    eligibilityTitle: (countryLabel: string, programShortTitle: string) => string;
+    eligibilityBody: string;
+    eligibilityCta: string;
+  };
 };
 
 function SectionCard({
@@ -64,15 +83,19 @@ function getProgramShortTitle(title: string) {
   return cleaned;
 }
 
-export default function ProgramDetails({ countryLabel, program }: ProgramDetailsProps) {
+export default function ProgramDetails({
+  countryLabel,
+  program,
+  ui,
+}: ProgramDetailsProps) {
   if (!program) {
     return (
       <div className="rounded-[2rem] border border-gray-100 dark:border-white/10 bg-white/70 dark:bg-white/5 shadow-[0_25px_60px_rgba(0,0,0,0.08)] p-6 md:p-7">
         <div className="text-lg md:text-xl font-black text-text-main dark:text-white">
-          Bir program seçin
+          {ui.detailsEmptyTitle}
         </div>
         <div className="mt-2 text-sm text-text-muted dark:text-gray-400">
-          Düzenli açıklamayı görmek için soldan bir program seçin.
+          {ui.detailsEmptyBody}
         </div>
       </div>
     );
@@ -80,7 +103,7 @@ export default function ProgramDetails({ countryLabel, program }: ProgramDetails
 
   const details = program.details;
   const shortTitle = getProgramShortTitle(program.title);
-  const eligibilityHeadline = `${countryLabel} ${shortTitle} için uygun muyum?`;
+  const eligibilityHeadline = ui.eligibilityTitle(countryLabel, shortTitle);
 
   return (
     <div className="rounded-[2rem] border border-gray-100 dark:border-white/10 bg-white/70 dark:bg-white/5 shadow-[0_25px_60px_rgba(0,0,0,0.08)] overflow-hidden">
@@ -91,11 +114,7 @@ export default function ProgramDetails({ countryLabel, program }: ProgramDetails
           </span>
           {program.badge ? (
             <span className="inline-flex items-center gap-1 rounded-full bg-black text-white text-[11px] font-black px-3 py-1">
-              {program.badge === "Shared"
-                ? "Ortak"
-                : program.badge === "Popular"
-                  ? "Popüler"
-                  : "Yeni"}
+              {ui.badges[program.badge] ?? program.badge}
             </span>
           ) : null}
         </div>
@@ -109,11 +128,11 @@ export default function ProgramDetails({ countryLabel, program }: ProgramDetails
       </div>
 
       <div className="p-6 md:p-7 grid gap-4">
-        <SectionCard icon="info" title="Genel Bakış">
+        <SectionCard icon="info" title={ui.section.overview}>
           {details.overview}
         </SectionCard>
 
-        <SectionCard icon="group" title="Kimler İçin?">
+        <SectionCard icon="group" title={ui.section.whoFor}>
           <ul className="space-y-2">
             {details.whoFor.map((item) => (
               <li className="flex gap-2" key={item}>
@@ -126,7 +145,7 @@ export default function ProgramDetails({ countryLabel, program }: ProgramDetails
           </ul>
         </SectionCard>
 
-        <SectionCard icon="stars" title="Öne Çıkan Avantajlar">
+        <SectionCard icon="stars" title={ui.section.advantages}>
           <ul className="space-y-2">
             {details.keyAdvantages.map((item) => (
               <li className="flex gap-2" key={item}>
@@ -140,17 +159,17 @@ export default function ProgramDetails({ countryLabel, program }: ProgramDetails
         </SectionCard>
 
         <div className="grid md:grid-cols-2 gap-4">
-          <SectionCard icon="calendar_month" title="Süre">
+          <SectionCard icon="calendar_month" title={ui.section.duration}>
             <ClampedText title={details.duration}>{details.duration}</ClampedText>
           </SectionCard>
-          <SectionCard icon="work" title="Çalışma Hakkı">
+          <SectionCard icon="work" title={ui.section.workRights}>
             <ClampedText title={details.workRights ?? undefined}>
-              {details.workRights ?? "Rota ve yerel düzenlemelere göre değişir."}
+              {details.workRights ?? ui.workRightsFallback}
             </ClampedText>
           </SectionCard>
         </div>
 
-        <SectionCard icon="format_list_numbered" title="Başvuru Adımları">
+        <SectionCard icon="format_list_numbered" title={ui.section.steps}>
           <ol className="space-y-2 list-decimal list-inside">
             {details.applicationSteps.map((item) => (
               <li key={item}>{item}</li>
@@ -158,7 +177,7 @@ export default function ProgramDetails({ countryLabel, program }: ProgramDetails
           </ol>
         </SectionCard>
 
-        <SectionCard icon="description" title="Gerekli Belgeler">
+        <SectionCard icon="description" title={ui.section.docs}>
           <ul className="space-y-2">
             {details.requiredDocuments.map((item) => (
               <li className="flex gap-2" key={item}>
@@ -171,7 +190,7 @@ export default function ProgramDetails({ countryLabel, program }: ProgramDetails
           </ul>
         </SectionCard>
 
-        <SectionCard icon="payments" title="Ücret / Vize Notları">
+        <SectionCard icon="payments" title={ui.section.fees}>
           {details.feesAndVisa}
           {details.notes ? (
             <div className="mt-3 text-xs text-text-muted dark:text-gray-400">
@@ -187,7 +206,7 @@ export default function ProgramDetails({ countryLabel, program }: ProgramDetails
                 {eligibilityHeadline}
               </div>
               <div className="mt-1 text-sm text-white/70 leading-relaxed">
-                24 saat içinde profilinize göre net bir yol haritası çıkaralım.
+                {ui.eligibilityBody}
               </div>
             </div>
             <button
@@ -196,7 +215,7 @@ export default function ProgramDetails({ countryLabel, program }: ProgramDetails
               data-calendly-open="true"
               type="button"
             >
-              Ücretsiz Görüşme Planla
+              {ui.eligibilityCta}
             </button>
           </div>
         </div>

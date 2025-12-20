@@ -15,6 +15,7 @@ const LABELS = {
     cta: "Ücretsiz Görüşme",
     theme: "Tema değiştir",
     lang: "Dil seçimi",
+    menu: "Menü",
   },
   en: {
     home: "Home",
@@ -26,6 +27,7 @@ const LABELS = {
     cta: "Free Consultation",
     theme: "Toggle theme",
     lang: "Language",
+    menu: "Menu",
   },
   de: {
     home: "Startseite",
@@ -37,6 +39,7 @@ const LABELS = {
     cta: "Kostenlose Beratung",
     theme: "Theme wechseln",
     lang: "Sprache",
+    menu: "Menü",
   },
 } as const;
 
@@ -222,7 +225,7 @@ export default function SiteHeader() {
             </button>
 
             <button
-              aria-label="Menü"
+              aria-label={labels.menu}
               className="md:hidden flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10"
               type="button"
             >
@@ -234,4 +237,3 @@ export default function SiteHeader() {
     </nav>
   );
 }
-

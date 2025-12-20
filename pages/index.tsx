@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import PartnerLogo, { type PartnerLogoProps } from "../components/PartnerLogo";
 import SiteFooter from "../components/SiteFooter";
@@ -70,9 +72,20 @@ const REVIEW_AVATAR_EMRE_URL =
 const REVIEW_AVATAR_AYSE_URL =
   "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&h=200&q=80";
 
-export default function HomePage() {
-  const SEO_KEYWORDS = useMemo(
-    () => [
+const COPY = {
+  tr: {
+    meta: {
+      title: "Lotus Abroad | Yurtdışı Eğitim & Vize Danışmanlığı",
+      description:
+        "Lotus Abroad ile yurtdışı eğitim danışmanlığı: Almanya, ABD, İngiltere, Hollanda, Kanada, İrlanda ve Malta için program seçimi, başvuru, öğrenci vizesi ve yurtdışı çalışma vizesi süreçlerinde premium destek.",
+      ogTitle: "Lotus Abroad | Yurtdışı Eğitim & Vize Danışmanlığı",
+      ogDescription:
+        "Program seçimi, başvuru, öğrenci vizesi ve yurtdışı çalışma vizesi süreçlerinde premium danışmanlık.",
+      schemaDescription:
+        "Yurtdışı eğitim danışmanlığı ve vize danışmanlığı: program seçimi, başvuru, öğrenci vizesi ve yurtdışı çalışma vizesi süreçlerinde premium destek.",
+      schemaLanguage: "tr-TR",
+    },
+    seoKeywords: [
       "Yurtdışı eğitim danışmanlığı",
       "Yurtdışı çalışma vizesi",
       "Öğrenci vizesi",
@@ -85,9 +98,668 @@ export default function HomePage() {
       "İrlanda work and study",
       "Denklik (Diploma denkliği)",
     ],
-    [],
-  );
-  const seoKeywordsMeta = SEO_KEYWORDS.join(", ");
+    hero: {
+      badge: "2026 Başvuruları Açık",
+      titleLine1: "Geleceğinizin",
+      titleHighlight: "Sınırı Yok",
+      description:
+        "Almanya, ABD, İngiltere ve daha fazlası için yurtdışı eğitim danışmanlığı: program seçimi, başvuru, öğrenci vizesi ve yurtdışı çalışma vizesi süreçlerinde premium destek.",
+      primaryCta: "Hemen Başla",
+      secondaryCta: "Programları Keşfet",
+    },
+    partners: {
+      label: "İş Ortaklarımız",
+    },
+    destinations: {
+      title: "Hikayen nerede başlıyor?",
+      description:
+        "Dünyanın en güçlü eğitim destinasyonlarını keşfet. Kaliteli üniversiteler, güçlü kariyer ağları ve yepyeni fırsatlar seni bekliyor.",
+      cta: "Tüm Ülkeleri Gör",
+      cards: {
+        germany: {
+          title: "Almanya",
+          tagline: "Uygun maliyetli üniversiteler & mühendislikte güçlü ekosistem.",
+        },
+        usa: {
+          title: "ABD",
+          tagline: "Güçlü üniversiteler & geniş kampüs seçenekleri.",
+        },
+        uk: {
+          title: "İngiltere",
+          tagline: "Prestijli okullar & 1 yıllık yoğun yüksek lisans.",
+        },
+        malta: {
+          title: "Malta",
+          tagline: "İngilizce eğitim & Akdeniz yaşamı.",
+        },
+        netherlands: {
+          title: "Hollanda",
+          tagline: "Yenilikçi eğitim & uluslararası ortam.",
+        },
+        ireland: {
+          title: "İrlanda",
+          tagline:
+            "Avrupa'nın teknoloji merkezi & mezuniyet sonrası çalışma seçenekleri.",
+        },
+      },
+    },
+    process: {
+      badge: "Sürecimiz",
+      title: "3 Adımda Başvuru",
+      steps: [
+        {
+          title: "1. Ücretsiz Görüşme",
+          description:
+            "Akademik profilini ve hedeflerini analiz edip en doğru ülke ve program rotasını çıkarıyoruz.",
+        },
+        {
+          title: "2. Başvuru & Vize",
+          description:
+            "Evrak düzeni, okul başvuruları ve vize sürecinde dosyanı premium şekilde hazırlayıp takip ediyoruz.",
+        },
+        {
+          title: "3. Yolculuk & Yerleşim",
+          description:
+            "Uçuş, konaklama ve varış sonrası ilk adımlar için oryantasyon ve yerleşim desteği sağlıyoruz.",
+        },
+      ],
+    },
+    stories: {
+      title: "Lotus Abroad Öğrenci Deneyimleri",
+      description:
+        "Yakında öğrencilerimizin gerçek deneyimlerini burada paylaşacağız. Şimdilik programları keşfederek en uygun rotayı seçebilirsin.",
+      filters: {
+        all: "Tümü",
+        germany: "Almanya",
+        usa: "ABD",
+        uk: "İngiltere",
+        netherlands: "Hollanda",
+      },
+      cards: {
+        sarah: {
+          country: "ABD",
+          title: "Sarah'ın Yolculuğu",
+          subtitle: "NYU'da Bilgisayar Bilimleri (Yüksek Lisans)",
+        },
+        ahmet: {
+          country: "Almanya",
+          title: "Ahmet'in Hikayesi",
+          subtitle: "Mühendislik @ Münih",
+        },
+        elena: {
+          country: "İngiltere",
+          title: "Elena'nın Başarısı",
+          subtitle: "Oxford'da MBA",
+        },
+        john: {
+          country: "Hollanda",
+          title: "John'un Deneyimi",
+          subtitle: "Amsterdam'da Tasarım",
+        },
+      },
+    },
+    reviews: {
+      avatarAlt: "Öğrenci fotoğrafı",
+      items: [
+        {
+          quote:
+            "\"Lotus Abroad imkânsızı mümkün kıldı. Berlin'de hayalimdeki üniversiteye tam bursla kabul aldım!\"",
+          name: "Merve S.",
+          meta: "Almanya'da okuyor",
+        },
+        {
+          quote:
+            "\"Vize süreci çok göz korkutucuydu ama ekip her şeyi yönetti. Ben sadece randevuya gittim.\"",
+          name: "Emre T.",
+          meta: "İngiltere'de okuyor",
+        },
+        {
+          quote:
+            "\"Şimdiye kadarki en iyi danışmanlık. Sizi herhangi bir yere yerleştirmekten çok geleceğinizi önemsiyorlar.\"",
+          name: "Ayşe K.",
+          meta: "ABD'de okuyor",
+        },
+      ],
+    },
+    why: {
+      badge: "Neden Lotus Abroad?",
+      title: "Premium bir süreç deneyimi.",
+      description:
+        "Karmaşık başvuru adımlarını sadeleştiriyoruz: doğru program, düzenli dosya, net zaman planı ve güven veren iletişim.",
+      items: [
+        {
+          id: "roadmap",
+          icon: "verified",
+          title: "Şeffaf yol haritası",
+          body: "Başvurudan vizeye; adımlar, evrak listesi ve net bir timeline.",
+        },
+        {
+          id: "risk-control",
+          icon: "shield_lock",
+          title: "Risk odaklı kontrol",
+          body: "Eksik/uyumsuz belge, deadline ve vize risklerini önceden kapatırız.",
+        },
+        {
+          id: "support",
+          icon: "support_agent",
+          title: "7/24 İletişim",
+          body: "Süreç boyunca düzenli bilgilendirme ve hızlı geri dönüş.",
+        },
+        {
+          id: "fit-selection",
+          icon: "travel_explore",
+          title: "Hedefe uygun seçim",
+          body: "Profiline uygun ülke/program seçimiyle doğru rota oluştururuz.",
+        },
+      ],
+    },
+    assessment: {
+      badge: "Ücretsiz Değerlendirme",
+      title: "Profilini analiz edelim, sana rota çıkaralım.",
+      description:
+        "Kısa formu doldur. Ekibimiz 24 saat içinde seninle iletişime geçsin.",
+      bullets: [
+        "Kişiselleştirilmiş program önerisi",
+        "Vize uygunluğu & evrak kontrolü",
+        "Bütçe & zaman planı",
+      ],
+      form: {
+        firstNameLabel: "Ad",
+        lastNameLabel: "Soyad",
+        emailLabel: "E-posta",
+        countryLabel: "Hedef Ülke",
+        firstNamePlaceholder: "Ad",
+        lastNamePlaceholder: "Soyad",
+        emailPlaceholder: "email@ornek.com",
+        countryPlaceholder: "Lütfen seçin",
+        countries: {
+          germany: "Almanya",
+          usa: "ABD",
+          uk: "İngiltere",
+          other: "Diğer",
+        },
+        submit: "Ücretsiz Değerlendirme Al",
+        note: "Kredi kartı gerekmez. Verileriniz güvende.",
+      },
+    },
+    faq: {
+      title: "Sıkça Sorulan Sorular",
+      items: [
+        {
+          q: "Almanya'da okumak için Almanca bilmem gerekiyor mu?",
+          a: "Hayır! Özellikle yüksek lisans seviyesinde birçok üniversitede tamamen İngilizce programlar bulunur. Uygun seçenekleri birlikte belirliyoruz.",
+        },
+        {
+          q: "Görüşme ücreti ne kadar?",
+          a: "İlk değerlendirme tamamen ücretsizdir. Hedeflerinizi ve uygunluğunuzu netleştirir, ücretli hizmetlere geçmeden önce size özel bir plan çıkarırız.",
+        },
+        {
+          q: "Yurtdışında okurken çalışabilir miyim?",
+          a: "Evet, birçok öğrenci vizesi ülkeden ülkeye değişen kurallar ile dönem içinde yarı zamanlı, tatillerde ise tam zamanlı çalışma imkânı sunar. Biz, hedef ülkenize göre en güncel çalışma haklarını netleştiririz.",
+        },
+      ],
+    },
+  },
+  en: {
+    meta: {
+      title: "Lotus Abroad | Study Abroad & Visa Consulting",
+      description:
+        "Premium study abroad consulting for Germany, the USA, the UK, the Netherlands, Canada, Ireland, and Malta: program selection, applications, student visas, and work visas.",
+      ogTitle: "Lotus Abroad | Study Abroad & Visa Consulting",
+      ogDescription:
+        "Premium guidance for program selection, applications, student visas, and work visas abroad.",
+      schemaDescription:
+        "Study abroad and visa consulting: program selection, applications, student visas, and work visas with premium guidance.",
+      schemaLanguage: "en-US",
+    },
+    seoKeywords: [
+      "study abroad consulting",
+      "student visa",
+      "work visa abroad",
+      "visa consulting",
+      "Germany Ausbildung",
+      "Work and Travel",
+      "Camp USA",
+      "language school (USA, Canada, Malta)",
+      "UK master's degree",
+      "Ireland work and study",
+      "degree recognition",
+    ],
+    hero: {
+      badge: "Applications Open for 2026",
+      titleLine1: "Your Future",
+      titleHighlight: "Has No Borders",
+      description:
+        "Premium study abroad consulting for Germany, the USA, the UK and more: program selection, applications, student visas, and work visas abroad.",
+      primaryCta: "Get Started",
+      secondaryCta: "Explore Programs",
+    },
+    partners: {
+      label: "Our Partners",
+    },
+    destinations: {
+      title: "Where will your story begin?",
+      description:
+        "Explore top education destinations worldwide. High-quality universities, strong career networks, and new opportunities await.",
+      cta: "View All Destinations",
+      cards: {
+        germany: {
+          title: "Germany",
+          tagline: "Affordable universities & a strong engineering ecosystem.",
+        },
+        usa: {
+          title: "USA",
+          tagline: "World-class universities & diverse campus options.",
+        },
+        uk: {
+          title: "United Kingdom",
+          tagline: "Prestigious schools & intensive 1-year master's programs.",
+        },
+        malta: {
+          title: "Malta",
+          tagline: "English education & Mediterranean lifestyle.",
+        },
+        netherlands: {
+          title: "Netherlands",
+          tagline: "Innovative education & an international environment.",
+        },
+        ireland: {
+          title: "Ireland",
+          tagline: "Europe's tech hub & post-study work options.",
+        },
+      },
+    },
+    process: {
+      badge: "Our Process",
+      title: "3 Steps to Enrollment",
+      steps: [
+        {
+          title: "1. Free Consultation",
+          description:
+            "We review your academic profile and goals to build the right country and program route.",
+        },
+        {
+          title: "2. Application & Visa",
+          description:
+            "We prepare and manage your documents, school applications, and visa process end-to-end.",
+        },
+        {
+          title: "3. Departure & Settling In",
+          description:
+            "We support you with flights, accommodation, and orientation for your first steps after arrival.",
+        },
+      ],
+    },
+    stories: {
+      title: "Lotus Abroad Student Stories",
+      description:
+        "We'll share real student experiences here soon. For now, explore programs to find your best route.",
+      filters: {
+        all: "All",
+        germany: "Germany",
+        usa: "USA",
+        uk: "United Kingdom",
+        netherlands: "Netherlands",
+      },
+      cards: {
+        sarah: {
+          country: "USA",
+          title: "Sarah's Journey",
+          subtitle: "Computer Science (Master's) at NYU",
+        },
+        ahmet: {
+          country: "Germany",
+          title: "Ahmet's Story",
+          subtitle: "Engineering in Munich",
+        },
+        elena: {
+          country: "United Kingdom",
+          title: "Elena's Success",
+          subtitle: "MBA at Oxford",
+        },
+        john: {
+          country: "Netherlands",
+          title: "John's Experience",
+          subtitle: "Design in Amsterdam",
+        },
+      },
+    },
+    reviews: {
+      avatarAlt: "Student photo",
+      items: [
+        {
+          quote:
+            "\"Lotus Abroad made the impossible possible. I got a full scholarship to my dream university in Berlin!\"",
+          name: "Merve S.",
+          meta: "Studying in Germany",
+        },
+        {
+          quote:
+            "\"The visa process felt intimidating, but the team handled everything. I just showed up for the appointment.\"",
+          name: "Emre T.",
+          meta: "Studying in the UK",
+        },
+        {
+          quote:
+            "\"Best consulting I've experienced. They care about your future, not just placing you somewhere.\"",
+          name: "Ayşe K.",
+          meta: "Studying in the USA",
+        },
+      ],
+    },
+    why: {
+      badge: "Why Lotus Abroad?",
+      title: "A premium, guided journey.",
+      description:
+        "We simplify complex steps: the right program, organized documents, clear timelines, and confident communication.",
+      items: [
+        {
+          id: "roadmap",
+          icon: "verified",
+          title: "Transparent roadmap",
+          body: "Clear steps, document lists, and a reliable timeline from application to visa.",
+        },
+        {
+          id: "risk-control",
+          icon: "shield_lock",
+          title: "Risk-focused review",
+          body: "We proactively prevent document gaps, deadline misses, and visa risks.",
+        },
+        {
+          id: "support",
+          icon: "support_agent",
+          title: "24/7 communication",
+          body: "Consistent updates throughout the process with fast responses.",
+        },
+        {
+          id: "fit-selection",
+          icon: "travel_explore",
+          title: "Profile-fit selection",
+          body: "We match you with the right country/program for a strong route.",
+        },
+      ],
+    },
+    assessment: {
+      badge: "Free Assessment",
+      title: "Let's analyze your profile and map your route.",
+      description:
+        "Fill out the short form. Our team will reach out within 24 hours.",
+      bullets: [
+        "Personalized program recommendations",
+        "Visa eligibility & document check",
+        "Budget & timeline planning",
+      ],
+      form: {
+        firstNameLabel: "First name",
+        lastNameLabel: "Last name",
+        emailLabel: "Email",
+        countryLabel: "Target country",
+        firstNamePlaceholder: "First name",
+        lastNamePlaceholder: "Last name",
+        emailPlaceholder: "name@example.com",
+        countryPlaceholder: "Please select",
+        countries: {
+          germany: "Germany",
+          usa: "USA",
+          uk: "United Kingdom",
+          other: "Other",
+        },
+        submit: "Get a Free Assessment",
+        note: "No credit card required. Your data is safe.",
+      },
+    },
+    faq: {
+      title: "Frequently Asked Questions",
+      items: [
+        {
+          q: "Do I need to know German to study in Germany?",
+          a: "Not necessarily. Many universities, especially at master's level, offer fully English-taught programs. We help you find the right options.",
+        },
+        {
+          q: "How much is the consultation?",
+          a: "The first assessment is completely free. We clarify your goals and eligibility and share a tailored plan before any paid services.",
+        },
+        {
+          q: "Can I work while studying abroad?",
+          a: "Yes. Many student visas allow part-time work during semesters and full-time work during breaks, depending on the country. We confirm the latest rules for your destination.",
+        },
+      ],
+    },
+  },
+  de: {
+    meta: {
+      title: "Lotus Abroad | Auslandsstudium & Visaberatung",
+      description:
+        "Premium Beratung für Auslandsstudium und Visa für Deutschland, USA, Vereinigtes Königreich, Niederlande, Kanada, Irland und Malta: Programmauswahl, Bewerbung, Studentenvisum und Arbeitsvisum.",
+      ogTitle: "Lotus Abroad | Auslandsstudium & Visaberatung",
+      ogDescription:
+        "Premium Unterstützung bei Programmauswahl, Bewerbung, Studentenvisum und Arbeitsvisum im Ausland.",
+      schemaDescription:
+        "Auslandsstudium- und Visaberatung: Programmauswahl, Bewerbung, Studentenvisum und Arbeitsvisum mit Premium Unterstützung.",
+      schemaLanguage: "de-DE",
+    },
+    seoKeywords: [
+      "Auslandsstudium Beratung",
+      "Studentenvisum",
+      "Arbeitsvisum Ausland",
+      "Visaberatung",
+      "Deutschland Ausbildung",
+      "Work and Travel",
+      "Camp USA",
+      "Sprachschule (USA, Kanada, Malta)",
+      "Master in Großbritannien",
+      "Irland Work and Study",
+      "Anerkennung von Abschlüssen",
+    ],
+    hero: {
+      badge: "Bewerbungen für 2026 geöffnet",
+      titleLine1: "Deine Zukunft",
+      titleHighlight: "kennt keine Grenzen",
+      description:
+        "Premium Beratung für Auslandsstudium: Programmauswahl, Bewerbung, Studentenvisum und Arbeitsvisum für Deutschland, USA, UK und mehr.",
+      primaryCta: "Jetzt starten",
+      secondaryCta: "Programme entdecken",
+    },
+    partners: {
+      label: "Unsere Partner",
+    },
+    destinations: {
+      title: "Wo beginnt deine Geschichte?",
+      description:
+        "Entdecke die besten Bildungsziele weltweit. Hochwertige Universitäten, starke Netzwerke und neue Chancen warten auf dich.",
+      cta: "Alle Ziele ansehen",
+      cards: {
+        germany: {
+          title: "Deutschland",
+          tagline: "Bezahlbare Unis & ein starkes Engineering-Ökosystem.",
+        },
+        usa: {
+          title: "USA",
+          tagline: "Top-Universitäten & vielfältige Campus-Optionen.",
+        },
+        uk: {
+          title: "Vereinigtes Königreich",
+          tagline: "Renommierte Schulen & intensive 1-jährige Masterprogramme.",
+        },
+        malta: {
+          title: "Malta",
+          tagline: "Englisch lernen & mediterraner Lifestyle.",
+        },
+        netherlands: {
+          title: "Niederlande",
+          tagline: "Innovative Bildung & internationales Umfeld.",
+        },
+        ireland: {
+          title: "Irland",
+          tagline: "Europas Tech-Hub & Optionen nach dem Studium zu arbeiten.",
+        },
+      },
+    },
+    process: {
+      badge: "Unser Prozess",
+      title: "In 3 Schritten zur Bewerbung",
+      steps: [
+        {
+          title: "1. Kostenlose Beratung",
+          description:
+            "Wir analysieren Profil und Ziele und erstellen die passende Länder- und Programmroute.",
+        },
+        {
+          title: "2. Bewerbung & Visum",
+          description:
+            "Wir bereiten Unterlagen vor, koordinieren Bewerbungen und begleiten den Visaprozess komplett.",
+        },
+        {
+          title: "3. Abreise & Ankommen",
+          description:
+            "Wir unterstützen bei Flug, Unterkunft und Orientierung für die ersten Schritte vor Ort.",
+        },
+      ],
+    },
+    stories: {
+      title: "Erfahrungen unserer Studierenden",
+      description:
+        "Bald teilen wir hier echte Erfahrungsberichte. Bis dahin kannst du Programme entdecken und deine beste Route wählen.",
+      filters: {
+        all: "Alle",
+        germany: "Deutschland",
+        usa: "USA",
+        uk: "Vereinigtes Königreich",
+        netherlands: "Niederlande",
+      },
+      cards: {
+        sarah: {
+          country: "USA",
+          title: "Sarahs Weg",
+          subtitle: "Informatik (Master) an der NYU",
+        },
+        ahmet: {
+          country: "Deutschland",
+          title: "Ahmets Geschichte",
+          subtitle: "Engineering in München",
+        },
+        elena: {
+          country: "Vereinigtes Königreich",
+          title: "Elenas Erfolg",
+          subtitle: "MBA in Oxford",
+        },
+        john: {
+          country: "Niederlande",
+          title: "Johns Erfahrung",
+          subtitle: "Design in Amsterdam",
+        },
+      },
+    },
+    reviews: {
+      avatarAlt: "Studentenfoto",
+      items: [
+        {
+          quote:
+            "\"Lotus Abroad hat das Unmögliche möglich gemacht. Ich habe ein Vollstipendium an meiner Traum-Uni in Berlin bekommen!\"",
+          name: "Merve S.",
+          meta: "Studiert in Deutschland",
+        },
+        {
+          quote:
+            "\"Der Visaprozess war einschüchternd, aber das Team hat alles gemanagt. Ich musste nur zum Termin gehen.\"",
+          name: "Emre T.",
+          meta: "Studiert im Vereinigten Königreich",
+        },
+        {
+          quote:
+            "\"Die beste Beratung bisher. Sie kümmern sich um deine Zukunft - nicht nur um eine Platzierung.\"",
+          name: "Ayşe K.",
+          meta: "Studiert in den USA",
+        },
+      ],
+    },
+    why: {
+      badge: "Warum Lotus Abroad?",
+      title: "Ein Premium-Prozess, der dich führt.",
+      description:
+        "Wir machen Komplexes einfach: die richtige Programmauswahl, saubere Unterlagen, klare Timeline und verlässliche Kommunikation.",
+      items: [
+        {
+          id: "roadmap",
+          icon: "verified",
+          title: "Transparente Roadmap",
+          body: "Klare Schritte, Dokumentenliste und zuverlässige Timeline von Bewerbung bis Visum.",
+        },
+        {
+          id: "risk-control",
+          icon: "shield_lock",
+          title: "Risikofokus",
+          body: "Wir vermeiden Lücken bei Unterlagen, Deadlines und Visarisiken frühzeitig.",
+        },
+        {
+          id: "support",
+          icon: "support_agent",
+          title: "24/7 Kommunikation",
+          body: "Regelmäßige Updates und schnelle Antworten während des gesamten Prozesses.",
+        },
+        {
+          id: "fit-selection",
+          icon: "travel_explore",
+          title: "Passende Auswahl",
+          body: "Wir matchen Land und Programm zu deinem Profil und bauen eine starke Route.",
+        },
+      ],
+    },
+    assessment: {
+      badge: "Kostenlose Einschätzung",
+      title: "Wir analysieren dein Profil und planen deine Route.",
+      description:
+        "Fülle das kurze Formular aus. Unser Team meldet sich innerhalb von 24 Stunden.",
+      bullets: [
+        "Personalisierte Programmauswahl",
+        "Visa-Eignung & Dokumentencheck",
+        "Budget- & Zeitplanung",
+      ],
+      form: {
+        firstNameLabel: "Vorname",
+        lastNameLabel: "Nachname",
+        emailLabel: "E-Mail",
+        countryLabel: "Zielland",
+        firstNamePlaceholder: "Vorname",
+        lastNamePlaceholder: "Nachname",
+        emailPlaceholder: "name@beispiel.de",
+        countryPlaceholder: "Bitte auswählen",
+        countries: {
+          germany: "Deutschland",
+          usa: "USA",
+          uk: "Vereinigtes Königreich",
+          other: "Andere",
+        },
+        submit: "Kostenlos einschätzen lassen",
+        note: "Keine Kreditkarte nötig. Deine Daten sind sicher.",
+      },
+    },
+    faq: {
+      title: "Häufige Fragen",
+      items: [
+        {
+          q: "Muss ich Deutsch können, um in Deutschland zu studieren?",
+          a: "Nicht unbedingt. Viele Universitäten bieten, besonders im Master, vollständig englischsprachige Programme an. Wir helfen dir, passende Optionen zu finden.",
+        },
+        {
+          q: "Was kostet das Gespräch?",
+          a: "Die erste Einschätzung ist komplett kostenlos. Wir klären Ziele und Eignung und geben dir einen individuellen Plan, bevor es zu kostenpflichtigen Services geht.",
+        },
+        {
+          q: "Kann ich während des Studiums im Ausland arbeiten?",
+          a: "Ja. Viele Studentenvisa erlauben Teilzeit während des Semesters und Vollzeit in den Ferien, abhängig vom Land. Wir bestätigen die aktuellsten Regeln für dein Zielland.",
+        },
+      ],
+    },
+  },
+} as const;
+
+export default function HomePage() {
+  const router = useRouter();
+  const locale = (router.locale ?? "tr") as keyof typeof COPY;
+  const copy = COPY[locale] ?? COPY.tr;
+
+  const seoKeywordsMeta = copy.seoKeywords.join(", ");
   const heroImages = useMemo(
     () => [
       HERO_BG_URL,
@@ -132,10 +804,18 @@ export default function HomePage() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     document.documentElement.classList.add("reveal-enabled");
+    return () => {
+      document.documentElement.classList.remove("reveal-enabled");
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const revealElements = Array.from(
       document.querySelectorAll<HTMLElement>("[data-reveal]"),
-    );
+    ).filter((element) => !element.classList.contains("reveal-in"));
     if (!revealElements.length) return;
 
     const observer = new IntersectionObserver(
@@ -152,9 +832,8 @@ export default function HomePage() {
     revealElements.forEach((element) => observer.observe(element));
     return () => {
       observer.disconnect();
-      document.documentElement.classList.remove("reveal-enabled");
     };
-  }, []);
+  }, [locale]);
 
   const heroCurrentUrl = heroImages[heroIndex] ?? HERO_BG_URL;
   const heroNextUrl =
@@ -163,9 +842,9 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>Lotus Abroad | Yurtdışı Eğitim &amp; Vize Danışmanlığı</title>
+        <title>{copy.meta.title}</title>
         <meta
-          content="Lotus Abroad ile yurtdışı eğitim danışmanlığı: Almanya, ABD, İngiltere, Hollanda, Kanada, İrlanda ve Malta için program seçimi, öğrenci vizesi ve yurtdışı çalışma vizesi süreçlerinde premium destek."
+          content={copy.meta.description}
           name="description"
         />
         <meta
@@ -174,11 +853,11 @@ export default function HomePage() {
         />
         <meta content="website" property="og:type" />
         <meta
-          content="Lotus Abroad | Yurtdışı Eğitim & Vize Danışmanlığı"
+          content={copy.meta.ogTitle}
           property="og:title"
         />
         <meta
-          content="Program seçimi, başvuru, öğrenci vizesi ve yurtdışı çalışma vizesi süreçlerinde premium danışmanlık."
+          content={copy.meta.ogDescription}
           property="og:description"
         />
         <meta content="summary_large_image" name="twitter:card" />
@@ -189,8 +868,8 @@ export default function HomePage() {
               "@type": "WebSite",
               name: "Lotus Abroad",
               description:
-                "Yurtdışı eğitim danışmanlığı ve vize danışmanlığı: program seçimi, başvuru, öğrenci vizesi ve yurtdışı çalışma vizesi süreçlerinde premium destek.",
-              inLanguage: "tr-TR",
+                copy.meta.schemaDescription,
+              inLanguage: copy.meta.schemaLanguage,
               potentialAction: {
                 "@type": "SearchAction",
                 target: "/programs?q={search_term_string}",
@@ -226,12 +905,12 @@ export default function HomePage() {
         <div className="relative z-20 max-w-[1280px] w-full px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center gap-8 mt-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white text-xs font-bold uppercase tracking-widest mb-2">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            2026 Başvuruları Açık
+            {copy.hero.badge}
           </div>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] tracking-tight max-w-4xl drop-shadow-xl">
-            Geleceğinizin <br />
+            {copy.hero.titleLine1} <br />
             <span className="text-primary relative inline-block">
-              Sınırı Yok
+              {copy.hero.titleHighlight}
               <svg
                 className="absolute w-full h-3 -bottom-1 left-0 text-white opacity-40"
                 preserveAspectRatio="none"
@@ -247,29 +926,27 @@ export default function HomePage() {
             </span>
           </h1>
           <p className="text-lg md:text-xl text-white/90 font-medium max-w-2xl leading-relaxed drop-shadow-md">
-            Almanya, ABD, İngiltere ve daha fazlası için yurtdışı eğitim danışmanlığı:
-            program seçimi, başvuru, öğrenci vizesi ve yurtdışı çalışma vizesi
-            süreçlerinde premium destek.
+            {copy.hero.description}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-4">
             <button
               className="h-14 px-8 rounded-full bg-primary text-black text-base font-bold tracking-wide hover:scale-105 transition-transform flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(249,245,6,0.4)]"
               type="button"
             >
-              Hemen Başla
+              {copy.hero.primaryCta}
               <span className="material-symbols-outlined text-xl">
                 arrow_forward
               </span>
             </button>
-            <a
+            <Link
               className="h-14 px-8 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white text-base font-bold tracking-wide hover:bg-white/20 transition-all flex items-center justify-center gap-2"
               href="/programs"
             >
               <span className="material-symbols-outlined filled">
                 travel_explore
               </span>
-              Programları Keşfet
-            </a>
+              {copy.hero.secondaryCta}
+            </Link>
           </div>
         </div>
       </section>
@@ -277,7 +954,7 @@ export default function HomePage() {
       <section className="py-12 border-b border-gray-200 dark:border-white/10 overflow-hidden bg-white dark:bg-white/5">
         <div className="max-w-[1280px] mx-auto px-4 mb-8">
           <p className="text-center text-sm font-bold text-text-muted dark:text-gray-400 uppercase tracking-widest">
-            İş Ortaklarımız
+            {copy.partners.label}
           </p>
         </div>
         <div className="flex overflow-hidden">
@@ -510,26 +1187,28 @@ export default function HomePage() {
           <div className="grid gap-6 md:grid-cols-[1fr,auto] md:items-center mb-12">
             <div>
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-                Hikayen nerede başlıyor?
+                {copy.destinations.title}
               </h2>
               <p className="text-text-muted dark:text-gray-400 text-lg max-w-xl">
-                Dünyanın en güçlü eğitim destinasyonlarını keşfet. Kaliteli
-                üniversiteler, güçlü kariyer ağları ve yepyeni fırsatlar seni
-                bekliyor.
+                {copy.destinations.description}
               </p>
             </div>
-            <a
+            <Link
               className="flex items-center gap-2 text-sm font-bold border-b-2 border-primary pb-1 hover:text-primary transition-colors w-fit md:justify-self-end"
               href="/programs"
             >
-              Tüm Ülkeleri Gör
+              {copy.destinations.cta}
               <span className="material-symbols-outlined text-lg">
                 arrow_forward
               </span>
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+            <Link
+              className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
+              href={{ pathname: "/programs", query: { country: "Germany" }, hash: "countries" }}
+              aria-label={`${copy.destinations.cards.germany.title} programlarını görüntüle`}
+            >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 data-alt="Brandenburg Gate in Berlin, Germany during sunset"
@@ -538,13 +1217,19 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
-                <h3 className="text-2xl font-bold text-white mb-1">Almanya</h3>
+                <h3 className="text-2xl font-bold text-white mb-1">
+                  {copy.destinations.cards.germany.title}
+                </h3>
                 <p className="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  Uygun maliyetli üniversiteler &amp; mühendislikte güçlü ekosistem.
+                  {copy.destinations.cards.germany.tagline}
                 </p>
               </div>
-            </div>
-            <div className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+            </Link>
+            <Link
+              className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
+              href={{ pathname: "/programs", query: { country: "USA" }, hash: "countries" }}
+              aria-label={`${copy.destinations.cards.usa.title} programlarını görüntüle`}
+            >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 data-alt="Statue of Liberty in New York City, USA"
@@ -553,13 +1238,19 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
-                <h3 className="text-2xl font-bold text-white mb-1">ABD</h3>
+                <h3 className="text-2xl font-bold text-white mb-1">
+                  {copy.destinations.cards.usa.title}
+                </h3>
                 <p className="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  Güçlü üniversiteler &amp; geniş kampüs seçenekleri.
+                  {copy.destinations.cards.usa.tagline}
                 </p>
               </div>
-            </div>
-            <div className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+            </Link>
+            <Link
+              className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
+              href={{ pathname: "/programs", query: { country: "United Kingdom" }, hash: "countries" }}
+              aria-label={`${copy.destinations.cards.uk.title} programlarını görüntüle`}
+            >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 data-alt="Big Ben and Westminster Bridge in London, England"
@@ -568,13 +1259,19 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
-                <h3 className="text-2xl font-bold text-white mb-1">İngiltere</h3>
+                <h3 className="text-2xl font-bold text-white mb-1">
+                  {copy.destinations.cards.uk.title}
+                </h3>
                 <p className="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  Prestijli okullar &amp; 1 yıllık yoğun yüksek lisans.
+                  {copy.destinations.cards.uk.tagline}
                 </p>
               </div>
-            </div>
-            <div className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+            </Link>
+            <Link
+              className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
+              href={{ pathname: "/programs", query: { country: "Malta" }, hash: "countries" }}
+              aria-label={`${copy.destinations.cards.malta.title} programlarını görüntüle`}
+            >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 data-alt="Beautiful architecture in Valletta Malta"
@@ -583,13 +1280,19 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
-                <h3 className="text-2xl font-bold text-white mb-1">Malta</h3>
+                <h3 className="text-2xl font-bold text-white mb-1">
+                  {copy.destinations.cards.malta.title}
+                </h3>
                 <p className="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  İngilizce eğitim &amp; Akdeniz yaşamı.
+                  {copy.destinations.cards.malta.tagline}
                 </p>
               </div>
-            </div>
-            <div className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+            </Link>
+            <Link
+              className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
+              href={{ pathname: "/programs", query: { country: "Netherlands" }, hash: "countries" }}
+              aria-label={`${copy.destinations.cards.netherlands.title} programlarını görüntüle`}
+            >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 data-alt="Traditional Dutch architecture and canal in Amsterdam"
@@ -599,14 +1302,18 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
                 <h3 className="text-2xl font-bold text-white mb-1">
-                  Hollanda
+                  {copy.destinations.cards.netherlands.title}
                 </h3>
                 <p className="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  Yenilikçi eğitim &amp; uluslararası ortam.
+                  {copy.destinations.cards.netherlands.tagline}
                 </p>
               </div>
-            </div>
-            <div className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+            </Link>
+            <Link
+              className="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background-light dark:focus-visible:ring-offset-background-dark"
+              href={{ pathname: "/programs", query: { country: "Ireland" }, hash: "countries" }}
+              aria-label={`${copy.destinations.cards.ireland.title} programlarını görüntüle`}
+            >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                 data-alt="Green landscape and cliffs in Ireland"
@@ -615,12 +1322,14 @@ export default function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
-                <h3 className="text-2xl font-bold text-white mb-1">İrlanda</h3>
+                <h3 className="text-2xl font-bold text-white mb-1">
+                  {copy.destinations.cards.ireland.title}
+                </h3>
                 <p className="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  Avrupa&apos;nın teknoloji merkezi &amp; mezuniyet sonrası çalışma seçenekleri.
+                  {copy.destinations.cards.ireland.tagline}
                 </p>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -629,10 +1338,10 @@ export default function HomePage() {
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-primary text-sm font-bold uppercase tracking-widest">
-              Sürecimiz
+              {copy.process.badge}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold mt-3">
-              3 Adımda Başvuru
+              {copy.process.title}
             </h2>
           </div>
           <div className="process-flow relative grid gap-10 md:gap-8 md:grid-cols-[1fr_minmax(3rem,8rem)_1fr_minmax(3rem,8rem)_1fr]">
@@ -642,10 +1351,11 @@ export default function HomePage() {
                   chat_bubble
                 </span>
               </div>
-              <h3 className="text-xl font-bold mb-3">1. Ücretsiz Görüşme</h3>
+              <h3 className="text-xl font-bold mb-3">
+                {copy.process.steps[0].title}
+              </h3>
               <p className="text-text-muted dark:text-gray-400">
-                Akademik profilini ve hedeflerini analiz edip en doğru ülke ve
-                program rotasını çıkarıyoruz.
+                {copy.process.steps[0].description}
               </p>
             </div>
 
@@ -660,10 +1370,11 @@ export default function HomePage() {
                   edit_document
                 </span>
               </div>
-              <h3 className="text-xl font-bold mb-3">2. Başvuru &amp; Vize</h3>
+              <h3 className="text-xl font-bold mb-3">
+                {copy.process.steps[1].title}
+              </h3>
               <p className="text-text-muted dark:text-gray-400">
-                Evrak düzeni, okul başvuruları ve vize sürecinde dosyanı premium
-                şekilde hazırlayıp takip ediyoruz.
+                {copy.process.steps[1].description}
               </p>
             </div>
 
@@ -678,10 +1389,11 @@ export default function HomePage() {
                   flight_takeoff
                 </span>
               </div>
-              <h3 className="text-xl font-bold mb-3">3. Yolculuk &amp; Yerleşim</h3>
+              <h3 className="text-xl font-bold mb-3">
+                {copy.process.steps[2].title}
+              </h3>
               <p className="text-text-muted dark:text-gray-400">
-                Uçuş, konaklama ve varış sonrası ilk adımlar için oryantasyon ve
-                yerleşim desteği sağlıyoruz.
+                {copy.process.steps[2].description}
               </p>
             </div>
           </div>
@@ -691,42 +1403,41 @@ export default function HomePage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1280px] mx-auto">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-center">
-            Lotus Abroad Öğrenci Deneyimleri
+            {copy.stories.title}
           </h2>
           <p className="text-center text-text-muted dark:text-gray-400 mb-10 max-w-2xl mx-auto">
-            Yakında öğrencilerimizin gerçek deneyimlerini burada paylaşacağız.
-            Şimdilik programları keşfederek en uygun rotayı seçebilirsin.
+            {copy.stories.description}
           </p>
           <div className="flex flex-wrap justify-center gap-3 mb-10">
             <button
               className="px-6 py-2 rounded-full bg-primary text-black font-bold text-sm hover:brightness-105 transition-all"
               type="button"
             >
-              Tümü
+              {copy.stories.filters.all}
             </button>
             <button
               className="px-6 py-2 rounded-full bg-gray-100 dark:bg-white/10 text-text-main dark:text-white font-medium text-sm hover:bg-gray-200 dark:hover:bg-white/20 transition-all"
               type="button"
             >
-              Almanya
+              {copy.stories.filters.germany}
             </button>
             <button
               className="px-6 py-2 rounded-full bg-gray-100 dark:bg-white/10 text-text-main dark:text-white font-medium text-sm hover:bg-gray-200 dark:hover:bg-white/20 transition-all"
               type="button"
             >
-              ABD
+              {copy.stories.filters.usa}
             </button>
             <button
               className="px-6 py-2 rounded-full bg-gray-100 dark:bg-white/10 text-text-main dark:text-white font-medium text-sm hover:bg-gray-200 dark:hover:bg-white/20 transition-all"
               type="button"
             >
-              İngiltere
+              {copy.stories.filters.uk}
             </button>
             <button
               className="px-6 py-2 rounded-full bg-gray-100 dark:bg-white/10 text-text-main dark:text-white font-medium text-sm hover:bg-gray-200 dark:hover:bg-white/20 transition-all"
               type="button"
             >
-              Hollanda
+              {copy.stories.filters.netherlands}
             </button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-16">
@@ -747,14 +1458,14 @@ export default function HomePage() {
               <div className="absolute bottom-5 left-5 text-white">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">
-                    ABD
+                    {copy.stories.cards.sarah.country}
                   </span>
                 </div>
                 <p className="font-bold text-lg leading-tight">
-                  Sarah&apos;ın Yolculuğu
+                  {copy.stories.cards.sarah.title}
                 </p>
                 <p className="text-xs text-white/80">
-                  NYU&apos;da Bilgisayar Bilimleri (Yüksek Lisans)
+                  {copy.stories.cards.sarah.subtitle}
                 </p>
               </div>
             </div>
@@ -775,13 +1486,15 @@ export default function HomePage() {
               <div className="absolute bottom-5 left-5 text-white">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">
-                    Almanya
+                    {copy.stories.cards.ahmet.country}
                   </span>
                 </div>
                 <p className="font-bold text-lg leading-tight">
-                  Ahmet&apos;in Hikayesi
+                  {copy.stories.cards.ahmet.title}
                 </p>
-                <p className="text-xs text-white/80">Mühendislik @ Münih</p>
+                <p className="text-xs text-white/80">
+                  {copy.stories.cards.ahmet.subtitle}
+                </p>
               </div>
             </div>
             <div className="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg">
@@ -801,13 +1514,15 @@ export default function HomePage() {
               <div className="absolute bottom-5 left-5 text-white">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">
-                    İngiltere
+                    {copy.stories.cards.elena.country}
                   </span>
                 </div>
                 <p className="font-bold text-lg leading-tight">
-                  Elena&apos;nın Başarısı
+                  {copy.stories.cards.elena.title}
                 </p>
-                <p className="text-xs text-white/80">Oxford&apos;da MBA</p>
+                <p className="text-xs text-white/80">
+                  {copy.stories.cards.elena.subtitle}
+                </p>
               </div>
             </div>
             <div className="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg md:mt-8">
@@ -827,13 +1542,15 @@ export default function HomePage() {
               <div className="absolute bottom-5 left-5 text-white">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">
-                    Hollanda
+                    {copy.stories.cards.john.country}
                   </span>
                 </div>
                 <p className="font-bold text-lg leading-tight">
-                  John&apos;un Deneyimi
+                  {copy.stories.cards.john.title}
                 </p>
-                <p className="text-xs text-white/80">Amsterdam&apos;da Tasarım</p>
+                <p className="text-xs text-white/80">
+                  {copy.stories.cards.john.subtitle}
+                </p>
               </div>
             </div>
           </div>
@@ -857,19 +1574,16 @@ export default function HomePage() {
                   star
                 </span>
               </div>
-              <p className="text-lg italic mb-6">
-                &quot;Lotus Abroad imkânsızı mümkün kıldı. Berlin&apos;de hayalimdeki
-                üniversiteye tam bursla kabul aldım!&quot;
-              </p>
+              <p className="text-lg italic mb-6">{copy.reviews.items[0].quote}</p>
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center"
-                  data-alt="Öğrenci fotoğrafı"
+                  data-alt={copy.reviews.avatarAlt}
                   style={{ backgroundImage: `url('${REVIEW_AVATAR_MERVE_URL}')` }}
                 />
                 <div>
-                  <p className="font-bold text-sm">Merve S.</p>
-                  <p className="text-xs text-text-muted">Almanya&apos;da okuyor</p>
+                  <p className="font-bold text-sm">{copy.reviews.items[0].name}</p>
+                  <p className="text-xs text-text-muted">{copy.reviews.items[0].meta}</p>
                 </div>
               </div>
             </div>
@@ -891,19 +1605,16 @@ export default function HomePage() {
                   star
                 </span>
               </div>
-              <p className="text-lg italic mb-6">
-                &quot;Vize süreci çok göz korkutucuydu ama ekip her şeyi yönetti. Ben
-                sadece randevuya gittim.&quot;
-              </p>
+              <p className="text-lg italic mb-6">{copy.reviews.items[1].quote}</p>
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center"
-                  data-alt="Öğrenci fotoğrafı"
+                  data-alt={copy.reviews.avatarAlt}
                   style={{ backgroundImage: `url('${REVIEW_AVATAR_EMRE_URL}')` }}
                 />
                 <div>
-                  <p className="font-bold text-sm">Emre T.</p>
-                  <p className="text-xs text-text-muted">İngiltere&apos;de okuyor</p>
+                  <p className="font-bold text-sm">{copy.reviews.items[1].name}</p>
+                  <p className="text-xs text-text-muted">{copy.reviews.items[1].meta}</p>
                 </div>
               </div>
             </div>
@@ -925,19 +1636,16 @@ export default function HomePage() {
                   star
                 </span>
               </div>
-              <p className="text-lg italic mb-6">
-                &quot;Şimdiye kadarki en iyi danışmanlık. Sizi herhangi bir yere
-                yerleştirmekten çok geleceğinizi önemsiyorlar.&quot;
-              </p>
+              <p className="text-lg italic mb-6">{copy.reviews.items[2].quote}</p>
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center"
-                  data-alt="Öğrenci fotoğrafı"
+                  data-alt={copy.reviews.avatarAlt}
                   style={{ backgroundImage: `url('${REVIEW_AVATAR_AYSE_URL}')` }}
                 />
                 <div>
-                  <p className="font-bold text-sm">Ayşe K.</p>
-                  <p className="text-xs text-text-muted">ABD&apos;de okuyor</p>
+                  <p className="font-bold text-sm">{copy.reviews.items[2].name}</p>
+                  <p className="text-xs text-text-muted">{copy.reviews.items[2].meta}</p>
                 </div>
               </div>
             </div>
@@ -955,45 +1663,23 @@ export default function HomePage() {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-white/5 border border-gray-100 dark:border-white/10 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.10)]">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <span className="text-xs font-black uppercase tracking-widest text-text-main dark:text-white">
-                Neden Lotus Abroad?
+                {copy.why.badge}
               </span>
             </div>
             <h2 className="text-3xl md:text-5xl font-black mt-3 tracking-tight text-text-main dark:text-white">
-              Premium bir süreç deneyimi.
+              {copy.why.title}
             </h2>
             <p className="mt-4 text-sm md:text-base text-text-muted dark:text-gray-400 leading-relaxed">
-              Karmaşık başvuru adımlarını sadeleştiriyoruz: doğru program,
-              düzenli dosya, net zaman planı ve güven veren iletişim.
+              {copy.why.description}
             </p>
           </div>
 
           <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: "verified",
-                title: "Şeffaf yol haritası",
-                body: "Başvurudan vizeye; adımlar, evrak listesi ve net bir timeline.",
-              },
-              {
-                icon: "shield_lock",
-                title: "Risk odaklı kontrol",
-                body: "Eksik/uyumsuz belge, deadline ve vize risklerini önceden kapatırız.",
-              },
-              {
-                icon: "support_agent",
-                title: "7/24 İletişim",
-                body: "Süreç boyunca düzenli bilgilendirme ve hızlı geri dönüş.",
-              },
-              {
-                icon: "travel_explore",
-                title: "Hedefe uygun seçim",
-                body: "Profiline uygun ülke/program seçimiyle doğru rota oluştururuz.",
-              },
-            ].map((item) => (
+            {copy.why.items.map((item) => (
               <div
                 className="premium-card group rounded-[2rem] bg-white/80 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.08)] p-7 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_35px_90px_rgba(0,0,0,0.14)]"
                 data-reveal
-                key={item.title}
+                key={item.id}
               >
                 <div className="flex items-center justify-between gap-4">
                   <div className="size-12 rounded-2xl bg-primary text-black flex items-center justify-center shadow-[0_14px_40px_rgba(249,245,6,0.22)] transition-transform duration-300 group-hover:scale-105">
@@ -1031,26 +1717,26 @@ export default function HomePage() {
           <div data-reveal>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/10 text-black text-xs font-bold uppercase tracking-widest">
               <span className="w-2 h-2 rounded-full bg-black/70 animate-pulse" />
-              Ücretsiz Değerlendirme
+              {copy.assessment.badge}
             </div>
             <h2 className="text-4xl md:text-6xl font-black text-black mt-6 mb-6 tracking-tight">
-              Profilini analiz edelim, sana rota çıkaralım.
+              {copy.assessment.title}
             </h2>
             <p className="text-xl font-medium text-black/80 mb-8 max-w-md">
-              Kısa formu doldur. Ekibimiz 24 saat içinde seninle iletişime geçsin.
+              {copy.assessment.description}
             </p>
             <div className="flex flex-col gap-4 text-black/70">
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined">check_circle</span>
-                <span>Kişiselleştirilmiş program önerisi</span>
+                <span>{copy.assessment.bullets[0]}</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined">check_circle</span>
-                <span>Vize uygunluğu &amp; evrak kontrolü</span>
+                <span>{copy.assessment.bullets[1]}</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined">check_circle</span>
-                <span>Bütçe &amp; zaman planı</span>
+                <span>{copy.assessment.bullets[2]}</span>
               </div>
             </div>
           </div>
@@ -1058,51 +1744,53 @@ export default function HomePage() {
             <form className="flex flex-col gap-5">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-bold text-text-main">Ad</label>
+                  <label className="text-sm font-bold text-text-main">
+                    {copy.assessment.form.firstNameLabel}
+                  </label>
                   <input
                     className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0"
-                    placeholder="Ad"
+                    placeholder={copy.assessment.form.firstNamePlaceholder}
                     type="text"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-bold text-text-main">
-                    Soyad
+                    {copy.assessment.form.lastNameLabel}
                   </label>
                   <input
                     className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0"
-                    placeholder="Soyad"
+                    placeholder={copy.assessment.form.lastNamePlaceholder}
                     type="text"
                   />
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-text-main">
-                  E-posta
+                  {copy.assessment.form.emailLabel}
                 </label>
                 <input
                   className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0"
-                  placeholder="email@ornek.com"
+                  placeholder={copy.assessment.form.emailPlaceholder}
                   type="email"
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-text-main">
-                  Hedef Ülke
+                  {copy.assessment.form.countryLabel}
                 </label>
                 <select className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0">
-                  <option>Lütfen seçin</option>
-                  <option>Almanya</option>
-                  <option>ABD</option>
-                  <option>İngiltere</option>
-                  <option>Diğer</option>
+                  <option>{copy.assessment.form.countryPlaceholder}</option>
+                  <option>{copy.assessment.form.countries.germany}</option>
+                  <option>{copy.assessment.form.countries.usa}</option>
+                  <option>{copy.assessment.form.countries.uk}</option>
+                  <option>{copy.assessment.form.countries.other}</option>
                 </select>
               </div>
               <button className="h-14 mt-2 rounded-xl bg-black text-white font-bold text-lg hover:bg-gray-800 transition-colors shadow-lg hover:scale-[1.01] active:scale-[0.99]">
-                Ücretsiz Değerlendirme Al
+                {copy.assessment.form.submit}
               </button>
               <p className="text-xs text-center text-gray-500 mt-2">
-                Kredi kartı gerekmez. Verileriniz güvende.
+                {copy.assessment.form.note}
               </p>
             </form>
           </div>
@@ -1112,44 +1800,40 @@ export default function HomePage() {
       <section className="py-20 bg-white dark:bg-background-dark border-t border-gray-100 dark:border-white/5">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl font-bold mb-10 text-center">
-            Sıkça Sorulan Sorular
+            {copy.faq.title}
           </h2>
           <div className="space-y-4">
             <details className="group bg-gray-50 dark:bg-white/5 rounded-xl">
               <summary className="flex justify-between items-center font-medium cursor-pointer list-none p-6">
-                <span>Almanya&apos;da okumak için Almanca bilmem gerekiyor mu?</span>
+                <span>{copy.faq.items[0].q}</span>
                 <span className="transition group-open:rotate-180">
                   <span className="material-symbols-outlined">expand_more</span>
                 </span>
               </summary>
               <div className="text-text-muted dark:text-gray-400 mt-0 px-6 pb-6">
-                Hayır! Özellikle yüksek lisans seviyesinde birçok üniversitede tamamen
-                İngilizce programlar bulunur. Uygun seçenekleri birlikte belirliyoruz.
+                {copy.faq.items[0].a}
               </div>
             </details>
             <details className="group bg-gray-50 dark:bg-white/5 rounded-xl">
               <summary className="flex justify-between items-center font-medium cursor-pointer list-none p-6">
-                <span>Görüşme ücreti ne kadar?</span>
+                <span>{copy.faq.items[1].q}</span>
                 <span className="transition group-open:rotate-180">
                   <span className="material-symbols-outlined">expand_more</span>
                 </span>
               </summary>
               <div className="text-text-muted dark:text-gray-400 mt-0 px-6 pb-6">
-                İlk değerlendirme tamamen ücretsizdir. Hedeflerinizi ve uygunluğunuzu
-                netleştirir, ücretli hizmetlere geçmeden önce size özel bir plan çıkarırız.
+                {copy.faq.items[1].a}
               </div>
             </details>
             <details className="group bg-gray-50 dark:bg-white/5 rounded-xl">
               <summary className="flex justify-between items-center font-medium cursor-pointer list-none p-6">
-                <span>Yurtdışında okurken çalışabilir miyim?</span>
+                <span>{copy.faq.items[2].q}</span>
                 <span className="transition group-open:rotate-180">
                   <span className="material-symbols-outlined">expand_more</span>
                 </span>
               </summary>
               <div className="text-text-muted dark:text-gray-400 mt-0 px-6 pb-6">
-                Evet, birçok öğrenci vizesi ülkeden ülkeye değişen kurallar ile dönem
-                içinde yarı zamanlı, tatillerde ise tam zamanlı çalışma imkânı sunar.
-                Biz, hedef ülkenize göre en güncel çalışma haklarını netleştiririz.
+                {copy.faq.items[2].a}
               </div>
             </details>
           </div>

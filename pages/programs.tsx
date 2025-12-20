@@ -1,61 +1,118 @@
 import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import ProgramDetails from "../components/programs/ProgramDetails";
 import ProgramList from "../components/programs/ProgramList";
 import CitySchoolRecommendations from "../components/programs/CitySchoolRecommendations";
+import { PROGRAMS_UI } from "../components/programs/i18n";
 import SiteHeader from "../components/SiteHeader";
 import SiteFooter from "../components/SiteFooter";
+import type { AppLocale } from "../lib/i18n";
+import { normalizeLocale } from "../lib/i18n";
+import { getCitySchoolRecommendations } from "../lib/citySchoolRecommendations";
 import {
   COUNTRY_ORDER,
-  PROGRAM_CATALOG,
   type CountryId,
+  getProgramCatalog,
 } from "../lib/programCatalog";
 
-const COUNTRY_LABELS_TR: Record<CountryId, string> = {
-  Germany: "Almanya",
-  USA: "ABD",
-  Netherlands: "Hollanda",
-  "United Kingdom": "Birleşik Krallık",
-  Canada: "Kanada",
-  Ireland: "İrlanda",
-  Malta: "Malta",
+const COUNTRY_LABELS: Record<AppLocale, Record<CountryId, string>> = {
+  tr: {
+    Germany: "Almanya",
+    USA: "ABD",
+    Netherlands: "Hollanda",
+    "United Kingdom": "Birleşik Krallık",
+    Canada: "Kanada",
+    Ireland: "İrlanda",
+    Malta: "Malta",
+  },
+  en: {
+    Germany: "Germany",
+    USA: "USA",
+    Netherlands: "Netherlands",
+    "United Kingdom": "United Kingdom",
+    Canada: "Canada",
+    Ireland: "Ireland",
+    Malta: "Malta",
+  },
+  de: {
+    Germany: "Deutschland",
+    USA: "USA",
+    Netherlands: "Niederlande",
+    "United Kingdom": "Vereinigtes Königreich",
+    Canada: "Kanada",
+    Ireland: "Irland",
+    Malta: "Malta",
+  },
 };
 
-const PROGRAMS_SEO_KEYWORDS_TR = [
-  "yurtdışı eğitim danışmanlığı",
-  "yurtdışı çalışma vizesi",
-  "öğrenci vizesi",
-  "vize danışmanlığı",
-  "Almanya Ausbildung",
-  "Almanya üniversite başvurusu",
-  "Almanya yüksek lisans",
-  "Denklik (diploma tanıma)",
-  "Work and Travel",
-  "Camp USA",
-  "H-2B çalışma vizesi",
-  "ABD dil okulu",
-  "Kanada dil okulu",
-  "İrlanda Work and Study",
-  "Malta dil okulu",
-  "Au Pair Almanya",
-  "Au Pair Amerika",
-] as const;
+const PROGRAMS_SEO_KEYWORDS: Record<AppLocale, readonly string[]> = {
+  tr: [
+    "yurtdışı eğitim danışmanlığı",
+    "yurtdışı çalışma vizesi",
+    "öğrenci vizesi",
+    "vize danışmanlığı",
+    "Almanya Ausbildung",
+    "Almanya üniversite başvurusu",
+    "Almanya yüksek lisans",
+    "Denklik (diploma tanıma)",
+    "Work and Travel",
+    "Camp USA",
+    "H-2B çalışma vizesi",
+    "ABD dil okulu",
+    "Kanada dil okulu",
+    "İrlanda Work and Study",
+    "Malta dil okulu",
+    "Au Pair Almanya",
+    "Au Pair Amerika",
+  ],
+  en: [
+    "study abroad consulting",
+    "work visa",
+    "student visa",
+    "visa consulting",
+    "Germany Ausbildung",
+    "Germany university application",
+    "Germany master's",
+    "degree recognition",
+    "Work and Travel",
+    "Camp USA",
+    "H-2B work visa",
+    "USA language courses",
+    "Canada language courses",
+    "Ireland work and study",
+    "Malta language school",
+    "Au Pair Germany",
+    "Au Pair USA",
+  ],
+  de: [
+    "Auslandsstudium Beratung",
+    "Arbeitsvisum",
+    "Studentenvisum",
+    "Visaberatung",
+    "Deutschland Ausbildung",
+    "Universitätsbewerbung Deutschland",
+    "Master in Deutschland",
+    "Anerkennung von Abschlüssen",
+    "Work and Travel",
+    "Camp USA",
+    "H-2B Arbeitsvisum",
+    "Sprachkurse USA",
+    "Sprachkurse Kanada",
+    "Irland Work and Study",
+    "Sprachschule Malta",
+    "Au Pair Deutschland",
+    "Au Pair USA",
+  ],
+};
 
-const PROGRAMS_SEO_ITEMLIST = {
-  "@type": "ItemList",
-  name: "Lotus Abroad Programları",
-  itemListElement: COUNTRY_ORDER.flatMap((countryId, countryIndex) => {
-    const countryLabel = COUNTRY_LABELS_TR[countryId] ?? countryId;
-    const programs = PROGRAM_CATALOG[countryId]?.programs ?? [];
-    return programs.map((program, programIndex) => ({
-      "@type": "ListItem",
-      position: countryIndex * 100 + programIndex + 1,
-      name: `${countryLabel} - ${program.title}`,
-      description: program.tagline,
-    }));
-  }),
-} as const;
+const LANGUAGE_TAG: Record<AppLocale, string> = {
+  tr: "tr-TR",
+  en: "en-US",
+  de: "de-DE",
+};
 
 function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -79,10 +136,17 @@ function usePrefersReducedMotion() {
 }
 
 export default function ProgramsPage() {
+  const router = useRouter();
+  const locale = normalizeLocale(router.locale);
+  const ui = PROGRAMS_UI[locale];
+  const countryLabels = COUNTRY_LABELS[locale];
+  const programCatalog = useMemo(() => getProgramCatalog(locale), [locale]);
+  const citySchool = useMemo(() => getCitySchoolRecommendations(locale), [locale]);
+
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const [selectedCountry, setSelectedCountry] = useState<CountryId>(COUNTRY_ORDER[0]);
-  const selectedCountryLabel = COUNTRY_LABELS_TR[selectedCountry] ?? selectedCountry;
+  const selectedCountryLabel = countryLabels[selectedCountry] ?? selectedCountry;
   const [pendingCountry, setPendingCountry] = useState<CountryId | null>(null);
   const activeCountry = pendingCountry ?? selectedCountry;
   const [countryTransitionState, setCountryTransitionState] = useState<
@@ -92,8 +156,8 @@ export default function ProgramsPage() {
   const countryIdleTimeoutRef = useRef<number | null>(null);
 
   const programs = useMemo(
-    () => PROGRAM_CATALOG[selectedCountry]?.programs ?? [],
-    [selectedCountry],
+    () => programCatalog[selectedCountry]?.programs ?? [],
+    [programCatalog, selectedCountry],
   );
   const firstProgramId = programs[0]?.id ?? null;
 
@@ -118,13 +182,49 @@ export default function ProgramsPage() {
     return programs.find((program) => program.id === selectedProgramId) ?? programs[0];
   }, [programs, selectedProgramId]);
 
+  const heroImageUrl = programCatalog[selectedCountry]?.heroImageUrl;
+  const seoKeywords = PROGRAMS_SEO_KEYWORDS[locale];
+
+  const seoItemList = useMemo(() => {
+    return {
+      "@type": "ItemList",
+      name:
+        locale === "tr"
+          ? "Lotus Abroad Programları"
+          : locale === "de"
+            ? "Lotus Abroad Programme"
+            : "Lotus Abroad Programs",
+      itemListElement: COUNTRY_ORDER.flatMap((countryId, countryIndex) => {
+        const countryLabel = countryLabels[countryId] ?? countryId;
+        const list = programCatalog[countryId]?.programs ?? [];
+        return list.map((program, programIndex) => ({
+          "@type": "ListItem",
+          position: countryIndex * 100 + programIndex + 1,
+          name: `${countryLabel} - ${program.title}`,
+          description: program.tagline,
+        }));
+      }),
+    } as const;
+  }, [countryLabels, locale, programCatalog]);
+
+  const sideCardTitle =
+    locale === "tr"
+      ? "Ücretsiz Değerlendirme"
+      : locale === "de"
+        ? "Kostenlose Einschätzung"
+        : "Free Assessment";
+  const sideCardSubtitle =
+    locale === "tr"
+      ? "24 saat içinde kişisel yol haritası"
+      : locale === "de"
+        ? "Persönliche Roadmap in 24 Stunden"
+        : "Personal roadmap within 24 hours";
+
   const displayProgram = useMemo(() => {
     if (!programs.length) return null;
     if (!displayProgramId) return programs[0];
     return programs.find((program) => program.id === displayProgramId) ?? programs[0];
   }, [displayProgramId, programs]);
-
-  const heroImageUrl = PROGRAM_CATALOG[selectedCountry]?.heroImageUrl;
 
   const requestCountryChange = useCallback(
     (nextCountry: CountryId) => {
@@ -154,6 +254,21 @@ export default function ProgramsPage() {
     },
     [prefersReducedMotion, selectedCountry],
   );
+
+  const countryFromQuery = useMemo(() => {
+    const raw = router.query.country;
+    const value = Array.isArray(raw) ? raw[0] : raw;
+    if (!value) return null;
+    return (COUNTRY_ORDER as readonly string[]).includes(value)
+      ? (value as CountryId)
+      : null;
+  }, [router.query.country]);
+
+  useEffect(() => {
+    if (!countryFromQuery) return;
+    requestCountryChange(countryFromQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [countryFromQuery]);
 
   const requestProgramChange = useCallback(
     (nextProgramId: string) => {
@@ -194,16 +309,18 @@ export default function ProgramsPage() {
   return (
     <>
       <Head>
-        <title>Programlar | Lotus Abroad</title>
+        <title>
+          {ui.pageTitle} | Lotus Abroad
+        </title>
         <meta
           name="description"
-          content="Lotus Abroad programları: Ülke seçin, programları keşfedin ve başvuru adımları, belgeler, süre ve vize notlarını aynı ekranda görüntüleyin."
+          content={ui.pageDescription}
         />
-        <meta name="keywords" content={PROGRAMS_SEO_KEYWORDS_TR.join(", ")} />
-        <meta property="og:title" content="Programlar | Lotus Abroad" />
+        <meta name="keywords" content={seoKeywords.join(", ")} />
+        <meta property="og:title" content={`${ui.pageTitle} | Lotus Abroad`} />
         <meta
           property="og:description"
-          content="Almanya, ABD, Hollanda, Birleşik Krallık, Kanada, İrlanda ve Malta için eğitim & kariyer programlarını ülkeye göre keşfedin."
+          content={ui.pageDescription}
         />
         <meta property="og:type" content="website" />
         <script
@@ -215,15 +332,15 @@ export default function ProgramsPage() {
               "@graph": [
                 {
                   "@type": "WebPage",
-                  name: "Programlar",
-                  inLanguage: "tr-TR",
-                  about: PROGRAMS_SEO_KEYWORDS_TR,
+                  name: ui.pageTitle,
+                  inLanguage: LANGUAGE_TAG[locale],
+                  about: seoKeywords,
                   mainEntity: {
                     "@type": "ItemList",
-                    name: PROGRAMS_SEO_ITEMLIST.name,
+                    name: seoItemList.name,
                   },
                 },
-                PROGRAMS_SEO_ITEMLIST,
+                seoItemList,
               ],
             }),
           }}
@@ -236,10 +353,10 @@ export default function ProgramsPage() {
         <section className="bg-gradient-to-b from-white via-background-light to-background-light dark:from-background-dark dark:via-background-dark dark:to-background-dark border-b border-gray-200/70 dark:border-white/10">
           <div className="max-w-[1680px] 2xl:max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-10 py-12 md:py-16">
             <h1 className="text-4xl md:text-5xl font-black tracking-tight text-text-main dark:text-white">
-              Programlar
+              {ui.pageTitle}
             </h1>
             <p className="mt-4 text-base md:text-lg text-text-muted dark:text-gray-400 max-w-3xl leading-relaxed">
-              Ülke seçin, program rotalarını keşfedin ve detayları anında aynı ekranda görüntüleyin.
+              {ui.pageDescription}
             </p>
 
             <div className="mt-10 inline-flex items-center gap-2 rounded-full bg-[#e9e8df] dark:bg-white/5 border border-gray-200/70 dark:border-white/10 px-6 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.06)]">
@@ -247,7 +364,7 @@ export default function ProgramsPage() {
                 public
               </span>
               <span className="text-base font-black text-text-main dark:text-white">
-                Ülkeye Göre Programlar
+                {ui.pillLabel}
               </span>
             </div>
           </div>
@@ -257,13 +374,16 @@ export default function ProgramsPage() {
           <div className="max-w-[1680px] 2xl:max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-10 py-10 md:py-12">
             <div className="grid lg:grid-cols-[420px,1fr] gap-8 items-start">
               <aside className="lg:sticky lg:top-28">
-                <div className="rounded-[2rem] bg-white/80 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.08)] p-4">
+                <div
+                  id="countries"
+                  className="rounded-[2rem] bg-white/80 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.08)] p-4"
+                >
                   <div className="flex items-center justify-between px-2 pb-3">
                     <div className="text-base font-black text-text-main dark:text-white">
-                      Ülkeler
+                      {ui.countriesTitle}
                     </div>
                     <div className="text-xs font-bold text-text-muted dark:text-gray-400">
-                      Seçmek için tıkla
+                      {ui.countriesHint}
                     </div>
                   </div>
 
@@ -287,16 +407,18 @@ export default function ProgramsPage() {
                               <span className="material-symbols-outlined text-[18px]">
                                 location_on
                               </span>
-                              <span>{COUNTRY_LABELS_TR[name] ?? name}</span>
+                              <span>{countryLabels[name] ?? name}</span>
                             </div>
-                            <span
-                              className={[
-                                "inline-flex items-center gap-1 rounded-full text-[11px] px-2.5 py-1",
-                                "bg-primary/90 text-black font-black",
-                              ].join(" ")}
-                            >
-                              Aktif
-                            </span>
+                            {isActive ? (
+                              <span
+                                className={[
+                                  "inline-flex items-center gap-1 rounded-full text-[11px] px-2.5 py-1",
+                                  "bg-primary/90 text-black font-black",
+                                ].join(" ")}
+                              >
+                                {ui.activeLabel}
+                              </span>
+                            ) : null}
                           </div>
                         </button>
                       );
@@ -310,20 +432,20 @@ export default function ProgramsPage() {
                       <span className="material-symbols-outlined">support_agent</span>
                     </div>
                     <div>
-                      <div className="text-base font-black">Ücretsiz Değerlendirme</div>
+                      <div className="text-base font-black">{sideCardTitle}</div>
                       <div className="text-sm text-white/70">
-                        24 saat içinde kişisel yol haritası
+                        {sideCardSubtitle}
                       </div>
                     </div>
                   </div>
-                  <a
-                    className="mt-5 h-11 rounded-full bg-primary text-black text-sm font-black flex items-center justify-center hover:brightness-105 transition-all"
+                  <button
+                    className="mt-5 w-full h-11 px-6 rounded-full bg-primary text-black text-sm font-black inline-flex items-center justify-center hover:brightness-105 transition-all whitespace-nowrap"
                     aria-haspopup="dialog"
                     data-calendly-open="true"
-                    href="/contact"
+                    type="button"
                   >
-                    Hemen Randevu Al
-                  </a>
+                    {ui.eligibilityCta}
+                  </button>
                 </div>
               </aside>
 
@@ -342,19 +464,17 @@ export default function ProgramsPage() {
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="inline-flex items-center gap-1 rounded-full bg-white/15 text-white text-[12px] font-black px-3 py-1.5 backdrop-blur">
                           <span className="material-symbols-outlined text-[16px]">explore</span>
-                          Ülkeye Göre Programlar
+                          {ui.heroPill}
                         </span>
                         <span className="inline-flex items-center gap-1 rounded-full bg-primary text-black text-[12px] font-black px-3 py-1.5">
                           {selectedCountryLabel}
                         </span>
                       </div>
                       <h2 className="mt-3 text-3xl md:text-4xl font-black text-white tracking-tight">
-                        {selectedCountryLabel}: Programlar &amp; Fırsatlar
+                        {ui.heroTitle(selectedCountryLabel)}
                       </h2>
                       <p className="mt-3 text-base md:text-lg text-white/80 max-w-4xl leading-relaxed">
-                        {selectedProgram
-                          ? "Bir program seçerek uygunluk, süre, gerekli belgeler ve vize notlarını düzenli bir formatta görüntüleyin."
-                          : "Mevcut program rotalarını ve detayları görmek için bir ülke seçin."}
+                        {selectedProgram ? ui.heroDescriptionWithProgram : ui.heroDescriptionEmpty}
                       </p>
                     </div>
                   </div>
@@ -365,8 +485,9 @@ export default function ProgramsPage() {
                       data-state={countryTransitionState}
                     >
                       <CitySchoolRecommendations
-                        countryId={selectedCountry}
                         countryLabel={selectedCountryLabel}
+                        items={citySchool[selectedCountry] ?? []}
+                        ui={ui.citySchool}
                       />
                     </div>
 
@@ -381,6 +502,8 @@ export default function ProgramsPage() {
                           programs={programs}
                           selectedProgramId={selectedProgram?.id ?? null}
                           onSelectProgram={requestProgramChange}
+                          ui={ui}
+                          badgeLabels={ui.badges}
                           isLoading={false}
                         />
                       </div>
@@ -392,6 +515,7 @@ export default function ProgramsPage() {
                         <ProgramDetails
                           countryLabel={selectedCountryLabel}
                           program={displayProgram}
+                          ui={ui}
                         />
                       </div>
                     </div>
@@ -402,8 +526,8 @@ export default function ProgramsPage() {
 
             {/* SEO: UI'da görünmez anahtar kelimeler */}
             <section aria-hidden="true" className="sr-only">
-              <h2>Yurtdışı Eğitim ve Vize Danışmanlığı</h2>
-              <p>{PROGRAMS_SEO_KEYWORDS_TR.join(" • ")}</p>
+              <h2>{ui.seoHiddenTitle}</h2>
+              <p>{seoKeywords.join(" • ")}</p>
             </section>
           </div>
         </section>

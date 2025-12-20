@@ -17,9 +17,9 @@ const nextConfig = {
       "img-src 'self' data: https:",
       "font-src 'self' data: https://fonts.gstatic.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://assets.calendly.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://assets.calendly.com https://va.vercel-scripts.com",
       "frame-src https://calendly.com https://*.calendly.com https://www.google.com",
-      "connect-src 'self' https://calendly.com https://*.calendly.com https://assets.calendly.com",
+      "connect-src 'self' https://calendly.com https://*.calendly.com https://assets.calendly.com https://vitals.vercel-insights.com https://vitals.vercel-analytics.com",
       "upgrade-insecure-requests",
     ]
       .join("; ")
