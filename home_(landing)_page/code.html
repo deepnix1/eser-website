@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lotus Abroad - Educational Consultancy</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9f506",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23220f",
+                        "text-main": "#181811",
+                        "text-muted": "#6b6b60",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "sans": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem", 
+                        "lg": "1.5rem", 
+                        "xl": "2rem", 
+                        "2xl": "3rem",
+                        "full": "9999px"
+                    },
+                    animation: {
+                        marquee: 'marquee 40s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-main dark:text-white transition-colors duration-300">
+<nav class="fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 dark:bg-background-dark/80 border-b border-gray-100 dark:border-gray-800">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary bg-black rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">school</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-text-main dark:text-white">Lotus Abroad</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Programs</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">About Us</a>
+</div>
+<div class="flex items-center gap-3">
+<button class="hidden sm:flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-sm">translate</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-sm">dark_mode</span>
+</button>
+<button class="hidden sm:flex h-10 px-6 items-center justify-center rounded-full bg-primary text-black text-sm font-bold tracking-wide hover:brightness-105 transition-all">
+                    Free Consultation
+                </button>
+<button class="md:hidden flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<section class="relative min-h-[90vh] flex items-center justify-center pt-20 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-background-light dark:to-background-dark z-10"></div>
+<div class="w-full h-full bg-cover bg-center" data-alt="Happy students studying outdoors on a university campus with sunlight filtering through trees" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB7NYSwhp706fo3l3ygWtBpDXHNAs7YdUeTgqzZf3qd3xjD2Uu5QUYiFB_OFZlMxsxOuJhDzXJKXRt5pEQtlrkNWbMh-pHkqv6dHT5I5EXrw0_Fl3eqNIhKQcZgkaGETB0XWm4R_ZwqXMRbCmSAVD0NNOlObHSZj2BU7LsK1VnRjqU6zevYAV06ai3WSwx0IQtN2FgwK8c7c4t4R-sIUgWZRWCYvZeBMVCXxTiJGR_pfHVFHdn4pcogo2Oi-9lJw93yQ4WNYsuSfHKP');">
+</div>
+</div>
+<div class="relative z-20 max-w-[1280px] w-full px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center gap-8 mt-10">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white text-xs font-bold uppercase tracking-widest mb-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            Enrollment Open for 2024
+        </div>
+<h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] tracking-tight max-w-4xl drop-shadow-xl">
+            Your Future Knows <br/>
+<span class="text-primary relative inline-block">
+                No Borders
+                <svg class="absolute w-full h-3 -bottom-1 left-0 text-white opacity-40" preserveAspectRatio="none" viewBox="0 0 100 10">
+<path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="2"></path>
+</svg>
+</span>
+</h1>
+<p class="text-lg md:text-xl text-white/90 font-medium max-w-2xl leading-relaxed drop-shadow-md">
+            Expert guidance for ambitious students aiming for top-tier universities in Germany, USA, UK, and beyond. Start your journey today.
+        </p>
+<div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-4">
+<button class="h-14 px-8 rounded-full bg-primary text-black text-base font-bold tracking-wide hover:scale-105 transition-transform flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(249,245,6,0.4)]">
+                Get Started
+                <span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+<button class="h-14 px-8 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white text-base font-bold tracking-wide hover:bg-white/20 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined filled">play_circle</span>
+                Watch Video
+            </button>
+</div>
+</div>
+</section>
+<section class="py-12 border-b border-gray-200 dark:border-white/10 overflow-hidden bg-white dark:bg-white/5">
+<div class="max-w-[1280px] mx-auto px-4 mb-8">
+<p class="text-center text-sm font-bold text-text-muted dark:text-gray-400 uppercase tracking-widest">Partnered with 500+ Top Institutions</p>
+</div>
+<div class="flex overflow-hidden">
+<div class="flex animate-marquee gap-16 px-8 items-center min-w-full justify-around shrink-0 text-text-muted dark:text-gray-400 hover:text-text-main dark:hover:text-white transition-colors duration-300">
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">account_balance</span>
+<span class="text-xl font-bold font-display tracking-tight">UniBerlin</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">local_library</span>
+<span class="text-xl font-bold font-display tracking-tight">Stanford</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">history_edu</span>
+<span class="text-xl font-bold font-display tracking-tight">Oxford</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">science</span>
+<span class="text-xl font-bold font-display tracking-tight">TU Munich</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">school</span>
+<span class="text-xl font-bold font-display tracking-tight">Cambridge</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">public</span>
+<span class="text-xl font-bold font-display tracking-tight">Harvard</span>
+</div>
+</div>
+<div aria-hidden="true" class="flex animate-marquee gap-16 px-8 items-center min-w-full justify-around shrink-0 text-text-muted dark:text-gray-400 hover:text-text-main dark:hover:text-white transition-colors duration-300">
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">account_balance</span>
+<span class="text-xl font-bold font-display tracking-tight">UniBerlin</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">local_library</span>
+<span class="text-xl font-bold font-display tracking-tight">Stanford</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">history_edu</span>
+<span class="text-xl font-bold font-display tracking-tight">Oxford</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">science</span>
+<span class="text-xl font-bold font-display tracking-tight">TU Munich</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">school</span>
+<span class="text-xl font-bold font-display tracking-tight">Cambridge</span>
+</div>
+<div class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-4xl">public</span>
+<span class="text-xl font-bold font-display tracking-tight">Harvard</span>
+</div>
+</div>
+</div>
+</section>
+<section class="relative z-30 -mt-8 px-4">
+<div class="max-w-4xl mx-auto bg-white dark:bg-[#323226] p-3 rounded-2xl shadow-xl border border-gray-100 dark:border-white/5 flex flex-col md:flex-row gap-2">
+<div class="flex-1 relative group">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-symbols-outlined">school</span>
+</div>
+<select class="w-full h-12 pl-10 pr-4 bg-gray-50 dark:bg-white/5 border-none rounded-xl text-sm font-medium text-text-main dark:text-white focus:ring-2 focus:ring-primary outline-none cursor-pointer appearance-none">
+<option>Select Degree Type</option>
+<option>Bachelor's</option>
+<option>Master's</option>
+<option>PhD</option>
+</select>
+<div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+<div class="flex-1 relative group">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<select class="w-full h-12 pl-10 pr-4 bg-gray-50 dark:bg-white/5 border-none rounded-xl text-sm font-medium text-text-main dark:text-white focus:ring-2 focus:ring-primary outline-none cursor-pointer appearance-none">
+<option>Field of Study</option>
+<option>Engineering</option>
+<option>Business</option>
+<option>Medicine</option>
+<option>Arts</option>
+</select>
+<div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+<div class="flex-1 relative group">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-symbols-outlined">public</span>
+</div>
+<select class="w-full h-12 pl-10 pr-4 bg-gray-50 dark:bg-white/5 border-none rounded-xl text-sm font-medium text-text-main dark:text-white focus:ring-2 focus:ring-primary outline-none cursor-pointer appearance-none">
+<option>Destination</option>
+<option>Germany</option>
+<option>USA</option>
+<option>UK</option>
+</select>
+<div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+<button class="h-12 px-8 bg-primary rounded-xl text-black font-bold text-sm hover:brightness-105 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">search</span>
+            Find Program
+        </button>
+</div>
+</section>
+<section class="py-20 px-4 sm:px-6 lg:px-8">
+<div class="max-w-[1280px] mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Where will your story begin?</h2>
+<p class="text-text-muted dark:text-gray-400 text-lg max-w-xl">Explore the world's most prestigious educational destinations. High-quality universities, vibrant cultures, and endless opportunities await.</p>
+</div>
+<a class="flex items-center gap-2 text-sm font-bold border-b-2 border-primary pb-1 hover:text-primary transition-colors" href="#">
+                View All Destinations
+                <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Brandenburg Gate in Berlin, Germany during sunset" data-location="Germany" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuArxXqd3GYiGfDZjZbFakVAISLOBwVwPQNJT4JIFfSCjXd18Y74qQybB_kuXUe0V7d7GJ-6VxVGCfuYBXTs1Z690ax99paHw0W_-nlHc2Od7ZbliL_NKCInKBOuFDPCYsAEmbrSIibIknOvpO0xKLcag5UASIopAKVg5IOL2Vl9acSRQG7nxgHxQsJJg75zbHHUBN4YXwLAqcCgQnC1r58xb8YFHpcRFYy2Cm9M_JCLHx6heovV5oAgYn5OP8GK-5lAI71UpqZvD2MA');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 p-8 w-full">
+<h3 class="text-2xl font-bold text-white mb-1">Germany</h3>
+<p class="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Tuition-free universities &amp; engineering excellence.</p>
+</div>
+</div>
+<div class="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Statue of Liberty in New York City, USA" data-location="USA" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA9AHzRR7GDZIYIfrhEgKEfc95VKbCL4lmFzveJsgy9D1NJpiyWaDmrH0G96Ad3JqXBEIsEp-naivZaSQlXcRGEY6y6q70L4GNrlj7-gwITaalkUPy18ShvPBvEQArWQigP7uWIy1US9X3HIA7tGiAIzLSgVC3xFf0S3c-VNgIOdYNBZKAO1VzoYrco2ahA8D_2r7gXfs8Qn2xmhhljVYg3EiJDqPzy5TKkhBFmABKY5TWzo7t_R8BG-m1UO_rpria-5zbjozL43lMz');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 p-8 w-full">
+<h3 class="text-2xl font-bold text-white mb-1">USA</h3>
+<p class="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Ivy League education &amp; diverse campuses.</p>
+</div>
+</div>
+<div class="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Big Ben and Westminster Bridge in London, England" data-location="England" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsF0LXtrcUjgJjBP4yWX0-NmMp6L36CsiwAqSQ5CJlTveUh8XvPSNBeY2h0UrLRH71JR_lt_hjAQer-dhCNjh1BCnUzRunJCpRLtsoTnAzWjX2OVt9SD2-ScTa116fT_QafoGYsvfPzRSZIErCT-PnOxhHzgPA8i7HwNV4X8_mfQVmePSYc2q4BkH1aAH0p1hZ2NwRiiJ1Sw0tcaPz4bCGvDtj1VagiDgfRp7huA3SLv9e_PxUUHOJWbpjxDnrRn7gvBIBIe8-fBJU');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 p-8 w-full">
+<h3 class="text-2xl font-bold text-white mb-1">England</h3>
+<p class="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Historic prestige &amp; short intensive masters.</p>
+</div>
+</div>
+<div class="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Beautiful architecture in Valletta Malta" data-location="Malta" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLcry3agVR2GyNJFY6FzPX_VRUkyQ7vhAEnnGvxxotC839jdWvTgyx2sUjeJpwmuY9RotomaOB7ror9gtFTiCi2WDdM14lPbGTLALIQEEK7TjTLjx5XkUYthPBT_b5N3fKR1y32x9YEDmEm8_2oi6f5Yb7XjFNgFwrA2M8bp7w99bFmECtqBQvVkkxiz2ZWtlpHjOJJDQJz8IDUuXLzpkmbAmivColW9HzifSPy_j8LKDOhKWchs5wJX1mAQd8x2nkqcBhoq_nu6hy');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 p-8 w-full">
+<h3 class="text-2xl font-bold text-white mb-1">Malta</h3>
+<p class="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">English-speaking hub &amp; Mediterranean lifestyle.</p>
+</div>
+</div>
+<div class="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Traditional Dutch architecture and canal in Amsterdam" data-location="Netherlands" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7YWSvJexBn_Bv-MV0ApdOmFFVY6__7Aa6mjOH_WTUFl4N4AyzF-jwRMiaW5v9odd-2gxTdEEiKdCKs4QwV7zRI42q0IkqbvW70sOWCltX2CVypH4FHa1v93XdaN55j05bnv3JEMtuH1YLpWVPbutc7N6AlF1-lVrMtmnIZAl6mk-cX_dkSLmuBVbk1zPIylv_EoHXORU9Fq-38KrhOeXCzvd7amCU7GROtpgRJhmHHCc7BYJ4ffKrEZykInhXg-62u2jEsEs-AiyA');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 p-8 w-full">
+<h3 class="text-2xl font-bold text-white mb-1">Netherlands</h3>
+<p class="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Innovative teaching &amp; international environment.</p>
+</div>
+</div>
+<div class="group relative rounded-2xl overflow-hidden cursor-pointer h-[350px]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Green landscape and cliffs in Ireland" data-location="Ireland" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDN6WNKUqBOoVy2DlgK95TnZOG_zfrzgh3oIqFTBSjJX4k720f_15zI343qscvLlgau_k4GNKlXwjMCThJ_UNqGGpNvuKNG8dm1mB6EDotUFhBigqUY5J0S6vKFTY3iMHbJXo3q8dp6c_570EsqVbUDtCmorQXqObgcaeNBkODN9fn3FD_onFaqRE0hp9c8MkTVJdrEaMSCXBIo9b8Jlmz88Qhy4I8BH1GZR_C829Dpj-7IodQcsSS_s7F0d2LSowg4e3tCbv0wrm88');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 p-8 w-full">
+<h3 class="text-2xl font-bold text-white mb-1">Ireland</h3>
+<p class="text-white/80 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">Tech hub of Europe &amp; post-study work visas.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-gray-50 dark:bg-white/5">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<span class="text-primary text-sm font-bold uppercase tracking-widest">Our Process</span>
+<h2 class="text-3xl md:text-5xl font-bold mt-3">3 Steps to Enrollment</h2>
+</div>
+<div class="relative grid md:grid-cols-3 gap-10">
+<div class="hidden md:block absolute top-12 left-0 w-full h-1 bg-gray-200 dark:bg-white/10 -z-10"></div>
+<div class="flex flex-col items-center text-center group">
+<div class="w-24 h-24 rounded-full bg-white dark:bg-[#323226] border-4 border-primary flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-4xl text-text-main dark:text-white">chat_bubble</span>
+</div>
+<h3 class="text-xl font-bold mb-3">1. Free Consultation</h3>
+<p class="text-text-muted dark:text-gray-400">We analyze your academic profile and career goals to find the perfect university match.</p>
+</div>
+<div class="flex flex-col items-center text-center group">
+<div class="w-24 h-24 rounded-full bg-white dark:bg-[#323226] border-4 border-gray-200 dark:border-gray-700 flex items-center justify-center shadow-lg mb-6 group-hover:border-primary group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-4xl text-text-main dark:text-white">edit_document</span>
+</div>
+<h3 class="text-xl font-bold mb-3">2. Application &amp; Visa</h3>
+<p class="text-text-muted dark:text-gray-400">Our team handles the complex paperwork, university applications, and visa procedures.</p>
+</div>
+<div class="flex flex-col items-center text-center group">
+<div class="w-24 h-24 rounded-full bg-white dark:bg-[#323226] border-4 border-gray-200 dark:border-gray-700 flex items-center justify-center shadow-lg mb-6 group-hover:border-primary group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-4xl text-text-main dark:text-white">flight_takeoff</span>
+</div>
+<h3 class="text-xl font-bold mb-3">3. Departure</h3>
+<p class="text-text-muted dark:text-gray-400">Pre-departure briefing, accommodation assistance, and landing support in your new country.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 px-4 sm:px-6 lg:px-8">
+<div class="max-w-[1280px] mx-auto">
+<h2 class="text-3xl md:text-5xl font-bold mb-4 text-center">Real Stories from Lotus Alumni</h2>
+<p class="text-center text-text-muted dark:text-gray-400 mb-10 max-w-2xl mx-auto">Watch real, unfiltered video testimonials from students who have successfully started their new lives abroad.</p>
+<div class="flex flex-wrap justify-center gap-3 mb-10">
+<button class="px-6 py-2 rounded-full bg-primary text-black font-bold text-sm hover:brightness-105 transition-all">All Stories</button>
+<button class="px-6 py-2 rounded-full bg-gray-100 dark:bg-white/10 text-text-main dark:text-white font-medium text-sm hover:bg-gray-200 dark:hover:bg-white/20 transition-all">Germany</button>
+<button class="px-6 py-2 rounded-full bg-gray-100 dark:bg-white/10 text-text-main dark:text-white font-medium text-sm hover:bg-gray-200 dark:hover:bg-white/20 transition-all">USA</button>
+<button class="px-6 py-2 rounded-full bg-gray-100 dark:bg-white/10 text-text-main dark:text-white font-medium text-sm hover:bg-gray-200 dark:hover:bg-white/20 transition-all">UK</button>
+<button class="px-6 py-2 rounded-full bg-gray-100 dark:bg-white/10 text-text-main dark:text-white font-medium text-sm hover:bg-gray-200 dark:hover:bg-white/20 transition-all">Netherlands</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+<div class="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Student smiling in library" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK4_9qC48fP-EhuRCZG1xXMmRchvbIhYWS7ZuG8C9ffR2njTy20TXUb5i0nmGzRm778ubM_yBtl3TmFiaexr_jJ2xK6u_q9VVLQ3ooI8j0EaIRjj3u1BkMlxSK2SQhhfevoZuQgmrq6bxOlwjNISyCboseVR68gFdqi4iiaEGXo42kLulRukwc6neGDBUiQEEWLwLY9q2bVxDrBimGL3dBWf4joF0M6wv-yECgln1Y-W8qczCg2X3gp9MSE6TB_CpKgV7RwOeyeRKh"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-white text-4xl filled drop-shadow-lg">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-5 left-5 text-white">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">USA</span>
+</div>
+<p class="font-bold text-lg leading-tight">Sarah's Journey</p>
+<p class="text-xs text-white/80">Masters in CS @ NYU</p>
+</div>
+</div>
+<div class="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg md:mt-8">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Student group laughing on campus steps" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBaYfSM8Eb6HEve5-Yrg7YCHd9WG7huV4IexISAI1dFjb_FB7PUNpn3NNuxKhCJDY2q6NIkiMT0-N88CwaLEHH3_LrqoH7-WmkxzdmjHnnenrfJl30sZdsMEbZbDEAVcUSf4zRu-jvqyx6DuKFaVRNisWfqfJtgEezOtka3HyzvwSjCFBWR6mdu9nxyIeAtHsccAICokA8gBcNZQ5m41rRCm9u9QTt6yRs5eTlrGd2DtAPbWuV6NYucMm-InQU3lQddwihQzp15xWo"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-white text-4xl filled drop-shadow-lg">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-5 left-5 text-white">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">Germany</span>
+</div>
+<p class="font-bold text-lg leading-tight">Ahmet's Story</p>
+<p class="text-xs text-white/80">Engineering @ TU Munich</p>
+</div>
+</div>
+<div class="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Female student looking at tablet in cafe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuyr_eyYZBv_d6YnQSIDyExVINEN_X0-87DvjyVZk6C3_yop3YnVMeJYqCNVTVu7BqMdtqt9VVCGKB3r7YsWQqQNtM9O9JubrYUs-ktgm72cQtRnpNxPtGhrVF7F8s_0nbbLcUpb_Hz-Vk4L6Wh94GSC5i9VNbB7H0P_T_VGSNKsrFg5uqjJN9dM06x0uSurj8IvxSXz65gEQuyTBLOvPGyrx6VvrKfl6EJSgzUTQFnD7kPMBeKuLJoTD5yoSYY05PaxhIarzNB6rM"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-white text-4xl filled drop-shadow-lg">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-5 left-5 text-white">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">UK</span>
+</div>
+<p class="font-bold text-lg leading-tight">Elena's Success</p>
+<p class="text-xs text-white/80">MBA @ Oxford</p>
+</div>
+</div>
+<div class="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg md:mt-8">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Male student working on laptop in modern office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkjGZBP3TUGkygFRaX4mUUmW70rh3Przq7HR2XexYWinOD2Uij6om_XKw7b6LbbpwEdISUZrbKkox94geLEpTZTru59lBeEg0XeHhxNQyPU-HO14mFeXgH82Mf91_CXpv1zz9pmrsE_tsMYTiHAasq_eyLulq51XLOGP-KRNO6M6C5G4wo8vQWV5Zrt2bd27SqGXcyvfXvJSKp8gE7a5PRRGBBzWeNk40ZMsLggug6RmrsKxtZX6gjHuK7KxWIGyCAlnu8y03KRFtt"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-white text-4xl filled drop-shadow-lg">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-5 left-5 text-white">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">Netherlands</span>
+</div>
+<p class="font-bold text-lg leading-tight">John's Experience</p>
+<p class="text-xs text-white/80">Design @ Amsterdam</p>
+</div>
+</div>
+</div>
+<div class="flex gap-6 overflow-x-auto no-scrollbar pb-8 snap-x">
+<div class="snap-center min-w-[300px] md:min-w-[400px] p-8 bg-white dark:bg-[#323226] rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm">
+<div class="flex gap-1 text-primary mb-4">
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+</div>
+<p class="text-lg italic mb-6">"Lotus Abroad made the impossible possible. I got into my dream university in Berlin with a full scholarship!"</p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Avatar of happy student" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASbNUH-Gj8RZwsVQYytJuRmG4ubljOFLSvVDVktAM9f4vX2CyQAO407x2AKXNceGhLf5UPP2qMx7aiaIaiSX0Odt1IiV_R-YsG0aSzjZC_PdM4yCwqTzE_oBi7kMx_37K3mojyPhNrv5NFVXdvZ-cftKoSV_jf2DnfoXYYo7lAbiLHizoc3hkxJ52HviVBPSz47VS8Tg6zMN0TAvOIW2ke2R0NvxGw3IDwQp4WH3jcUFYAdQReNQUsRf6mLyzqUjjNvWf5buqImjOr')"></div>
+<div>
+<p class="font-bold text-sm">Maria S.</p>
+<p class="text-xs text-text-muted">Studying in Germany</p>
+</div>
+</div>
+</div>
+<div class="snap-center min-w-[300px] md:min-w-[400px] p-8 bg-white dark:bg-[#323226] rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm">
+<div class="flex gap-1 text-primary mb-4">
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+</div>
+<p class="text-lg italic mb-6">"The visa process was so daunting, but the team handled everything. I just had to show up."</p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Avatar of happy student" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAs2chzFtwVUWbTFrAsY_rGAmiSMTRW6Oip9KnM-GpDgZJAootz28VaWkxvskq00hPdm-V5Rh7neqM_IsfKfZVAu4Pg8ZI_Czqs7II7Bfd_aX8VqJMJAsHIzWVl_zzqI-2OJj6uDt41bYEjUCcB5_2sXGh534uqdiHGyg_l7AvbiASWDYIB_n4MNQziDbAkN2dtsGXLR0HAx7M7Epsg2s-Yk2Xh2mTQMWt9_vpvlRLGibF4Gtiyq_4k4tItKUqbozfruJahuxohYhQV')"></div>
+<div>
+<p class="font-bold text-sm">James T.</p>
+<p class="text-xs text-text-muted">Studying in UK</p>
+</div>
+</div>
+</div>
+<div class="snap-center min-w-[300px] md:min-w-[400px] p-8 bg-white dark:bg-[#323226] rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm">
+<div class="flex gap-1 text-primary mb-4">
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="material-symbols-outlined text-sm filled">star</span>
+</div>
+<p class="text-lg italic mb-6">"Best consultancy ever. They truly care about your future, not just placing you anywhere."</p>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Avatar of happy student" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB1jfcDlnt7GpCm2Nwb6_jeXmyPfeJ1FQcvMAMzg8Ptm78Edu2gGtrcLFFHx-fcVs9i-DzAjttyGWFk33GH4qEyyDeekmWec28KdCzbnmyhP3wbckbme5EH6s8TPR8fjpfw2Nzsal6HAJm88q369qyHxaWRnb78bOLdk06YSYgywER-2IrpqAYAJJeOP-ecR6_KC53ptHibBNQChz8leQ-6N0BcSnjg_4-FIFoCpVSw2JWmSSOMeyCrU-l3ijbJvphHB7p89cBJr0aa')"></div>
+<div>
+<p class="font-bold text-sm">Aisha K.</p>
+<p class="text-xs text-text-muted">Studying in USA</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-white dark:bg-background-dark border-t border-gray-100 dark:border-white/5">
+<div class="max-w-3xl mx-auto px-4">
+<h2 class="text-3xl font-bold mb-10 text-center">Frequently Asked Questions</h2>
+<div class="space-y-4">
+<details class="group bg-gray-50 dark:bg-white/5 rounded-xl">
+<summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
+<span>Do I need to speak German to study in Germany?</span>
+<span class="transition group-open:rotate-180">
+<span class="material-symbols-outlined">expand_more</span>
+</span>
+</summary>
+<div class="text-text-muted dark:text-gray-400 mt-0 px-6 pb-6">
+                    No! Many universities offer programs entirely in English, especially at the Master's level. We can help you find these programs.
+                </div>
+</details>
+<details class="group bg-gray-50 dark:bg-white/5 rounded-xl">
+<summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
+<span>How much does the consultation cost?</span>
+<span class="transition group-open:rotate-180">
+<span class="material-symbols-outlined">expand_more</span>
+</span>
+</summary>
+<div class="text-text-muted dark:text-gray-400 mt-0 px-6 pb-6">
+                    The initial consultation is completely free. We discuss your goals and eligibility before moving forward with any paid services.
+                </div>
+</details>
+<details class="group bg-gray-50 dark:bg-white/5 rounded-xl">
+<summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6">
+<span>Can I work while studying abroad?</span>
+<span class="transition group-open:rotate-180">
+<span class="material-symbols-outlined">expand_more</span>
+</span>
+</summary>
+<div class="text-text-muted dark:text-gray-400 mt-0 px-6 pb-6">
+                    Yes, most student visas (like in Germany, UK, and Australia) allow you to work part-time (usually 20 hours/week) during semesters and full-time during breaks.
+                </div>
+</details>
+</div>
+</div>
+</section>
+<section class="py-24 bg-primary px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, black 1px, transparent 0); background-size: 40px 40px;"></div>
+<div class="max-w-[1280px] mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+<div>
+<h2 class="text-4xl md:text-6xl font-black text-black mb-6 tracking-tight">Ready to start your journey?</h2>
+<p class="text-xl font-medium text-black/80 mb-8 max-w-md">Get a free profile assessment from our experts. Fill out the form and we'll contact you within 24 hours.</p>
+<div class="flex flex-col gap-4 text-black/70">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">check_circle</span>
+<span>Personalized University List</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">check_circle</span>
+<span>Visa Eligibility Check</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">check_circle</span>
+<span>Scholarship Guidance</span>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-[2rem] p-8 md:p-10 shadow-2xl">
+<form class="flex flex-col gap-5">
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-text-main">First Name</label>
+<input class="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0" placeholder="John" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-text-main">Last Name</label>
+<input class="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0" placeholder="Doe" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-text-main">Email Address</label>
+<input class="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0" placeholder="john@example.com" type="email"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-text-main">Interested Destination</label>
+<select class="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0">
+<option>Please Select</option>
+<option>Germany</option>
+<option>USA</option>
+<option>UK</option>
+<option>Other</option>
+</select>
+</div>
+<button class="h-14 mt-2 rounded-xl bg-black text-white font-bold text-lg hover:bg-gray-800 transition-colors shadow-lg">
+                    Get My Free Assessment
+                </button>
+<p class="text-xs text-center text-gray-500 mt-2">No credit card required. Your data is secure.</p>
+</form>
+</div>
+</div>
+</section>
+<footer class="bg-background-light dark:bg-background-dark pt-16 pb-8 border-t border-gray-200 dark:border-white/5">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary bg-black rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">school</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-text-main dark:text-white">Lotus Abroad</span>
+</div>
+<div class="flex gap-8 text-sm text-text-muted dark:text-gray-400">
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Cookie Policy</a>
+</div>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white dark:bg-white/5 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" href="#">
+<span class="text-lg font-bold">in</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white dark:bg-white/5 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-white/10 transition-colors" href="#">
+<span class="text-lg font-bold">ig</span>
+</a>
+</div>
+</div>
+<div class="text-center mt-12 text-xs text-text-muted dark:text-gray-600">
+            © 2024 Lotus Abroad. All rights reserved.
+        </div>
+</div>
+</footer>
+
+</body></html>

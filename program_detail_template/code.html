@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Master's in Data Science - Lotus Abroad</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9f506",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23220f",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#2c2b18",
+                        "text-main-light": "#181811",
+                        "text-main-dark": "#ffffff",
+                        "text-sec-light": "#8c8b5f",
+                        "text-sec-dark": "#a8a89a",
+                        "border-light": "#e5e5e0",
+                        "border-dark": "#3a3928",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem", 
+                        "lg": "2rem", 
+                        "xl": "3rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<script>
+        // Simple theme toggle logic for demo purposes
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+            }
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main-light dark:text-text-main-dark font-display antialiased flex flex-col min-h-screen transition-colors duration-300">
+<!-- Sticky Header -->
+<header class="sticky top-0 z-50 bg-white/90 dark:bg-surface-dark/90 backdrop-blur-md border-b border-border-light dark:border-border-dark px-4 md:px-10 py-3 transition-colors duration-300">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<!-- Logo -->
+<a class="flex items-center gap-3 group" href="#">
+<div class="size-8 text-primary">
+<svg class="h-full w-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold tracking-tight text-text-main-light dark:text-text-main-dark">Lotus Abroad</h2>
+</a>
+<!-- Navigation -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Services</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Programs</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">About Us</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<!-- Language Switcher -->
+<div class="hidden sm:flex text-xs font-bold gap-2 text-text-sec-light dark:text-text-sec-dark">
+<button class="hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">TR</button>
+<span>|</span>
+<button class="text-text-main-light dark:text-text-main-dark">EN</button>
+<span>|</span>
+<button class="hover:text-text-main-light dark:hover:text-text-main-dark transition-colors">DE</button>
+</div>
+<!-- Theme Toggle -->
+<button class="size-9 flex items-center justify-center rounded-full bg-background-light dark:bg-background-dark hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" onclick="toggleTheme()">
+<span class="material-symbols-outlined text-[20px]">contrast</span>
+</button>
+<!-- CTA -->
+<button class="hidden sm:flex h-10 px-6 items-center justify-center rounded-full bg-primary text-black text-sm font-bold hover:bg-yellow-400 transition-colors shadow-sm">
+                    Free Consultation
+                </button>
+<!-- Mobile Menu Icon -->
+<button class="md:hidden flex items-center justify-center">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-10 py-8">
+<!-- Breadcrumbs -->
+<nav class="flex flex-wrap gap-2 mb-6 text-sm">
+<a class="text-text-sec-light dark:text-text-sec-dark hover:text-primary transition-colors" href="#">Home</a>
+<span class="text-text-sec-light dark:text-text-sec-dark">/</span>
+<a class="text-text-sec-light dark:text-text-sec-dark hover:text-primary transition-colors" href="#">Programs</a>
+<span class="text-text-sec-light dark:text-text-sec-dark">/</span>
+<a class="text-text-sec-light dark:text-text-sec-dark hover:text-primary transition-colors" href="#">Germany</a>
+<span class="text-text-sec-light dark:text-text-sec-dark">/</span>
+<span class="font-medium text-text-main-light dark:text-text-main-dark">Master's Data Science</span>
+</nav>
+<!-- Hero Section -->
+<section class="mb-10 flex flex-col md:flex-row justify-between items-start gap-6 pb-8 border-b border-border-light dark:border-border-dark">
+<div class="flex-1 space-y-4">
+<div class="flex flex-wrap gap-3">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 text-text-main-light dark:text-white text-xs font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">verified</span> Verified Partner
+                    </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 dark:bg-white/10 text-text-main-light dark:text-white text-xs font-bold uppercase tracking-wider">
+                        English Taught
+                    </span>
+</div>
+<h1 class="text-4xl md:text-5xl font-black tracking-tight leading-tight text-text-main-light dark:text-text-main-dark">
+                    Master's in Data Science
+                </h1>
+<div class="flex items-center gap-2 text-text-sec-light dark:text-text-sec-dark text-lg">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-medium">Berlin, Germany</span>
+<span class="mx-2">•</span>
+<span>Technical University of Berlin</span>
+</div>
+</div>
+<div class="hidden md:block w-32 h-32 rounded-xl bg-gray-200 dark:bg-gray-800 shrink-0 overflow-hidden relative">
+<!-- University Logo Placeholder -->
+<div class="absolute inset-0 flex items-center justify-center text-text-sec-light dark:text-text-sec-dark bg-background-light dark:bg-surface-dark" data-alt="University Logo Placeholder">
+<span class="material-symbols-outlined text-[48px]">school</span>
+</div>
+</div>
+</section>
+<!-- Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 relative">
+<!-- Left Column: Content (8 Cols) -->
+<div class="lg:col-span-8 space-y-16">
+<!-- Overview -->
+<section class="scroll-mt-24" id="overview">
+<h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">info</span> Overview
+                    </h3>
+<div class="prose prose-lg dark:prose-invert max-w-none text-text-sec-light dark:text-text-sec-dark">
+<p class="leading-relaxed">
+                            This Master's program in Data Science is designed to equip students with the advanced skills necessary to analyze, interpret, and leverage data in a wide range of industries. Located in the heart of Berlin, a burgeoning tech hub, the curriculum balances theoretical foundations with practical application.
+                        </p>
+<p class="mt-4 leading-relaxed">
+                            Students will gain hands-on experience with machine learning algorithms, big data technologies, and statistical modeling. The program includes a mandatory internship semester, allowing direct engagement with Germany's leading tech companies.
+                        </p>
+</div>
+</section>
+<!-- Requirements -->
+<section class="scroll-mt-24" id="requirements">
+<h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">checklist</span> Requirements
+                    </h3>
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-6">
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 shrink-0">check_circle</span>
+<div>
+<span class="font-bold block text-text-main-light dark:text-text-main-dark">Academic Degree</span>
+<span class="text-sm text-text-sec-light dark:text-text-sec-dark">Bachelor's degree in Computer Science, Mathematics, or related field with min 180 ECTS.</span>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 shrink-0">check_circle</span>
+<div>
+<span class="font-bold block text-text-main-light dark:text-text-main-dark">Language Proficiency</span>
+<span class="text-sm text-text-sec-light dark:text-text-sec-dark">IELTS 6.5 or TOEFL iBT 90. No German language required for admission.</span>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-green-500 shrink-0">check_circle</span>
+<div>
+<span class="font-bold block text-text-main-light dark:text-text-main-dark">Motivation</span>
+<span class="text-sm text-text-sec-light dark:text-text-sec-dark">Letter of Motivation (1-2 pages) outlining career goals and research interests.</span>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-gray-400 shrink-0">remove_circle_outline</span>
+<div>
+<span class="font-bold block text-text-main-light dark:text-text-main-dark">Work Experience</span>
+<span class="text-sm text-text-sec-light dark:text-text-sec-dark">Not mandatory, but internships in relevant fields are considered a plus.</span>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<!-- Timeline -->
+<section class="scroll-mt-24" id="timeline">
+<h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">timeline</span> Application Timeline
+                    </h3>
+<div class="relative pl-4 border-l-2 border-border-light dark:border-border-dark space-y-8">
+<div class="relative">
+<div class="absolute -left-[25px] top-0 size-5 rounded-full bg-primary border-4 border-white dark:border-background-dark"></div>
+<h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">Application Submission</h4>
+<p class="text-sm text-text-sec-light dark:text-text-sec-dark mb-1">Before June 15, 2024</p>
+<p class="text-text-sec-light dark:text-text-sec-dark">Submit all required documents via the Lotus Abroad portal for initial screening.</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[25px] top-0 size-5 rounded-full bg-gray-300 dark:bg-gray-600 border-4 border-white dark:border-background-dark"></div>
+<h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">University Interview</h4>
+<p class="text-sm text-text-sec-light dark:text-text-sec-dark mb-1">July 1 - July 15, 2024</p>
+<p class="text-text-sec-light dark:text-text-sec-dark">Shortlisted candidates are invited for a technical interview via Zoom.</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[25px] top-0 size-5 rounded-full bg-gray-300 dark:bg-gray-600 border-4 border-white dark:border-background-dark"></div>
+<h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">Visa Processing</h4>
+<p class="text-sm text-text-sec-light dark:text-text-sec-dark mb-1">August 2024</p>
+<p class="text-text-sec-light dark:text-text-sec-dark">Receive admission letter and apply for German Student Visa with our support.</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[25px] top-0 size-5 rounded-full bg-gray-300 dark:bg-gray-600 border-4 border-white dark:border-background-dark"></div>
+<h4 class="text-lg font-bold text-text-main-light dark:text-text-main-dark">Arrival &amp; Orientation</h4>
+<p class="text-sm text-text-sec-light dark:text-text-sec-dark mb-1">September 2024</p>
+<p class="text-text-sec-light dark:text-text-sec-dark">Arrive in Berlin, move into accommodation, and attend orientation week.</p>
+</div>
+</div>
+</section>
+<!-- Lotus Difference -->
+<section class="bg-surface-light dark:bg-surface-dark p-8 rounded-xl border border-primary/40 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div class="relative z-10">
+<h3 class="text-2xl font-bold mb-4">The Lotus Difference</h3>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="flex gap-4">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-text-main-light dark:text-white shrink-0">
+<span class="material-symbols-outlined">support_agent</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">Local Support in Berlin</h4>
+<p class="text-sm text-text-sec-light dark:text-text-sec-dark">Our Berlin office provides on-ground support for banking, housing, and registration.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-text-main-light dark:text-white shrink-0">
+<span class="material-symbols-outlined">work</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">Career Networking</h4>
+<p class="text-sm text-text-sec-light dark:text-text-sec-dark">Exclusive access to job fairs and networking events with our partner companies.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing -->
+<section class="scroll-mt-24" id="pricing">
+<h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">payments</span> Costs &amp; Fees
+                    </h3>
+<div class="overflow-hidden rounded-xl border border-border-light dark:border-border-dark">
+<table class="w-full text-left text-sm">
+<thead class="bg-gray-50 dark:bg-white/5 text-text-main-light dark:text-text-main-dark uppercase font-bold">
+<tr>
+<th class="px-6 py-4">Item</th>
+<th class="px-6 py-4">Frequency</th>
+<th class="px-6 py-4 text-right">Estimated Cost</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light dark:divide-border-dark bg-surface-light dark:bg-surface-dark">
+<tr>
+<td class="px-6 py-4 font-medium">Tuition Fee</td>
+<td class="px-6 py-4 text-text-sec-light dark:text-text-sec-dark">Per Semester</td>
+<td class="px-6 py-4 text-right font-bold">€0 (Public Univ.)</td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-medium">Semester Contribution</td>
+<td class="px-6 py-4 text-text-sec-light dark:text-text-sec-dark">Per Semester</td>
+<td class="px-6 py-4 text-right">~ €300</td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-medium">Health Insurance</td>
+<td class="px-6 py-4 text-text-sec-light dark:text-text-sec-dark">Monthly</td>
+<td class="px-6 py-4 text-right">~ €110</td>
+</tr>
+<tr>
+<td class="px-6 py-4 font-medium">Living Expenses</td>
+<td class="px-6 py-4 text-text-sec-light dark:text-text-sec-dark">Monthly</td>
+<td class="px-6 py-4 text-right">€900 - €1,200</td>
+</tr>
+<tr class="bg-primary/5">
+<td class="px-6 py-4 font-bold text-text-main-light dark:text-white">Lotus Consultancy Fee</td>
+<td class="px-6 py-4 text-text-sec-light dark:text-text-sec-dark">One-time</td>
+<td class="px-6 py-4 text-right font-bold text-text-main-light dark:text-white">Contact for Quote</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark mt-2">* Living expenses vary based on lifestyle and accommodation choices.</p>
+</section>
+<!-- Video Embed -->
+<section class="scroll-mt-24" id="video">
+<h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">play_circle</span> Student Experience
+                    </h3>
+<div class="rounded-xl overflow-hidden aspect-video bg-black relative group cursor-pointer" title="Play Video">
+<!-- Background Image Placeholder -->
+<div class="absolute inset-0 bg-cover bg-center opacity-60 group-hover:opacity-40 transition-opacity" data-alt="Students studying in a modern library" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBjJ35VMRqLJgAULiYgYQOdarsNjL_PmH5FjqYEAwp18T5Ppbf-fHZVKufjJW3zLiGlPtMaPKr74xcL7OrP3g03j7-nUhzgtrXucdhFkF0M_BmK_6d6II8uBc68bj6YcNG0q4akE8q3kf8nEmOGnO6m-FXUn6g9OHBT9de8DlFF7Wy5uBjiLgtrKiiokTiJw6ARwNxh-Kg7gBkCr5pM-IKOZPZ7rriY5aS-FbBwPKqkrKdTDqU-WQUza9o_W5bZUIysUSthuGNz-PxD')"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="size-16 rounded-full bg-primary flex items-center justify-center text-black shadow-xl transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 p-6 bg-gradient-to-t from-black/80 to-transparent w-full">
+<p class="text-white font-bold text-lg">Life in Berlin as an International Student</p>
+<p class="text-white/80 text-sm">Hear from alumni about their journey.</p>
+</div>
+</div>
+</section>
+<!-- FAQ -->
+<section class="scroll-mt-24" id="faq">
+<h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">help</span> Frequently Asked Questions
+                    </h3>
+<div class="space-y-4">
+<details class="group bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-4 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex cursor-pointer items-center justify-between gap-1.5 text-text-main-light dark:text-text-main-dark font-bold">
+<span>Can I work while studying?</span>
+<span class="material-symbols-outlined transition group-open:-rotate-180">expand_more</span>
+</summary>
+<p class="mt-4 leading-relaxed text-text-sec-light dark:text-text-sec-dark">
+                                Yes, international students in Germany can work up to 120 full days or 240 half days per year. This allows you to support your living expenses while gaining valuable work experience.
+                            </p>
+</details>
+<details class="group bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-4 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex cursor-pointer items-center justify-between gap-1.5 text-text-main-light dark:text-text-main-dark font-bold">
+<span>Is accommodation guaranteed?</span>
+<span class="material-symbols-outlined transition group-open:-rotate-180">expand_more</span>
+</summary>
+<p class="mt-4 leading-relaxed text-text-sec-light dark:text-text-sec-dark">
+                                Accommodation is not automatically guaranteed by the university. However, Lotus Abroad assists you in applying for student dormitories and finding private housing options well in advance.
+                            </p>
+</details>
+<details class="group bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-4 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex cursor-pointer items-center justify-between gap-1.5 text-text-main-light dark:text-text-main-dark font-bold">
+<span>Are there scholarships available?</span>
+<span class="material-symbols-outlined transition group-open:-rotate-180">expand_more</span>
+</summary>
+<p class="mt-4 leading-relaxed text-text-sec-light dark:text-text-sec-dark">
+                                Yes, there are various scholarships like DAAD and Deutschlandstipendium. Admission is merit-based. We can guide you through the application process for these financial aids.
+                            </p>
+</details>
+</div>
+</section>
+</div>
+<!-- Right Column: Sticky Sidebar (4 Cols) -->
+<aside class="lg:col-span-4 relative">
+<div class="sticky top-24 space-y-6">
+<!-- Main Summary Card -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-[2rem] p-6 shadow-xl border border-border-light dark:border-border-dark flex flex-col gap-6">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-border-light dark:border-border-dark pb-4">
+<span class="text-sm text-text-sec-light dark:text-text-sec-dark font-medium">Tuition Fee</span>
+<span class="text-xl font-bold text-text-main-light dark:text-text-main-dark">€0 <span class="text-xs font-normal text-text-sec-light">/ semester</span></span>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2">
+<div>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark">Duration</p>
+<p class="font-bold text-text-main-light dark:text-text-main-dark">4 Semesters</p>
+</div>
+<div>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark">Credits</p>
+<p class="font-bold text-text-main-light dark:text-text-main-dark">120 ECTS</p>
+</div>
+<div>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark">Intake</p>
+<p class="font-bold text-text-main-light dark:text-text-main-dark">Winter (Oct)</p>
+</div>
+<div>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark">Deadline</p>
+<p class="font-bold text-red-500">June 15</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full h-12 rounded-full bg-primary text-black font-bold text-sm hover:bg-yellow-400 transition-all flex items-center justify-center gap-2">
+<span>Start Application</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="w-full h-12 rounded-full bg-transparent border border-border-light dark:border-border-dark text-text-main-light dark:text-text-main-dark font-bold text-sm hover:bg-gray-100 dark:hover:bg-white/5 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Download Brochure</span>
+</button>
+</div>
+<div class="text-center">
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark">125 students applied last week</p>
+</div>
+</div>
+<!-- Contact Widget -->
+<div class="bg-white dark:bg-white/5 p-5 rounded-[2rem] border border-border-light dark:border-border-dark flex items-center gap-4">
+<div class="size-12 rounded-full overflow-hidden bg-gray-200">
+<img alt="Consultant Portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9Hc04D6pWtZb12Pz74OtgQh31-2bqeS5bXltDINf9_NAz4_-e6RxhEHdnIJJRhezjQp67_KMOMssgFYWvOZgRxZf15PEXqZTJW2mA5cc0FNxU9d3Am1rOauWzEWPoE0DkbC4JjFy_kgX4jV0BFc_m1YJ7h2MQZFJ2strWW5HjHpNWOZt3Cg3l2cs2NJUFZs5v1YUgkUI9IwoJEe2Y864U6waPCeFGGInoK-mRdhXo1pQEtZdaBDqqC_MLoEa1Kb3OJsyNiMFkaP4O"/>
+</div>
+<div>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark">Need help?</p>
+<p class="font-bold text-sm text-text-main-light dark:text-text-main-dark">Talk to Sarah, our Germany Expert.</p>
+</div>
+<button class="ml-auto size-8 rounded-full bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+<!-- Related Programs -->
+<section class="mt-24 pt-10 border-t border-border-light dark:border-border-dark">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-2xl font-bold text-text-main-light dark:text-text-main-dark">Similar Programs</h3>
+<a class="text-sm font-medium text-text-sec-light dark:text-text-sec-dark hover:text-primary transition-colors flex items-center gap-1" href="#">
+                    View all <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group flex flex-col bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-shadow">
+<div class="h-40 bg-gray-200 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="University building in Munich" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDaDcsBmidN3zJqQ2-yANpKdW3QNA-6WAPm8rhRcl8LsrISZoP5c1U7eb9RkxmjkB1R0kbgASPIVhOZt1P4bpx15J-C-D4mBbVD_oz1HofX83eTL9_UrZ2GVtTl-IK5IRD1eCkT6kN28RdwMktfUccKFe0qp0rZ7PwO_V71dPLiQglw-j0QfkH21D7U_XWpWChbh5q1UI8kK9QZFuZjoOxUXw9Vb76_OZryKnQYWV4aK1lqsGzqjHMSVt_RSLcYs9AHY5H60g-_Do3G')"></div>
+<div class="absolute top-3 left-3 bg-white/90 text-black text-xs font-bold px-2 py-1 rounded-md">Munich</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<div class="mb-2">
+<span class="text-xs font-medium text-primary bg-background-dark px-2 py-0.5 rounded">M.Sc.</span>
+</div>
+<h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-1">Computer Science</h4>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark mb-4">Technical University Munich</p>
+<div class="mt-auto flex items-center justify-between text-xs font-medium border-t border-border-light dark:border-border-dark pt-3">
+<span class="text-text-sec-light dark:text-text-sec-dark">2 Years</span>
+<span class="text-text-main-light dark:text-text-main-dark">€150/sem</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-shadow">
+<div class="h-40 bg-gray-200 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Hamburg cityscape with water" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCKwzIt1BY0pR_qheHH2hOZhrxilBRgKTqwC93VQh3kmc7R7uZ29AZN6kDvEcknbXPv5wi9S3kvHwixZTv6x2SKcSDgdcdnWpvQ3nT9HM1cFbNdYsAcbQSrqLfTNmRTonPgA_bnGsxToDZz91M7N-TPyPfzHPbzJRrlmdA5Wi3I8qO4K-PNeGNJD8y78MZqEqwTVw7Hg736AJWQgE0cHoaapetExky7Vzfn0RTVHrlBA5CnKPFZ4Ym500SWIrzCk07msI_2sy84Ok6K')"></div>
+<div class="absolute top-3 left-3 bg-white/90 text-black text-xs font-bold px-2 py-1 rounded-md">Hamburg</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<div class="mb-2">
+<span class="text-xs font-medium text-primary bg-background-dark px-2 py-0.5 rounded">M.A.</span>
+</div>
+<h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-1">Digital Business</h4>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark mb-4">University of Hamburg</p>
+<div class="mt-auto flex items-center justify-between text-xs font-medium border-t border-border-light dark:border-border-dark pt-3">
+<span class="text-text-sec-light dark:text-text-sec-dark">1.5 Years</span>
+<span class="text-text-main-light dark:text-text-main-dark">€320/sem</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex flex-col bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-shadow">
+<div class="h-40 bg-gray-200 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Modern building in Berlin" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuADmqUTptv14xdVx0e3x9q56svEXlveoCmxvQFT0pAuzH0zkOzWPpKrEbyT_ptMe4MDtOuvHG-T17AloVVFUkPtzC5KVRKetBWZTkmQYM4b_6oRBu_TxjzzqrcG45ByxBTWi1bGYvCUD-8EhsvGK8gR12d0P2_LOpLUnMCQIhzkGbyHrQqm4Nc2teoDzXKgbDXVlTpy24KORL-zgl4FF4ybCaxgpbumVF7HD_dV4v8vEXhQeB3LtCA1VN71HVKl0xMAo9cPwD3mtDDD')"></div>
+<div class="absolute top-3 left-3 bg-white/90 text-black text-xs font-bold px-2 py-1 rounded-md">Berlin</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<div class="mb-2">
+<span class="text-xs font-medium text-primary bg-background-dark px-2 py-0.5 rounded">MBA</span>
+</div>
+<h4 class="font-bold text-text-main-light dark:text-text-main-dark mb-1">Global Management</h4>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark mb-4">ESMT Berlin</p>
+<div class="mt-auto flex items-center justify-between text-xs font-medium border-t border-border-light dark:border-border-dark pt-3">
+<span class="text-text-sec-light dark:text-text-sec-dark">1 Year</span>
+<span class="text-text-main-light dark:text-text-main-dark">€48,000</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="mt-auto py-12 border-t border-border-light dark:border-border-dark bg-white dark:bg-surface-dark">
+<div class="max-w-7xl mx-auto px-4 md:px-10 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="size-6 text-primary">
+<svg class="h-full w-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<span class="text-sm font-bold text-text-main-light dark:text-text-main-dark">Lotus Abroad</span>
+</div>
+<div class="flex flex-wrap justify-center gap-8 text-sm font-medium text-text-sec-light dark:text-text-sec-dark">
+<a class="hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="hover:text-primary transition-colors" href="#">About</a>
+<a class="hover:text-primary transition-colors" href="#">Services</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+</div>
+<p class="text-xs text-text-sec-light dark:text-text-sec-dark">© 2024 Lotus Abroad. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

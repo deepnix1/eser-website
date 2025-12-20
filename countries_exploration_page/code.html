@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lotus Abroad - Explore Destinations</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9f506",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23220f",
+                        "text-light": "#181811",
+                        "text-dark": "#f5f5f0",
+                        "text-muted-light": "#8c8b5f",
+                        "text-muted-dark": "#a8a78e",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<script>
+        // Simple Theme Toggler Logic (Inline for demo purposes)
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+            } else {
+                html.classList.add('dark');
+            }
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark antialiased transition-colors duration-300">
+<!-- Global Sticky Header -->
+<header class="sticky top-0 z-50 w-full bg-white/90 dark:bg-[#181811]/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20">
+<!-- Logo -->
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-text-light dark:text-white">Lotus Abroad</h1>
+</div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">About</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Services</a>
+<a class="text-sm font-medium text-primary font-bold" href="#">Countries</a> <!-- Active State -->
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-3">
+<!-- Language Switcher -->
+<button class="hidden sm:flex items-center gap-1 px-3 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span>EN</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<!-- Theme Toggle -->
+<button class="flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" onclick="toggleTheme()">
+<span class="material-symbols-outlined dark:hidden">light_mode</span>
+<span class="material-symbols-outlined hidden dark:block text-primary">dark_mode</span>
+</button>
+<!-- CTA -->
+<button class="bg-primary hover:bg-primary/90 text-black h-10 px-6 rounded-full text-sm font-bold tracking-wide transition-all transform hover:scale-105 shadow-lg shadow-primary/20">
+                        Free Consultation
+                    </button>
+</div>
+</div>
+</div>
+</header>
+<main class="w-full flex flex-col items-center">
+<!-- Editorial Header -->
+<!-- Reduced height compared to landing hero, lifestyle focus -->
+<section class="w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+<div class="relative w-full rounded-2xl overflow-hidden min-h-[320px] md:min-h-[400px] flex items-center justify-center group">
+<!-- Background Image -->
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Students walking on a modern university campus with bright natural lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsRcuIy9IKsQ5OyZHxzzYNIdIjVipeyooIBMDR1oIkZZc9t42VLpuif7ASthAMp_nhL4cYgXP4mq4VjwdPts95j35P_JjPnjEm2pFVGE15x8r6IbzBgfkerwsBPiRK0fmK4y5FfiXkw0jg4PFYU32D3QCevk2K7dlJtGT0TmigB8tZcb2C6r8FdvGQW4-YChP9pHFdkl43vr2y0q46GYuThD5hluYnRE_Egi99bDFUEsrHykHJP6_A3cls2T0KzcijpL6rRjQ_5eMw');">
+</div>
+<!-- Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
+<!-- Content -->
+<div class="relative z-10 text-center max-w-2xl px-4 flex flex-col gap-4">
+<span class="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider border border-white/30">
+                        Global Opportunities
+                    </span>
+<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight">
+                        Explore Destinations
+                    </h1>
+<p class="text-lg text-gray-200 font-normal leading-relaxed">
+                        Your gateway to global education. Discover world-class academic destinations and start your journey today.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Main Content Grid Container -->
+<div class="w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 pb-20 flex flex-col gap-16">
+<!-- Intro / Trust Text -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-gray-200 dark:border-gray-800 pb-6">
+<div class="max-w-xl">
+<h2 class="text-2xl font-bold mb-2">Curated Countries</h2>
+<p class="text-text-muted-light dark:text-text-muted-dark">
+                        We've handpicked the best destinations for your academic growth. Explore our partner countries below.
+                    </p>
+</div>
+<div class="flex items-center gap-2 text-sm font-medium text-text-muted-light dark:text-text-muted-dark bg-white dark:bg-gray-900 py-2 px-4 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-primary">verified</span>
+                    Partnered with 200+ Universities
+                </div>
+</div>
+<!-- Country Grid Part 1 (Top 3) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+<!-- Card: Germany -->
+<a class="group flex flex-col gap-4 p-4 rounded-2xl bg-white dark:bg-[#1f1e10] hover:bg-gray-50 dark:hover:bg-[#2a2915] transition-all duration-300 border border-transparent hover:border-primary/30 shadow-sm hover:shadow-xl hover:shadow-primary/5" href="#">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-200">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Architecture of Berlin, Germany showing historic and modern buildings" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBariXW4-TEYcf68MStOrgBGkl8Z078-X5bI-6Suol-vIO8iZC2Jrdcz_DtNSGnM9_9zVHJmg6A0v-JR8gukpZ803P9o3_bDbOxUr-ve4ilDx7aqmlkg6_ZIGC9iLko_DzE-KsVSCqxhXCSWmpZWQnQYgqVs3mptUXS6hm7G2606vk25qhTSm9kAIk48VCi8MTB4urv3I2mLOB_EZ_Kcrsm-80iWtkx_sDI-LsC2rZMJ4AtR44NvWc53WKnTFIbzXuP3xFe6mLn4Hb-');">
+</div>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-black text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                            🇩🇪 Germany
+                        </div>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-bold group-hover:text-primary transition-colors">Germany</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed">
+                            World-class engineering programs and tuition-free public universities in the heart of Europe.
+                        </p>
+<div class="mt-2 flex items-center gap-1 text-sm font-bold text-text-light dark:text-white group-hover:underline decoration-primary decoration-2 underline-offset-4">
+                            View Programs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Card: USA -->
+<a class="group flex flex-col gap-4 p-4 rounded-2xl bg-white dark:bg-[#1f1e10] hover:bg-gray-50 dark:hover:bg-[#2a2915] transition-all duration-300 border border-transparent hover:border-primary/30 shadow-sm hover:shadow-xl hover:shadow-primary/5" href="#">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-200">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="New York City skyline during sunset representing USA education" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAC7dpYVH75cVcxt4UiTKw-339VSgwj1vrLhr5AXV8vuO5jnj92R0-rHt-X91hNTRnKUYyq3VnCzXXtSsFhNyFw6sm3YmqNBq70OXSYSIwqzq1poVeO2Z3HUEF1DnugckiffSOAo5BcEpS39baCZi4b3F-CPlNwKxKXZNM0JXZFnYY1bwJ_pOiJZO2EgmA51fFpS4qG0-SBOZIUgfCWlQTjP0DrBxa22iHlZ_jsHv3Rk3kHumbWtRfNmk5tqqIOD6PFpSUyPIzDMxHG');">
+</div>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-black text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                            🇺🇸 USA
+                        </div>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-bold group-hover:text-primary transition-colors">United States</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed">
+                            Home to Ivy League excellence, diverse campus cultures, and cutting-edge research opportunities.
+                        </p>
+<div class="mt-2 flex items-center gap-1 text-sm font-bold text-text-light dark:text-white group-hover:underline decoration-primary decoration-2 underline-offset-4">
+                            View Programs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Card: England -->
+<a class="group flex flex-col gap-4 p-4 rounded-2xl bg-white dark:bg-[#1f1e10] hover:bg-gray-50 dark:hover:bg-[#2a2915] transition-all duration-300 border border-transparent hover:border-primary/30 shadow-sm hover:shadow-xl hover:shadow-primary/5" href="#">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-200">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Historic London bridge and Big Ben representing education in England" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAhAjHgeZEcw9QbPb_eSe4Yyv383zsJCS4_s7z-ZriC-kFn8kLEGTWOdHHdnZstXbW4zhC-tmg7NKZj99uepXcGpkRPW4fg883QqrlccciA2v7jbXECPFrmxaET8ywDOU5rb7rpCO_fET3JeT7Xh9AsVkQx2m5hV4uNnBSOF2wYUUXFllXJzcWqKDiXXEUcBw2XrKGBsllwOG8zw5RhWZVd3agPzAgeketrdlBJU7qq35I0SJBET1GStpmYpKsEMYpcWPZdfufve5iV');">
+</div>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-black text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                            🇬🇧 England
+                        </div>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-bold group-hover:text-primary transition-colors">England</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed">
+                            Historic universities with globally recognized 1-year master's degrees and rich cultural heritage.
+                        </p>
+<div class="mt-2 flex items-center gap-1 text-sm font-bold text-text-light dark:text-white group-hover:underline decoration-primary decoration-2 underline-offset-4">
+                            View Programs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</div>
+</div>
+</a>
+</div>
+<!-- Interspersed Highlight Block (Carousel) -->
+<section class="w-full bg-gray-50 dark:bg-[#1c1b0d] rounded-2xl p-6 md:p-8 border border-gray-100 dark:border-gray-800">
+<div class="flex items-center justify-between mb-6">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="size-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Trending Now</span>
+</div>
+<h2 class="text-2xl font-bold text-text-light dark:text-white">Top Programs in Germany</h2>
+</div>
+<a class="hidden sm:flex items-center gap-1 text-sm font-medium hover:text-primary transition-colors" href="#">
+                        See All <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</a>
+</div>
+<!-- Carousel Scroller -->
+<div class="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 scrollbar-hide snap-x">
+<!-- Program Card 1 -->
+<div class="min-w-[280px] md:min-w-[320px] snap-center bg-white dark:bg-[#252414] rounded-xl p-3 border border-gray-100 dark:border-gray-800 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-full aspect-video bg-gray-200 rounded-lg overflow-hidden mb-3">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Technical university laboratory setting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCU6V7dybdAoV7kIWBSyHFGy-41iTGiEWm7nlnLG3Y1BlhPC0JlRyurtFAEuGNwsuzgZUoLjLy9Nl3fApRUtUzr6pwXFw7a7Xm-s5RAuqOzCL85-BREqh7P5nT6foF4ZgoeoD8rHbsyfAw1Fdg_XHgcIpvl1n3rlRlIUl9qfcwkEdLIHvlklPr-lJMvRT_TUuqN2N3dgR3CK4bEA73U2giarRYrx-E1XH8IhUfRIv8vUU50oSo3fSGZ_km4gDBoQA7xTSbL9oOZ_r33');"></div>
+</div>
+<div class="px-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg leading-tight group-hover:text-primary transition-colors">M.Sc. Data Science</h4>
+<span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-gray-500">2 Years</span>
+</div>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">TU Munich</p>
+</div>
+</div>
+<!-- Program Card 2 -->
+<div class="min-w-[280px] md:min-w-[320px] snap-center bg-white dark:bg-[#252414] rounded-xl p-3 border border-gray-100 dark:border-gray-800 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-full aspect-video bg-gray-200 rounded-lg overflow-hidden mb-3">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Modern business seminar room" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAX9uh-epf3rflGquVEbexB3uzWIihwcnuiBoBn0a63xqhCdGIj0-3g-E5SgNDVOftd912txRyhrNgbUTA60tQC-N5yYW3qV_nnpwX40ztlUpJgfygLNpyQc54_4AFNqpCmlAH5EIi6Th-gRN4O4wDRkegBC0Zx3uX3g-tqHFIsHJRVKGbIK0K_lVQOIaGHuBz1zfbp1Mky1AmXR9w82EIE_Z_taNglUKxboR2lSVta0THAZUvzQh80vRE2pEJbwmZVi9O4rTUw3mIb');"></div>
+</div>
+<div class="px-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg leading-tight group-hover:text-primary transition-colors">MBA International</h4>
+<span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-gray-500">1 Year</span>
+</div>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Heidelberg University</p>
+</div>
+</div>
+<!-- Program Card 3 -->
+<div class="min-w-[280px] md:min-w-[320px] snap-center bg-white dark:bg-[#252414] rounded-xl p-3 border border-gray-100 dark:border-gray-800 hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-full aspect-video bg-gray-200 rounded-lg overflow-hidden mb-3">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Creative arts studio with students" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4uembc6CrV_oCGC566IwQjwiw3eSsN22wzU9WWBWILWJf1DokKNpm9NseNTpFpkyx7uYJIyw0qRUcS7bHbtOgXzp97Epheu47iCsb0_bpZtgIfom7NLX-EmjoHHOo8tmAlbN88sM3_9kPs9xlaENMY7Kp4a6EVDVqanTAnC-7dKyLWcYcwnPMabeW38ZTbMjF9rNF3IhWDbNU2Zzi-nEmFX7iD2wmYbTD0dBFVBrWrU6dqpbo63_JBzi_h9Bc0SH5wXu4ua1CNrp6');"></div>
+</div>
+<div class="px-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg leading-tight group-hover:text-primary transition-colors">B.A. Architecture</h4>
+<span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded text-gray-500">3 Years</span>
+</div>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Humboldt University</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Country Grid Part 2 (Bottom 3) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+<!-- Card: Malta -->
+<a class="group flex flex-col gap-4 p-4 rounded-2xl bg-white dark:bg-[#1f1e10] hover:bg-gray-50 dark:hover:bg-[#2a2915] transition-all duration-300 border border-transparent hover:border-primary/30 shadow-sm hover:shadow-xl hover:shadow-primary/5" href="#">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-200">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Mediterranean coastline of Malta with historic buildings" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRjvkJff4sXL7GyFaJzlthSWOIyGoXzCsEsjZCRAiJRKSduTTKBjUr7rCzwOUkXmdM5MOIfu5TBSl_PDygjp7Zo5ftjS7Y69v15dZ0RH5nkrzGWp4h4qsTdWRZPccXJRaGNs6eyg5d0GZLshlC0bLMgQIbv7OLlRnYyDe8B1KFb46HZTcl93lMWA87QYVXBjI7nKsVB1d9UaENPsY0wqE_y5nMrY8Sb2mUn3gpRjm3bpQhuKeejMtguRBtozZCxCvPo8wRgKQJxYnV');">
+</div>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-black text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                            🇲🇹 Malta
+                        </div>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-bold group-hover:text-primary transition-colors">Malta</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed">
+                            English-speaking Mediterranean island perfect for language immersion and tourism studies.
+                        </p>
+<div class="mt-2 flex items-center gap-1 text-sm font-bold text-text-light dark:text-white group-hover:underline decoration-primary decoration-2 underline-offset-4">
+                            View Programs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Card: Netherlands -->
+<a class="group flex flex-col gap-4 p-4 rounded-2xl bg-white dark:bg-[#1f1e10] hover:bg-gray-50 dark:hover:bg-[#2a2915] transition-all duration-300 border border-transparent hover:border-primary/30 shadow-sm hover:shadow-xl hover:shadow-primary/5" href="#">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-200">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Canals of Amsterdam representing Dutch culture and education" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAQncK8XtDOmb6HhMQ2e0x5gJTSJFgnXJKJb_zibrChy_KNfuJSzRIC0Pow1ARrJkpP7hBbiPCkEHzSsUgVQSN20wVfTEagIcVigfHCzWf8rlzkIdbRR5-EeuvTul64pL3yI_pDJwbQxzFa2KvUfFWfn2KIc9O1vXAfSLJXfVkclxrma6yeNcN6Kr8PKXtlal2dk74cIMInD9K1cwuDgGxe68T-ieAJg8PVj5SbgiHYBY9GgOieK_q2OrTd0Yw-R6JmuKf71OSnTGux');">
+</div>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-black text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                            🇳🇱 Netherlands
+                        </div>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-bold group-hover:text-primary transition-colors">Netherlands</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed">
+                            Innovative teaching methods in a multicultural, open-minded society with many English programs.
+                        </p>
+<div class="mt-2 flex items-center gap-1 text-sm font-bold text-text-light dark:text-white group-hover:underline decoration-primary decoration-2 underline-offset-4">
+                            View Programs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Card: Ireland -->
+<a class="group flex flex-col gap-4 p-4 rounded-2xl bg-white dark:bg-[#1f1e10] hover:bg-gray-50 dark:hover:bg-[#2a2915] transition-all duration-300 border border-transparent hover:border-primary/30 shadow-sm hover:shadow-xl hover:shadow-primary/5" href="#">
+<div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-200">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Green landscapes and university building in Dublin, Ireland" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmNuXsVSvX_dLwlJfRd99G6xM8S0NTRelfMaJ5GXRKjV8ZI9ItTZrNgXVz33vqD0hxDeu2XRbGP4gVB5Sl6VQDgJvLI55Lg-b5jj9xLL5C61oxfeka7YabcY12Ag9ytHYgnFFCwGbQnQC3UQBZQ-So2bCxzQuSEw64qV4LgRdjH-Z67Iz0CDAboSvYEeCPXIGFNvsgRl1oFtHgkar4KIBGwqdiB0K5gtM-R6mUi7eVPTVkv2qLeW7OTkUxhtKbbc7W24BPPXZ_hPZw');">
+</div>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-black text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                            🇮🇪 Ireland
+                        </div>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-bold group-hover:text-primary transition-colors">Ireland</h3>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed">
+                            The land of saints and scholars offering a friendly, safe environment and tech industry proximity.
+                        </p>
+<div class="mt-2 flex items-center gap-1 text-sm font-bold text-text-light dark:text-white group-hover:underline decoration-primary decoration-2 underline-offset-4">
+                            View Programs <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</div>
+</div>
+</a>
+</div>
+</div>
+</main>
+<!-- SEO / Trust Footer -->
+<footer class="w-full bg-white dark:bg-[#181811] border-t border-gray-100 dark:border-gray-800 pt-16 pb-8">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+<!-- Brand Column -->
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-3 mb-6">
+<div class="size-6 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<span class="text-lg font-bold">Lotus Abroad</span>
+</div>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed mb-6">
+                        Empowering students to achieve their academic dreams globally. We provide expert guidance for studying in Germany, USA, UK, and beyond.
+                    </p>
+<div class="flex gap-4">
+<!-- Social placeholders -->
+<div class="size-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-text-muted-light">
+<span class="material-symbols-outlined text-[16px]">public</span>
+</div>
+<div class="size-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-text-muted-light">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+</div>
+</div>
+</div>
+<!-- Link Columns (SEO Rich) -->
+<div>
+<h4 class="font-bold mb-4 text-sm uppercase tracking-wide text-text-muted-light dark:text-text-muted-dark">Destinations</h4>
+<ul class="space-y-2 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Study in Germany</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Study in USA</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Study in UK</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Study in Canada</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Study in Australia</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-sm uppercase tracking-wide text-text-muted-light dark:text-text-muted-dark">Programs</h4>
+<ul class="space-y-2 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Bachelor's Degrees</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Master's Programs</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">MBA &amp; Business</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Engineering</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Medical Studies</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-sm uppercase tracking-wide text-text-muted-light dark:text-text-muted-dark">Company</h4>
+<ul class="space-y-2 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Success Stories</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Events &amp; Webinars</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact Support</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-xs text-text-muted-light dark:text-text-muted-dark">© 2024 Lotus Abroad. All rights reserved.</p>
+<div class="flex gap-6 text-xs text-text-muted-light dark:text-text-muted-dark">
+<a class="hover:text-text-light dark:hover:text-white" href="#">Terms</a>
+<a class="hover:text-text-light dark:hover:text-white" href="#">Privacy</a>
+<a class="hover:text-text-light dark:hover:text-white" href="#">Cookies</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Stories &amp; Experiences - Lotus Abroad</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f9f506",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23220f",
+                        "text-light": "#181811",
+                        "text-dark": "#f5f5f0",
+                        "card-light": "#ffffff",
+                        "card-dark": "#2e2d1a",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark antialiased transition-colors duration-300">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- Sticky Header -->
+<header class="sticky top-0 z-50 w-full border-b border-[#e5e5e0] dark:border-[#3a392a] bg-white/90 dark:bg-[#23220f]/90 backdrop-blur-md">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="flex h-20 items-center justify-between">
+<!-- Logo -->
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-[#181811]">
+<span class="material-symbols-outlined text-3xl">local_florist</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-[#181811] dark:text-white">Lotus Abroad</span>
+</div>
+<!-- Desktop Nav -->
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-sm font-medium text-[#181811] hover:text-[#8c8b5f] dark:text-[#f5f5f0] dark:hover:text-[#cbcb9c] transition-colors" href="#">Home</a>
+<a class="text-sm font-bold text-[#181811] dark:text-primary" href="#">Stories</a>
+<a class="text-sm font-medium text-[#181811] hover:text-[#8c8b5f] dark:text-[#f5f5f0] dark:hover:text-[#cbcb9c] transition-colors" href="#">Universities</a>
+<a class="text-sm font-medium text-[#181811] hover:text-[#8c8b5f] dark:text-[#f5f5f0] dark:hover:text-[#cbcb9c] transition-colors" href="#">Contact</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-3">
+<button aria-label="Language" class="hidden sm:flex h-10 w-10 items-center justify-center rounded-full bg-[#f5f5f0] dark:bg-[#3a392a] hover:bg-[#e5e5e0] dark:hover:bg-[#4a493a] transition-colors">
+<span class="text-xs font-bold uppercase">EN</span>
+</button>
+<button aria-label="Toggle Theme" class="flex h-10 w-10 items-center justify-center rounded-full bg-[#f5f5f0] dark:bg-[#3a392a] hover:bg-[#e5e5e0] dark:hover:bg-[#4a493a] transition-colors text-[#181811] dark:text-white">
+<span class="material-symbols-outlined text-[20px]">light_mode</span>
+</button>
+<button class="hidden md:flex h-10 items-center justify-center rounded-full bg-primary px-5 text-sm font-bold text-[#181811] transition-transform hover:scale-105">
+                            Free Consultation
+                        </button>
+<!-- Mobile Menu Icon -->
+<button class="lg:hidden h-10 w-10 flex items-center justify-center rounded-full bg-[#f5f5f0] dark:bg-[#3a392a]">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+<div class="mx-auto max-w-4xl text-center">
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight text-[#181811] dark:text-white mb-6">
+                        Real Stories from <span class="relative inline-block px-2">Global <span class="absolute inset-x-0 bottom-2 h-3 bg-primary/40 -z-10 rounded-sm"></span></span> Students
+                    </h1>
+<p class="text-lg sm:text-xl text-[#6a6a55] dark:text-[#cbcb9c] max-w-2xl mx-auto mb-10">
+                        Discover how Lotus Abroad helped over 5,000 students achieve their dreams of studying internationally.
+                    </p>
+<!-- Filters -->
+<div class="flex flex-wrap justify-center gap-3">
+<button class="h-10 px-6 rounded-full bg-primary text-[#181811] text-sm font-bold transition-transform hover:scale-105 flex items-center gap-2">
+                            All Stories
+                        </button>
+<button class="h-10 px-6 rounded-full bg-white dark:bg-[#2e2d1a] border border-[#e5e5e0] dark:border-[#3a392a] text-[#181811] dark:text-[#f5f5f0] text-sm font-medium transition-all hover:border-primary hover:bg-[#fffee0] dark:hover:text-primary">
+                            Germany
+                        </button>
+<button class="h-10 px-6 rounded-full bg-white dark:bg-[#2e2d1a] border border-[#e5e5e0] dark:border-[#3a392a] text-[#181811] dark:text-[#f5f5f0] text-sm font-medium transition-all hover:border-primary hover:bg-[#fffee0] dark:hover:text-primary">
+                            USA
+                        </button>
+<button class="h-10 px-6 rounded-full bg-white dark:bg-[#2e2d1a] border border-[#e5e5e0] dark:border-[#3a392a] text-[#181811] dark:text-[#f5f5f0] text-sm font-medium transition-all hover:border-primary hover:bg-[#fffee0] dark:hover:text-primary">
+                            UK
+                        </button>
+<button class="h-10 px-6 rounded-full bg-white dark:bg-[#2e2d1a] border border-[#e5e5e0] dark:border-[#3a392a] text-[#181811] dark:text-[#f5f5f0] text-sm font-medium transition-all hover:border-primary hover:bg-[#fffee0] dark:hover:text-primary">
+                            Master's
+                        </button>
+<button class="h-10 px-6 rounded-full bg-white dark:bg-[#2e2d1a] border border-[#e5e5e0] dark:border-[#3a392a] text-[#181811] dark:text-[#f5f5f0] text-sm font-medium transition-all hover:border-primary hover:bg-[#fffee0] dark:hover:text-primary">
+                            Language School
+                        </button>
+</div>
+</div>
+</section>
+<!-- Featured Video Cluster -->
+<section class="px-4 sm:px-6 lg:px-8 pb-16">
+<div class="mx-auto max-w-7xl">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 h-auto lg:h-[540px]">
+<!-- Large Hero Video -->
+<div class="lg:col-span-2 relative group overflow-hidden rounded-[2rem] aspect-video lg:aspect-auto">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Student smiling holding acceptance letter in front of Munich university building" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVX_BGw5oHT4ZHAYheOCkTQxbUTCxIlxkqKIhirFKz4QQdmortRmd0XBemaNlVxxYuFn8aj8ZwdbtH_ZsmY20OjqU25krKQue2ZdMODAsbsedt1PuNwZUGGsGC5FQ1MxStQr-SlgW_muXtymbVIi3yXg-RNkMh9uhuxLc3MoOfKVdvWj9BPySp8_-H_CH704sTEbUoBRSpfAmQan5uPuCJxJeMHhzJmBDmWMPO3IT892NKaYJNxUv7RBa0jYh9vDJzcdIKJHj3Fvec');">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<!-- Play Button -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-20 h-20 bg-primary/90 rounded-full flex items-center justify-center text-[#181811] transform transition-all duration-300 group-hover:scale-110 cursor-pointer shadow-lg backdrop-blur-sm">
+<span class="material-symbols-outlined text-4xl">play_arrow</span>
+</div>
+</div>
+<!-- Content -->
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold mb-3 border border-white/10">
+<span class="material-symbols-outlined text-[16px]">verified</span> Featured Story
+                                </span>
+<h3 class="text-white text-2xl sm:text-4xl font-bold leading-tight mb-2">How Selin got into TU Munich</h3>
+<p class="text-white/80 font-medium">Engineering Master's • Germany</p>
+</div>
+</div>
+<!-- Stacked Smaller Videos -->
+<div class="flex flex-col gap-4 h-full">
+<!-- Top Small -->
+<div class="relative flex-1 group overflow-hidden rounded-[2rem] min-h-[200px]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Vlog style selfie of a student on a London street with red bus in background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCI6qNRoYi_-WzGritJAdj2Wape8JtK70MmXDua8GJU6mXZ3OMObhHZclsj_JCLrEUNZY68IsKc9DzF96pjvRKJnZHEU8SRKp8xWbOj7DB9U8Wi4fACEvnUrfbCaVb8oLAqAf21yj36c4udNRZSNbf3yckkxYMu3HIvUYNTAqXSEFwKedL5JYeegDiEH8xi_UjaaxXIzvQZvC80u8iYR5MlPXVNbCt0Z1gEtSt1QZKdwp-d82AtwJdjsGeb9vyNOCJHHasSDcTK3IMe');">
+</div>
+<div class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-14 h-14 bg-white/90 rounded-full flex items-center justify-center text-[#181811] transform transition-all duration-300 group-hover:scale-110 cursor-pointer shadow-md">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<h4 class="text-white text-xl font-bold leading-tight">Life in London: A Vlog</h4>
+</div>
+</div>
+<!-- Bottom Small -->
+<div class="relative flex-1 group overflow-hidden rounded-[2rem] min-h-[200px]">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Student talking to camera in a modern bright office explaining documents" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAdRXrGV99EpYOBKESLJdwOK5NQNI5Bmdz6kerCIo18-9XqSoVJ-ynFzyC1NlqFcvmcKGTvJ3Z5RaH34dr5maPFOSN3OnXQJwuSGLcm_zyI3gqD-HXojPJi6nsaORut5ghSoO1o9zI40_-Ah65xpWUFHuvIf2S-ceajWDXLAidEt8ANZ7ILEDxuKjRsGn4Y8dZysP9sQ3vmgqPFgDYnY5I_zEVo_yycnlZuJcnQXlCtLhRLQ_MMm5OpmPDOsv6GfnBYhNJChadyRGZX');">
+</div>
+<div class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-14 h-14 bg-white/90 rounded-full flex items-center justify-center text-[#181811] transform transition-all duration-300 group-hover:scale-110 cursor-pointer shadow-md">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 p-6 w-full">
+<h4 class="text-white text-xl font-bold leading-tight">Visa Process Explained</h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Video Grid Section -->
+<section class="px-4 sm:px-6 lg:px-8 pb-20">
+<div class="mx-auto max-w-7xl">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-2xl font-bold text-[#181811] dark:text-white">Latest Experiences</h2>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full border border-[#e5e5e0] dark:border-[#3a392a] flex items-center justify-center hover:bg-white dark:hover:bg-[#3a392a] text-[#181811] dark:text-white transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-[#e5e5e0] dark:border-[#3a392a] flex items-center justify-center hover:bg-white dark:hover:bg-[#3a392a] text-[#181811] dark:text-white transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+<!-- Grid Item 1 -->
+<div class="group cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Student sitting on campus grass reading a book with university building behind" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDhfsqo6PxZW0Qd9JojgPRUcsbGbHxjk7K6N6wMObaj-uxeIR1Vp9vkq10NABooZralSoaMmTG5WPPoxy3Jy_QE6qPrAFfXUXPLZnFvVHFrpIuBUO27vwRrMR-7AmFOOl5L1TFMmA0MWtvbXe8Knol2NxM-vZk-8BO7Su869dteo86zvY1Mjjy-nsOZwgkgluI2cup0DOTAlDb78JDws_B3IYpf_6YNHj8WQgftJSSNsQzhQZJOF3qvfvmB2OJvJcGHe05j1TIcvp2e');">
+</div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-[#181811] shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-3 right-3 px-2 py-1 bg-white/90 dark:bg-[#23220f]/90 backdrop-blur rounded-lg text-xs font-bold text-[#181811] dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">public</span> Germany
+                                </div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#181811] dark:text-white leading-tight mb-1 group-hover:text-[#8c8b5f] dark:group-hover:text-primary transition-colors">Ahmet - TU Berlin</h3>
+<p class="text-sm text-[#6a6a55] dark:text-[#cbcb9c]">Architecture Master's Program</p>
+</div>
+</div>
+<!-- Grid Item 2 -->
+<div class="group cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Student pointing at blackboard in a classroom environment" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBL4igAaq6naCD_QpRj0O2F7iJcUmLjQw_5_TTSXXXcMNRyJ5f_EbPGFFCCVL3PgiSnQVuy-lvN3ugF97zOgawQXMnUBbWA2dp0PXWtoUNzuIogkGRKwodQJ18tu6bKTp0Y2fYUlx6L-Se4f7TA_ME1_fpxuezT7qUGRPEsHWzf8Oin6Y-fafMw2X9O8MLBU8JxAu58TxC86m79Hh4Bg7D7bthbtVx3nMYA-Uws5OENy-u-muYL4IL_m7vEzTf-aIcBCX67NZr1OO1M');">
+</div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-[#181811] shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-3 right-3 px-2 py-1 bg-white/90 dark:bg-[#23220f]/90 backdrop-blur rounded-lg text-xs font-bold text-[#181811] dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">school</span> USA
+                                </div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#181811] dark:text-white leading-tight mb-1 group-hover:text-[#8c8b5f] dark:group-hover:text-primary transition-colors">Can - UCLA</h3>
+<p class="text-sm text-[#6a6a55] dark:text-[#cbcb9c]">Computer Science PhD</p>
+</div>
+</div>
+<!-- Grid Item 3 -->
+<div class="group cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Two students studying together in a library with books" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDJldvHnSPWXHDFEvW8R2uSy4EukmExPxb5Pg9161i1Cmzhlb1Omj-9xbW-KEqL4ZfGPyHDBZXb19dCYmmdaxWkh6nluriVDuGasirgqQI3_BlOJxFe1CuNDVT0sM2SgMHr0LdIcNK-AbefhsWd0ULnNYmEpZLAyGW782UMOHuSJzk2xBRncxNPNBzZrSaCv1ojOy0GG2Aiztq75U4xt-nWSp_eeDF-k1epGq9fxjRVrJEHLDseveznbwA-oU2qKuJDCdXQl53TpcbN');">
+</div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-[#181811] shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-3 right-3 px-2 py-1 bg-white/90 dark:bg-[#23220f]/90 backdrop-blur rounded-lg text-xs font-bold text-[#181811] dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">flight</span> France
+                                </div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#181811] dark:text-white leading-tight mb-1 group-hover:text-[#8c8b5f] dark:group-hover:text-primary transition-colors">Ayse - Sorbonne</h3>
+<p class="text-sm text-[#6a6a55] dark:text-[#cbcb9c]">Law School Journey</p>
+</div>
+</div>
+<!-- Grid Item 4 -->
+<div class="group cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Student in winter clothes smiling in snowy Toronto city street" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3AGaklK9gMD1FfY-Qt5rs4_uNveUApsh8WboBMCHMCFpk0mlf347KgCkoEFocZwHzq4sVDv7vyaE5lO1jAEdt95nhQsHWhjA6m4TIWk5yTbU2OVSjH12e8leh7rsXHwg_z-dvy8YX8UnNKBmak4NESPDiZqZd8prwKUu3WQVc8R-dXDMHB7ybSufpPg_3mdil1zFr_hzQbmyEI8QDu2dZ2cc_4WLA0_J_KG2RaUZY_phmV67h6pfcE3P7n3iyN_WEX6Kp4jjxlOVH');">
+</div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-[#181811] shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-3 right-3 px-2 py-1 bg-white/90 dark:bg-[#23220f]/90 backdrop-blur rounded-lg text-xs font-bold text-[#181811] dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">map</span> Canada
+                                </div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#181811] dark:text-white leading-tight mb-1 group-hover:text-[#8c8b5f] dark:group-hover:text-primary transition-colors">Mehmet - Toronto</h3>
+<p class="text-sm text-[#6a6a55] dark:text-[#cbcb9c]">MBA Experience</p>
+</div>
+</div>
+<!-- Grid Item 5 -->
+<div class="group cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Group of diverse students laughing together in a park" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDR1mqDYI-QVE0U7nLKjJVXyaLV42hx_MkS1zKTiWcNPLjfcdN0Z1-hDn5921Anwf3vKC5iQcUXLaG4BIxvH-O63xvAgpluDiwS2ww321gVxUUFsDAEa7VmYyes_I4kxfEzsFQLVwKWAesVWUyjE4Y3NYznxErzz0BUMkCY_hK0jno8o1PAw_UKovJgdNwdFo8o0s3wV84HiHvGMOZC32O4VbftNPVEI-j25nxMAU2OarFH7rwR7Xm5r40VH4hMN5fa0Izl1RIh3yib');">
+</div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-[#181811] shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-3 right-3 px-2 py-1 bg-white/90 dark:bg-[#23220f]/90 backdrop-blur rounded-lg text-xs font-bold text-[#181811] dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">language</span> USA
+                                </div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#181811] dark:text-white leading-tight mb-1 group-hover:text-[#8c8b5f] dark:group-hover:text-primary transition-colors">Zeynep - NYU</h3>
+<p class="text-sm text-[#6a6a55] dark:text-[#cbcb9c]">Economics &amp; Finance</p>
+</div>
+</div>
+<!-- Grid Item 6 -->
+<div class="group cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Student holding camera filming themselves in front of Eiffel Tower" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDesR8aCM1P9t7cb97bYdI4JD9I1pbJjsD19iUKoMo95QF8DsdYEGStVbUI-OLX8OPU3YPFNv99KdYlKvh87Asm4_RJF5ZxGefTyZfJHq5ZHMNngfXFJclG2x9LSS7l8NH0LqgswgtGg3UltM8t4Em3uS1ZgofplITjrg2_mcxf0IeCvebmFLkBOLAX7POhJoDFJ2THkxR5fiMeGhcXCOTYKtlvOTFZHwuH-gbfTjvG19W1FghtLxXXsIvNlVBIO3nTHvW_Jg3uKWwF');">
+</div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-[#181811] shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-3 right-3 px-2 py-1 bg-white/90 dark:bg-[#23220f]/90 backdrop-blur rounded-lg text-xs font-bold text-[#181811] dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">flag</span> UK
+                                </div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-[#181811] dark:text-white leading-tight mb-1 group-hover:text-[#8c8b5f] dark:group-hover:text-primary transition-colors">Elif - Kings College</h3>
+<p class="text-sm text-[#6a6a55] dark:text-[#cbcb9c]">Foundation Year Vlog</p>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-12">
+<button class="h-12 px-8 rounded-full border border-[#e5e5e0] dark:border-[#3a392a] text-[#181811] dark:text-white font-bold hover:bg-[#e5e5e0] dark:hover:bg-[#3a392a] transition-colors flex items-center gap-2">
+                            Load More Stories
+                            <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Submit Story CTA -->
+<section class="px-4 sm:px-6 lg:px-8 pb-20">
+<div class="mx-auto max-w-7xl">
+<div class="relative overflow-hidden rounded-[3rem] bg-white dark:bg-[#2e2d1a] border border-[#f5f5f0] dark:border-[#3a392a] p-10 lg:p-16 text-center">
+<!-- Decorative blobs -->
+<div class="absolute top-0 left-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -translate-x-1/2 -translate-y-1/2"></div>
+<div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-400/10 rounded-full blur-[80px] translate-x-1/2 translate-y-1/2"></div>
+<div class="relative z-10 flex flex-col items-center max-w-2xl mx-auto">
+<div class="w-16 h-16 mb-6 rounded-2xl bg-[#f5f5f0] dark:bg-[#23220f] flex items-center justify-center text-[#181811] dark:text-primary">
+<span class="material-symbols-outlined text-4xl">video_camera_front</span>
+</div>
+<h2 class="text-3xl sm:text-4xl font-black text-[#181811] dark:text-white mb-4 tracking-tight">Are you a Lotus Alumni?</h2>
+<p class="text-lg text-[#6a6a55] dark:text-[#cbcb9c] mb-8">
+                                Share your story to inspire the next generation of global students. Your experience matters.
+                            </p>
+<button class="h-14 px-10 rounded-full bg-primary hover:bg-[#e5e105] text-[#181811] text-lg font-bold transition-all hover:scale-105 shadow-xl shadow-primary/20 flex items-center gap-3">
+<span>Submit Your Story</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Simple) -->
+<footer class="border-t border-[#e5e5e0] dark:border-[#3a392a] py-12 px-4 bg-white dark:bg-[#23220f]">
+<div class="mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl">local_florist</span>
+<span class="font-bold text-[#181811] dark:text-white">Lotus Abroad</span>
+</div>
+<div class="text-[#8c8b5f] dark:text-[#8c8b5f] text-sm">
+                    © 2024 Lotus Abroad. All rights reserved.
+                </div>
+<div class="flex gap-4">
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-[#f5f5f0] dark:bg-[#3a392a] text-[#181811] dark:text-white hover:bg-primary transition-colors" href="#">
+<span class="font-bold text-xs">IG</span>
+</a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-[#f5f5f0] dark:bg-[#3a392a] text-[#181811] dark:text-white hover:bg-primary transition-colors" href="#">
+<span class="font-bold text-xs">YT</span>
+</a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-[#f5f5f0] dark:bg-[#3a392a] text-[#181811] dark:text-white hover:bg-primary transition-colors" href="#">
+<span class="font-bold text-xs">LI</span>
+</a>
+</div>
+</div>
+</footer>
+</div>
+</body></html>
