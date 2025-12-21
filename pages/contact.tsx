@@ -509,20 +509,6 @@ export default function ContactPage() {
                       value={<span className="whitespace-pre-line">{OFFICE_ADDRESS}</span>}
                     />
                     <InfoRow
-                      icon="chat"
-                      title={copy.whatsapp}
-                      value={
-                        <a
-                          className="font-medium text-text-main dark:text-white hover:text-primary transition-colors"
-                          href={WHATSAPP_LINK_URL}
-                          rel="noreferrer"
-                          target="_blank"
-                        >
-                          {WHATSAPP_NUMBER_DISPLAY}
-                        </a>
-                      }
-                    />
-                    <InfoRow
                       icon="call"
                       title={copy.phone}
                       value={
