@@ -194,7 +194,7 @@ export default class MyDocument extends Document<Props> {
           }
         `}</style>
         </Head>
-        <body className="font-display bg-background-light dark:bg-background-dark text-text-main dark:text-white transition-colors duration-300">
+        <body className="font-display bg-background-light dark:bg-background-dark text-text-main dark:text-white transition-colors duration-300 overflow-x-hidden">
           <Main />
           <NextScript />
         </body>
@@ -202,4 +202,3 @@ export default class MyDocument extends Document<Props> {
     );
   }
 }
-

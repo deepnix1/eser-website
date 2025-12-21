@@ -41,7 +41,13 @@ export default function SiteFooter() {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-3 md:items-center">
           <div className="flex justify-center md:justify-start">
-            <LotusAbroadLogo size="xl" />
+            <Link
+              aria-label="Lotus Abroad"
+              className="inline-flex rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              href="/"
+            >
+              <LotusAbroadLogo size="xl" />
+            </Link>
           </div>
 
           <nav aria-label="Footer links" className="flex justify-center">
@@ -113,4 +119,3 @@ export default function SiteFooter() {
     </footer>
   );
 }
-
