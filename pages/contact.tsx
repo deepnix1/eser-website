@@ -14,6 +14,10 @@ const WHATSAPP_LINK_URL = `https://wa.me/${WHATSAPP_NUMBER_E164}?text=${encodeUR
   "Merhaba! Ücretsiz değerlendirme için bilgi almak istiyorum.",
 )}`;
 
+const PHONE_NUMBER_DISPLAY = "+90 (532) 597 56 38";
+const PHONE_NUMBER_E164 = "905325975638";
+const PHONE_CONTACT_NAME = "Mustafa Ahmet Cebeci";
+
 const EMAIL_ADDRESS = "info@lotusabroad.net";
 
 const MAPS_EMBED_URL = `https://www.google.com/maps?q=${encodeURIComponent(
@@ -58,6 +62,7 @@ const COPY = {
     emailLabel: "E-posta",
     mapsOpen: "Google Maps'te Aç",
     book: "Ücretsiz Görüşme Planla",
+    founderLabel: "Kurucu",
   },
   en: {
     title: "Contact | Lotus Abroad",
@@ -92,6 +97,7 @@ const COPY = {
     emailLabel: "Email",
     mapsOpen: "Open in Google Maps",
     book: "Book a Free Consultation",
+    founderLabel: "Founder",
   },
   de: {
     title: "Kontakt | Lotus Abroad",
@@ -126,6 +132,7 @@ const COPY = {
     emailLabel: "E-Mail",
     mapsOpen: "In Google Maps öffnen",
     book: "Kostenlose Beratung buchen",
+    founderLabel: "Gründer",
   },
 } as const;
 
@@ -505,19 +512,33 @@ export default function ContactPage() {
                       icon="chat"
                       title={copy.whatsapp}
                       value={
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                          <span className="font-medium text-text-main dark:text-white">
-                            {WHATSAPP_NUMBER_DISPLAY}
-                          </span>
+                        <a
+                          className="font-medium text-text-main dark:text-white hover:text-primary transition-colors"
+                          href={WHATSAPP_LINK_URL}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {WHATSAPP_NUMBER_DISPLAY}
+                        </a>
+                      }
+                    />
+                    <InfoRow
+                      icon="call"
+                      title={copy.phone}
+                      value={
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                           <a
-                            className="inline-flex items-center justify-center gap-2 h-9 px-4 rounded-full bg-primary text-black text-xs font-black tracking-wide hover:brightness-105 transition-all shadow-[0_10px_30px_rgba(249,245,6,0.22)]"
-                            href={WHATSAPP_LINK_URL}
-                            rel="noreferrer"
-                            target="_blank"
+                            className="font-medium text-text-main dark:text-white hover:text-primary transition-colors"
+                            href={`tel:+${PHONE_NUMBER_E164}`}
                           >
-                            <span className="material-symbols-outlined text-[16px]">chat</span>
-                            {copy.whatsappCta}
+                            {PHONE_NUMBER_DISPLAY}
                           </a>
+                          <span className="inline-flex items-center flex-wrap text-sm text-text-muted dark:text-gray-400">
+                            <span>{PHONE_CONTACT_NAME}</span>
+                            <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-black tracking-wide bg-gray-100 dark:bg-white/10 text-text-main dark:text-white border border-gray-200/70 dark:border-white/10 ml-4">
+                              {copy.founderLabel}
+                            </span>
+                          </span>
                         </div>
                       }
                     />
@@ -574,4 +595,3 @@ export default function ContactPage() {
     </>
   );
 }
-
