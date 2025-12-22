@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import CalendlyModal from "../components/CalendlyModal";
+import { getDeviceTypeFromWidth } from "../lib/device";
 
 const CALENDLY_EVENT_URL = process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL ?? "";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lotusabroad.net";
@@ -12,6 +13,36 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const [calendlyOpen, setCalendlyOpen] = useState(false);
   const lastTriggerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let timeoutId: number | null = null;
+
+    const apply = () => {
+      const device = getDeviceTypeFromWidth(window.innerWidth);
+      document.documentElement.dataset.device = device;
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    const onResize = () => {
+      if (timeoutId) window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        apply();
+        timeoutId = null;
+      }, 120);
+    };
+
+    apply();
+    window.addEventListener("resize", onResize, { passive: true });
+    window.addEventListener("orientationchange", onResize, { passive: true });
+    return () => {
+      if (timeoutId) window.clearTimeout(timeoutId);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+    };
+  }, []);
 
   const canonicalPath = (router.asPath ?? "/").split("#")[0].split("?")[0] || "/";
   const locale = router.locale ?? "tr";
