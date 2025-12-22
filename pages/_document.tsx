@@ -17,6 +17,7 @@ export default class MyDocument extends Document<Props> {
 
   render() {
     const locale = this.props.locale ?? "tr";
+    const faviconVersion = "2025-12-22";
 
     return (
       <Html className="light" lang={locale}>
@@ -24,13 +25,28 @@ export default class MyDocument extends Document<Props> {
           <meta content="width=device-width, initial-scale=1.0" name="viewport" />
           <meta content="#f9f506" name="theme-color" />
 
-          <link href="/favicon.ico" rel="icon" sizes="any" />
-          <link href="/favicon.ico" rel="shortcut icon" />
-          <link href="/favicon-48x48.png" rel="icon" sizes="48x48" type="image/png" />
-          <link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
-          <link href="/favicon-192x192.png" rel="icon" sizes="192x192" type="image/png" />
-          <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-          <link href="/favicon.svg" rel="icon" sizes="any" />
+          <link href={`/favicon.ico?v=${faviconVersion}`} rel="icon" sizes="any" />
+          <link href={`/favicon.ico?v=${faviconVersion}`} rel="shortcut icon" />
+          <link
+            href={`/favicon-48x48.png?v=${faviconVersion}`}
+            rel="icon"
+            sizes="48x48"
+            type="image/png"
+          />
+          <link
+            href={`/favicon-96x96.png?v=${faviconVersion}`}
+            rel="icon"
+            sizes="96x96"
+            type="image/png"
+          />
+          <link
+            href={`/favicon-192x192.png?v=${faviconVersion}`}
+            rel="icon"
+            sizes="192x192"
+            type="image/png"
+          />
+          <link href={`/favicon.svg?v=${faviconVersion}`} rel="icon" type="image/svg+xml" />
+          <link href={`/favicon.svg?v=${faviconVersion}`} rel="icon" sizes="any" />
           <link href="/landing_page_logo.png" rel="apple-touch-icon" />
 
           <link href="https://fonts.googleapis.com" rel="preconnect" />
