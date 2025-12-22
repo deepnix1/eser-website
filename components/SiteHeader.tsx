@@ -120,7 +120,12 @@ export default function SiteHeader() {
               className="inline-flex rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               href="/"
             >
-              <LotusAbroadLogo size="lg" />
+              <span className="md:hidden">
+                <LotusAbroadLogo size="md" />
+              </span>
+              <span className="hidden md:inline">
+                <LotusAbroadLogo size="lg" />
+              </span>
             </Link>
           </div>
 
@@ -159,7 +164,7 @@ export default function SiteHeader() {
             </div>
           </nav>
 
-          <div className="relative flex items-center gap-3 shrink-0 justify-self-end">
+          <div className="relative flex items-center gap-2 sm:gap-3 shrink-0 justify-self-end">
             <div className="relative">
               <button
                 aria-expanded={languageOpen}
@@ -222,7 +227,17 @@ export default function SiteHeader() {
             </button>
 
             <button
-              className="hidden sm:flex h-10 px-6 items-center justify-center rounded-full bg-primary text-black text-sm font-bold tracking-wide hover:brightness-105 transition-all"
+              aria-label={labels.cta}
+              className="md:hidden flex items-center justify-center size-10 rounded-full bg-primary text-black hover:brightness-105 transition-all shadow-[0_10px_30px_rgba(249,245,6,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              aria-haspopup="dialog"
+              data-calendly-open="true"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[18px]">event</span>
+            </button>
+
+            <button
+              className="hidden md:flex h-10 px-6 items-center justify-center rounded-full bg-primary text-black text-sm font-bold tracking-wide hover:brightness-105 transition-all"
               aria-haspopup="dialog"
               data-calendly-open="true"
               type="button"
