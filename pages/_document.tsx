@@ -21,7 +21,6 @@ export default class MyDocument extends Document<Props> {
     return (
       <Html className="light" lang={locale}>
         <Head>
-          <meta content="width=device-width, initial-scale=1.0" name="viewport" />
           <meta content="#f9f506" name="theme-color" />
 
           <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
