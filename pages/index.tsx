@@ -1,8 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PartnerLogo, { type PartnerLogoProps } from "../components/PartnerLogo";
+import VideoModal from "../components/VideoModal";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
 
@@ -71,6 +72,41 @@ const REVIEW_AVATAR_EMRE_URL =
 
 const REVIEW_AVATAR_AYSE_URL =
   "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&h=200&q=80";
+
+const SUPABASE_PROJECT_URL = (
+  process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://balauszpznhuceqbgubs.supabase.co"
+).replace(/\/+$/, "");
+const SUPABASE_VIDEO_BUCKET = (process.env.NEXT_PUBLIC_SUPABASE_VIDEO_BUCKET ?? "videos").replace(
+  /^\/+|\/+$/g,
+  "",
+);
+
+const STORY_VIDEO_PATHS = {
+  sarah: process.env.NEXT_PUBLIC_STORY_VIDEO_SARAH ?? "",
+  ahmet: process.env.NEXT_PUBLIC_STORY_VIDEO_AHMET ?? "IMG_6266 (1).mov",
+  elena: process.env.NEXT_PUBLIC_STORY_VIDEO_ELENA ?? "",
+  john: process.env.NEXT_PUBLIC_STORY_VIDEO_JOHN ?? "",
+} as const;
+
+function encodePathSegment(segment: string) {
+  return encodeURIComponent(segment).replace(/[!'()*]/g, (char) =>
+    `%${char.charCodeAt(0).toString(16).toUpperCase()}`,
+  );
+}
+
+function getSupabasePublicVideoUrl(path: string) {
+  if (!path.trim()) return "";
+  if (path.startsWith("https://") || path.startsWith("http://")) return path;
+  if (!SUPABASE_PROJECT_URL) return "";
+  const encodedPath = path
+    .split("/")
+    .filter(Boolean)
+    .map((segment) => encodePathSegment(segment))
+    .join("/");
+  return `${SUPABASE_PROJECT_URL}/storage/v1/object/public/${encodePathSegment(
+    SUPABASE_VIDEO_BUCKET,
+  )}/${encodedPath}`;
+}
 
 const COPY = {
   tr: {
@@ -183,8 +219,8 @@ const COPY = {
         },
         ahmet: {
           country: "Almanya",
-          title: "Ahmet'in Hikayesi",
-          subtitle: "Mühendislik @ Münih",
+          title: "İbrahim'in Hikayesi",
+          subtitle: "Mühendislik @ Köln",
         },
         elena: {
           country: "İngiltere",
@@ -280,6 +316,9 @@ const COPY = {
         },
         submit: "Ücretsiz Değerlendirme Al",
         note: "Kredi kartı gerekmez. Verileriniz güvende.",
+        submitting: "Gönderiliyor...",
+        success: "Teşekkürler! Talebiniz alındı. 24 saat içinde sizinle iletişime geçeceğiz.",
+        error: "Gönderim başarısız. Lütfen tekrar deneyin.",
       },
     },
     faq: {
@@ -409,8 +448,8 @@ const COPY = {
         },
         ahmet: {
           country: "Germany",
-          title: "Ahmet's Story",
-          subtitle: "Engineering in Munich",
+          title: "İbrahim's Story",
+          subtitle: "Engineering in Cologne",
         },
         elena: {
           country: "United Kingdom",
@@ -506,6 +545,9 @@ const COPY = {
         },
         submit: "Get a Free Assessment",
         note: "No credit card required. Your data is safe.",
+        submitting: "Sending...",
+        success: "Thanks! We received your request. We’ll reach out within 24 hours.",
+        error: "Could not send. Please try again.",
       },
     },
     faq: {
@@ -635,8 +677,8 @@ const COPY = {
         },
         ahmet: {
           country: "Deutschland",
-          title: "Ahmets Geschichte",
-          subtitle: "Engineering in München",
+          title: "İbrahims Geschichte",
+          subtitle: "Engineering in Köln",
         },
         elena: {
           country: "Vereinigtes Königreich",
@@ -732,6 +774,9 @@ const COPY = {
         },
         submit: "Kostenlos einschätzen lassen",
         note: "Keine Kreditkarte nötig. Deine Daten sind sicher.",
+        submitting: "Wird gesendet...",
+        success: "Danke! Anfrage erhalten. Wir melden uns innerhalb von 24 Stunden.",
+        error: "Senden fehlgeschlagen. Bitte erneut versuchen.",
       },
     },
     faq: {
@@ -758,6 +803,80 @@ export default function HomePage() {
   const router = useRouter();
   const locale = (router.locale ?? "tr") as keyof typeof COPY;
   const copy = COPY[locale] ?? COPY.tr;
+
+  const [videoOpen, setVideoOpen] = useState(false);
+  const [activeStory, setActiveStory] = useState<keyof typeof STORY_VIDEO_PATHS | null>(null);
+  const lastStoryTriggerRef = useRef<HTMLElement | null>(null);
+
+  const [assessmentForm, setAssessmentForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    country: "",
+    company: "",
+  });
+  const [assessmentStatus, setAssessmentStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
+  const [assessmentError, setAssessmentError] = useState<string | null>(null);
+
+  const activeVideoSrc = useMemo(() => {
+    if (!activeStory) return "";
+    return getSupabasePublicVideoUrl(STORY_VIDEO_PATHS[activeStory]);
+  }, [activeStory]);
+
+  const onAssessmentSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (assessmentStatus === "sending") return;
+
+    setAssessmentStatus("sending");
+    setAssessmentError(null);
+
+    const fullName = `${assessmentForm.firstName} ${assessmentForm.lastName}`.trim();
+    const messagePrefix =
+      locale === "de"
+        ? "Anfrage: Kostenlose Einschätzung (Landing Page)"
+        : locale === "en"
+          ? "Request: Free Assessment (Landing Page)"
+          : "Talep: Ücretsiz Değerlendirme (Landing Page)";
+
+    const message = [
+      messagePrefix,
+      "",
+      assessmentForm.country ? `Country: ${assessmentForm.country}` : null,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    try {
+      const resp = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          email: assessmentForm.email.trim(),
+          country: assessmentForm.country,
+          message,
+          company: assessmentForm.company,
+          locale,
+        }),
+      });
+
+      const data = (await resp.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+
+      if (!resp.ok || !data?.ok) {
+        setAssessmentStatus("error");
+        setAssessmentError(data?.error || copy.assessment.form.error);
+        return;
+      }
+
+      setAssessmentStatus("success");
+      setAssessmentForm((prev) => ({ ...prev, firstName: "", lastName: "", email: "", country: "", company: "" }));
+    } catch {
+      setAssessmentStatus("error");
+      setAssessmentError(copy.assessment.form.error);
+    }
+  };
 
   const seoKeywordsMeta = copy.seoKeywords.join(", ");
   const heroImages = useMemo(
@@ -1441,12 +1560,32 @@ export default function HomePage() {
             </button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            <div className="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                data-alt="Student smiling in library"
-                src={STORY_SARAH_IMG_URL}
-              />
+            <button
+              className="relative aspect-[9/16] rounded-2xl overflow-hidden group shadow-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              type="button"
+              onClick={(event) => {
+                lastStoryTriggerRef.current = event.currentTarget;
+                setActiveStory("sarah");
+                setVideoOpen(true);
+              }}
+            >
+              {getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.sarah) ? (
+                <video
+                  aria-hidden="true"
+                  className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  src={getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.sarah)}
+                />
+              ) : (
+                <img
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  data-alt="Student smiling in library"
+                  src={STORY_SARAH_IMG_URL}
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-300">
@@ -1468,13 +1607,35 @@ export default function HomePage() {
                   {copy.stories.cards.sarah.subtitle}
                 </p>
               </div>
-            </div>
-            <div className="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg md:mt-8">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                data-alt="Student group laughing on campus steps"
-                src={STORY_AHMET_IMG_URL}
-              />
+            </button>
+            <button
+              className="relative aspect-[9/16] rounded-2xl overflow-hidden group shadow-lg md:mt-8 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              type="button"
+              onClick={(event) => {
+                lastStoryTriggerRef.current = event.currentTarget;
+                setActiveStory("ahmet");
+                setVideoOpen(true);
+              }}
+            >
+              {getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.ahmet) ? (
+                <video
+                  aria-hidden="true"
+                  autoPlay
+                  className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loop
+                  muted
+                  playsInline
+                  poster={STORY_AHMET_IMG_URL}
+                  preload="metadata"
+                  src={getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.ahmet)}
+                />
+              ) : (
+                <img
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  data-alt="Student group laughing on campus steps"
+                  src={STORY_AHMET_IMG_URL}
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-300">
@@ -1496,13 +1657,33 @@ export default function HomePage() {
                   {copy.stories.cards.ahmet.subtitle}
                 </p>
               </div>
-            </div>
-            <div className="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                data-alt="Female student looking at tablet in cafe"
-                src={STORY_ELENA_IMG_URL}
-              />
+            </button>
+            <button
+              className="relative aspect-[9/16] rounded-2xl overflow-hidden group shadow-lg text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              type="button"
+              onClick={(event) => {
+                lastStoryTriggerRef.current = event.currentTarget;
+                setActiveStory("elena");
+                setVideoOpen(true);
+              }}
+            >
+              {getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.elena) ? (
+                <video
+                  aria-hidden="true"
+                  className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  src={getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.elena)}
+                />
+              ) : (
+                <img
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  data-alt="Female student looking at tablet in cafe"
+                  src={STORY_ELENA_IMG_URL}
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-300">
@@ -1524,13 +1705,33 @@ export default function HomePage() {
                   {copy.stories.cards.elena.subtitle}
                 </p>
               </div>
-            </div>
-            <div className="relative aspect-[9/16] rounded-2xl overflow-hidden group cursor-pointer shadow-lg md:mt-8">
-              <img
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                data-alt="Male student working on laptop in modern office"
-                src={STORY_JOHN_IMG_URL}
-              />
+            </button>
+            <button
+              className="relative aspect-[9/16] rounded-2xl overflow-hidden group shadow-lg md:mt-8 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              type="button"
+              onClick={(event) => {
+                lastStoryTriggerRef.current = event.currentTarget;
+                setActiveStory("john");
+                setVideoOpen(true);
+              }}
+            >
+              {getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.john) ? (
+                <video
+                  aria-hidden="true"
+                  className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  src={getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.john)}
+                />
+              ) : (
+                <img
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  data-alt="Male student working on laptop in modern office"
+                  src={STORY_JOHN_IMG_URL}
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-300">
@@ -1552,7 +1753,7 @@ export default function HomePage() {
                   {copy.stories.cards.john.subtitle}
                 </p>
               </div>
-            </div>
+            </button>
           </div>
 
           <div className="flex gap-6 overflow-x-auto no-scrollbar pb-8 snap-x">
@@ -1741,7 +1942,16 @@ export default function HomePage() {
             </div>
           </div>
           <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-2xl premium-card" data-reveal>
-            <form className="flex flex-col gap-5">
+            <form className="flex flex-col gap-5" onSubmit={onAssessmentSubmit}>
+              <input
+                aria-hidden="true"
+                className="hidden"
+                autoComplete="off"
+                tabIndex={-1}
+                type="text"
+                value={assessmentForm.company}
+                onChange={(e) => setAssessmentForm((prev) => ({ ...prev, company: e.target.value }))}
+              />
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-bold text-text-main">
@@ -1750,7 +1960,11 @@ export default function HomePage() {
                   <input
                     className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0"
                     placeholder={copy.assessment.form.firstNamePlaceholder}
+                    autoComplete="given-name"
+                    required
                     type="text"
+                    value={assessmentForm.firstName}
+                    onChange={(e) => setAssessmentForm((prev) => ({ ...prev, firstName: e.target.value }))}
                   />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -1760,7 +1974,11 @@ export default function HomePage() {
                   <input
                     className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0"
                     placeholder={copy.assessment.form.lastNamePlaceholder}
+                    autoComplete="family-name"
+                    required
                     type="text"
+                    value={assessmentForm.lastName}
+                    onChange={(e) => setAssessmentForm((prev) => ({ ...prev, lastName: e.target.value }))}
                   />
                 </div>
               </div>
@@ -1771,27 +1989,60 @@ export default function HomePage() {
                 <input
                   className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0"
                   placeholder={copy.assessment.form.emailPlaceholder}
+                  autoComplete="email"
+                  required
                   type="email"
+                  value={assessmentForm.email}
+                  onChange={(e) => setAssessmentForm((prev) => ({ ...prev, email: e.target.value }))}
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-bold text-text-main">
                   {copy.assessment.form.countryLabel}
                 </label>
-                <select className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0">
-                  <option>{copy.assessment.form.countryPlaceholder}</option>
-                  <option>{copy.assessment.form.countries.germany}</option>
-                  <option>{copy.assessment.form.countries.usa}</option>
-                  <option>{copy.assessment.form.countries.uk}</option>
-                  <option>{copy.assessment.form.countries.other}</option>
+                <select
+                  className="h-12 px-4 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:ring-0"
+                  required
+                  value={assessmentForm.country}
+                  onChange={(e) => setAssessmentForm((prev) => ({ ...prev, country: e.target.value }))}
+                >
+                  <option value="" disabled>
+                    {copy.assessment.form.countryPlaceholder}
+                  </option>
+                  <option value={copy.assessment.form.countries.germany}>
+                    {copy.assessment.form.countries.germany}
+                  </option>
+                  <option value={copy.assessment.form.countries.usa}>
+                    {copy.assessment.form.countries.usa}
+                  </option>
+                  <option value={copy.assessment.form.countries.uk}>
+                    {copy.assessment.form.countries.uk}
+                  </option>
+                  <option value={copy.assessment.form.countries.other}>
+                    {copy.assessment.form.countries.other}
+                  </option>
                 </select>
               </div>
-              <button className="h-14 mt-2 rounded-xl bg-black text-white font-bold text-lg hover:bg-gray-800 transition-colors shadow-lg hover:scale-[1.01] active:scale-[0.99]">
-                {copy.assessment.form.submit}
+              <button
+                className="h-14 mt-2 rounded-xl bg-black text-white font-bold text-lg hover:bg-gray-800 transition-colors shadow-lg hover:scale-[1.01] active:scale-[0.99] disabled:opacity-90 disabled:hover:bg-black disabled:cursor-not-allowed"
+                disabled={assessmentStatus === "sending"}
+                type="submit"
+              >
+                {assessmentStatus === "sending" ? copy.assessment.form.submitting : copy.assessment.form.submit}
               </button>
               <p className="text-xs text-center text-gray-500 mt-2">
                 {copy.assessment.form.note}
               </p>
+              {assessmentStatus === "success" ? (
+                <p className="text-xs text-center text-green-700" role="status">
+                  {copy.assessment.form.success}
+                </p>
+              ) : null}
+              {assessmentStatus === "error" ? (
+                <p className="text-xs text-center text-red-700" role="status">
+                  {assessmentError ?? copy.assessment.form.error}
+                </p>
+              ) : null}
             </form>
           </div>
         </div>
@@ -1839,6 +2090,49 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <VideoModal
+        open={videoOpen}
+        onClose={() => {
+          setVideoOpen(false);
+          setActiveStory(null);
+        }}
+        restoreFocusTo={lastStoryTriggerRef.current}
+        src={activeVideoSrc}
+        poster={
+          activeStory === "sarah"
+            ? STORY_SARAH_IMG_URL
+            : activeStory === "ahmet"
+              ? STORY_AHMET_IMG_URL
+              : activeStory === "elena"
+                ? STORY_ELENA_IMG_URL
+                : activeStory === "john"
+                  ? STORY_JOHN_IMG_URL
+                  : undefined
+        }
+        title={
+          activeStory === "sarah"
+            ? copy.stories.cards.sarah.title
+            : activeStory === "ahmet"
+              ? copy.stories.cards.ahmet.title
+              : activeStory === "elena"
+                ? copy.stories.cards.elena.title
+                : activeStory === "john"
+                  ? copy.stories.cards.john.title
+                  : "Video"
+        }
+        subtitle={
+          activeStory === "sarah"
+            ? copy.stories.cards.sarah.subtitle
+            : activeStory === "ahmet"
+              ? copy.stories.cards.ahmet.subtitle
+              : activeStory === "elena"
+                ? copy.stories.cards.elena.subtitle
+                : activeStory === "john"
+                  ? copy.stories.cards.john.subtitle
+                  : undefined
+        }
+      />
 
       <SiteFooter />
     </>
