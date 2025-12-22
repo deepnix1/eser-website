@@ -113,14 +113,17 @@ export default function SiteHeader() {
   return (
     <nav className="fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 dark:bg-background-dark/80 border-b border-gray-100 dark:border-gray-800">
       <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center h-24 gap-4">
-          <div className="min-w-0 flex items-center justify-self-start">
+        <div className="relative flex items-center justify-between h-24 gap-4">
+          <div className="shrink-0">
             <Link
               aria-label={labels.home}
               className="inline-flex rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               href="/"
             >
-              <span className="md:hidden">
+              <span className="sm:hidden">
+                <LotusAbroadLogo size="sm" />
+              </span>
+              <span className="hidden sm:inline md:hidden">
                 <LotusAbroadLogo size="md" />
               </span>
               <span className="hidden md:inline">
@@ -131,7 +134,7 @@ export default function SiteHeader() {
 
           <nav
             aria-label="Primary"
-            className="hidden md:flex justify-self-center"
+            className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
           >
             <div className="flex items-center gap-6 lg:gap-8 whitespace-nowrap">
               <Link className="text-sm font-medium hover:text-primary transition-colors" href="/">
@@ -164,7 +167,7 @@ export default function SiteHeader() {
             </div>
           </nav>
 
-          <div className="relative flex items-center gap-2 sm:gap-3 shrink-0 justify-self-end">
+          <div className="relative flex items-center gap-2 sm:gap-3 shrink-0">
             <div className="relative">
               <button
                 aria-expanded={languageOpen}
