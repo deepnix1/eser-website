@@ -113,9 +113,13 @@ export default async function handler(
     const absoluteUrl =
       signedUrl.startsWith("http://") || signedUrl.startsWith("https://")
         ? signedUrl
-        : signedUrl.startsWith("/")
+        : signedUrl.startsWith("/storage/v1/")
           ? `${supabaseUrl}${signedUrl}`
-          : `${supabaseUrl}/${signedUrl}`;
+          : signedUrl.startsWith("/object/")
+            ? `${supabaseUrl}/storage/v1${signedUrl}`
+            : signedUrl.startsWith("/")
+              ? `${supabaseUrl}${signedUrl}`
+              : `${supabaseUrl}/${signedUrl}`;
 
     res.setHeader("Cache-Control", "private, max-age=60");
     return res.status(200).json({ ok: true, url: absoluteUrl, expiresIn });
@@ -123,4 +127,3 @@ export default async function handler(
     return res.status(502).json({ ok: false, error: "Could not reach Supabase." });
   }
 }
-
