@@ -14,12 +14,13 @@ const nextConfig = {
       "object-src 'none'",
       "frame-ancestors 'none'",
       "form-action 'self'",
-      "img-src 'self' data: https:",
+      "img-src 'self' data: https: https://*.supabase.co",
       "font-src 'self' data: https://fonts.gstatic.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "script-src 'self' 'unsafe-inline' https://assets.calendly.com https://va.vercel-scripts.com",
+      "media-src 'self' blob: data: https://*.supabase.co",
       "frame-src https://calendly.com https://*.calendly.com https://www.google.com",
-      "connect-src 'self' https://calendly.com https://*.calendly.com https://assets.calendly.com https://vitals.vercel-insights.com https://vitals.vercel-analytics.com",
+      "connect-src 'self' https://calendly.com https://*.calendly.com https://assets.calendly.com https://vitals.vercel-insights.com https://vitals.vercel-analytics.com https://*.supabase.co wss://*.supabase.co",
       "upgrade-insecure-requests",
     ]
       .join("; ")

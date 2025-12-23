@@ -7,48 +7,7 @@ type CalendlyModalProps = {
   restoreFocusTo?: HTMLElement | null;
 };
 
-let calendlyScriptPromise: Promise<void> | null = null;
 
-function loadCalendlyScriptOnce(): Promise<void> {
-  if (typeof document === "undefined") return Promise.resolve();
-  if (calendlyScriptPromise) return calendlyScriptPromise;
-
-  const existing = document.querySelector<HTMLScriptElement>(
-    'script[data-calendly-widget="true"]',
-  );
-  if (existing && (existing as any).__loaded) {
-    calendlyScriptPromise = Promise.resolve();
-    return calendlyScriptPromise;
-  }
-
-  calendlyScriptPromise = new Promise<void>((resolve, reject) => {
-    if (existing) {
-      existing.addEventListener("load", () => resolve(), { once: true });
-      existing.addEventListener(
-        "error",
-        () => reject(new Error("Calendly script failed to load")),
-        { once: true },
-      );
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = "https://assets.calendly.com/assets/external/widget.js";
-    script.async = true;
-    script.defer = true;
-    script.dataset.calendlyWidget = "true";
-    script.addEventListener("load", () => {
-      (script as any).__loaded = true;
-      resolve();
-    });
-    script.addEventListener("error", () => {
-      reject(new Error("Calendly script failed to load"));
-    });
-    document.head.appendChild(script);
-  });
-
-  return calendlyScriptPromise;
-}
 
 function getFocusableElements(container: HTMLElement) {
   const selectors = [
@@ -75,7 +34,7 @@ export default function CalendlyModal({
   restoreFocusTo,
 }: CalendlyModalProps) {
   const dialogRef = useRef<HTMLDivElement | null>(null);
-  const embedRef = useRef<HTMLDivElement | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -83,6 +42,15 @@ export default function CalendlyModal({
   const [error, setError] = useState<string | null>(null);
 
   const normalizedUrl = useMemo(() => url.trim(), [url]);
+  const embedUrl = useMemo(() => {
+    if (!normalizedUrl) return "";
+    const hasQuery = normalizedUrl.includes("?");
+    return (
+      normalizedUrl +
+      (hasQuery ? "&" : "?") +
+      "embed_domain=lotusabroad.net&embed_type=Inline&hide_gdpr_banner=1"
+    );
+  }, [normalizedUrl]);
 
   useEffect(() => {
     if (!open) return;
@@ -138,66 +106,32 @@ export default function CalendlyModal({
     setIsReady(false);
     setError(null);
 
-    const embed = embedRef.current;
-    if (!embed) return;
-    embed.innerHTML = "";
+    const iframe = iframeRef.current;
+    if (!iframe) return;
 
-    if (!normalizedUrl) {
+    if (!embedUrl) {
       setIsLoading(false);
       setError("Calendly URL is not configured.");
       return;
     }
 
-    let observer: MutationObserver | null = null;
     let cancelled = false;
+    const fallbackId = window.setTimeout(() => {
+      if (cancelled) return;
+      setIsLoading(false);
+      setError("Calendly failed to load");
+    }, 12000);
 
-    loadCalendlyScriptOnce()
-      .then(() => {
-        if (cancelled) return;
-
-        const Calendly = (window as any).Calendly as
-          | { initInlineWidget: (opts: { url: string; parentElement: Element }) => void }
-          | undefined;
-
-        if (!Calendly?.initInlineWidget) {
-          throw new Error("Calendly widget API not available");
-        }
-
-        Calendly.initInlineWidget({ url: normalizedUrl, parentElement: embed });
-
-        observer = new MutationObserver(() => {
-          if (!embed.querySelector("iframe")) return;
-          setIsReady(true);
-          setIsLoading(false);
-          observer?.disconnect();
-          observer = null;
-        });
-        observer.observe(embed, { childList: true, subtree: true });
-
-        window.setTimeout(() => {
-          if (embed.querySelector("iframe")) {
-            setIsReady(true);
-            setIsLoading(false);
-            observer?.disconnect();
-            observer = null;
-          }
-        }, 1500);
-      })
-      .catch((err: unknown) => {
-        if (cancelled) return;
-        setIsLoading(false);
-        setError(err instanceof Error ? err.message : "Calendly failed to load");
-      });
+    iframe.src = embedUrl;
 
     return () => {
       cancelled = true;
-      observer?.disconnect();
-      observer = null;
-      embed.innerHTML = "";
+      window.clearTimeout(fallbackId);
+      iframe.removeAttribute("src");
       setIsLoading(false);
       setIsReady(false);
     };
-  }, [open, normalizedUrl]);
+  }, [open, embedUrl]);
 
   useEffect(() => {
     if (!open) return;
@@ -269,10 +203,14 @@ export default function CalendlyModal({
         </div>
 
         <div className="relative h-[78vh] max-h-[78vh] sm:h-[76vh] sm:max-h-[76vh]">
-          <div
-            className="absolute inset-0"
-            ref={embedRef}
-            style={{ minWidth: "320px", height: "100%" }}
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            ref={iframeRef}
+            title="Calendly scheduling"
+            onLoad={() => {
+              setIsReady(true);
+              setIsLoading(false);
+            }}
           />
 
           {isLoading || !isReady ? (
