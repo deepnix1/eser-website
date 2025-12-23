@@ -1719,15 +1719,13 @@ export default function HomePage() {
                   loop
                   muted
                   playsInline
-                  poster={STORY_AHMET_IMG_URL}
                   preload="metadata"
                   src={storyVideoUrls.ahmet}
                 />
               ) : (
-                <img
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  data-alt="Student group laughing on campus steps"
-                  src={STORY_AHMET_IMG_URL}
+                <div
+                  aria-hidden="true"
+                  className="w-full h-full bg-gradient-to-br from-black via-[#1f1e16] to-[#2c2b18] transition-transform duration-700 group-hover:scale-105"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
@@ -2197,7 +2195,7 @@ export default function HomePage() {
           activeStory === "sarah"
             ? STORY_SARAH_IMG_URL
             : activeStory === "ahmet"
-              ? STORY_AHMET_IMG_URL
+              ? undefined
               : activeStory === "elena"
                 ? STORY_ELENA_IMG_URL
                 : activeStory === "john"
