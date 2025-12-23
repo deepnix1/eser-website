@@ -59,11 +59,18 @@ export default function App({ Component, pageProps }: AppProps) {
           console.info("viewport", {
             innerWidth: window.innerWidth,
             innerHeight: window.innerHeight,
+            outerWidth: window.outerWidth,
+            outerHeight: window.outerHeight,
             clientWidth: document.documentElement.clientWidth,
             clientHeight: document.documentElement.clientHeight,
             visualViewportWidth: window.visualViewport?.width ?? null,
             visualViewportHeight: window.visualViewport?.height ?? null,
+            visualViewportScale: (window.visualViewport as any)?.scale ?? null,
             devicePixelRatio: window.devicePixelRatio,
+            screenWidth: window.screen?.width ?? null,
+            screenHeight: window.screen?.height ?? null,
+            screenAvailWidth: (window.screen as any)?.availWidth ?? null,
+            screenAvailHeight: (window.screen as any)?.availHeight ?? null,
             datasetDevice: document.documentElement.dataset.device,
             computedDevice: device,
           });

@@ -108,6 +108,21 @@ function getSupabasePublicVideoUrl(path: string) {
   )}/${encodedPath}`;
 }
 
+function isVideoDebugEnabled(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const paramEnabled =
+      params.get("debug") === "1" ||
+      params.get("lotus_debug") === "1" ||
+      params.get("video_debug") === "1";
+    const storedEnabled = window.localStorage?.getItem("lotus_debug") === "1";
+    return Boolean(paramEnabled || storedEnabled);
+  } catch {
+    return false;
+  }
+}
+
 const COPY = {
   tr: {
     meta: {
@@ -808,6 +823,15 @@ export default function HomePage() {
   const [activeStory, setActiveStory] = useState<keyof typeof STORY_VIDEO_PATHS | null>(null);
   const lastStoryTriggerRef = useRef<HTMLElement | null>(null);
 
+  const [storyVideoUrls, setStoryVideoUrls] = useState<
+    Record<keyof typeof STORY_VIDEO_PATHS, string>
+  >(() => ({
+    sarah: getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.sarah),
+    ahmet: getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.ahmet),
+    elena: getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.elena),
+    john: getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.john),
+  }));
+
   const [assessmentForm, setAssessmentForm] = useState({
     firstName: "",
     lastName: "",
@@ -822,8 +846,78 @@ export default function HomePage() {
 
   const activeVideoSrc = useMemo(() => {
     if (!activeStory) return "";
-    return getSupabasePublicVideoUrl(STORY_VIDEO_PATHS[activeStory]);
-  }, [activeStory]);
+    return storyVideoUrls[activeStory] ?? "";
+  }, [activeStory, storyVideoUrls]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const debugEnabled = isVideoDebugEnabled();
+    const controller = new AbortController();
+    const storyKeys = Object.keys(STORY_VIDEO_PATHS) as Array<keyof typeof STORY_VIDEO_PATHS>;
+
+    if (debugEnabled) {
+      try {
+        console.groupCollapsed("[LotusAbroad] video debug");
+        console.info("bucket", SUPABASE_VIDEO_BUCKET);
+        console.info("paths", { ...STORY_VIDEO_PATHS });
+        console.info("initialUrls", { ...storyVideoUrls });
+        console.groupEnd();
+      } catch {}
+    }
+
+    const loadSignedUrl = async (key: keyof typeof STORY_VIDEO_PATHS) => {
+      const rawPath = (STORY_VIDEO_PATHS[key] ?? "").trim();
+      if (!rawPath) return;
+      if (rawPath.startsWith("http://") || rawPath.startsWith("https://")) return;
+
+      const query = new URLSearchParams({
+        bucket: SUPABASE_VIDEO_BUCKET,
+        path: rawPath,
+        expiresIn: String(60 * 60 * 24), // 24h
+      });
+
+      try {
+        if (debugEnabled) {
+          console.info("[LotusAbroad] requesting signed url", { key, rawPath });
+        }
+        const resp = await fetch(`/api/story-video?${query.toString()}`, {
+          signal: controller.signal,
+        });
+        const data = (await resp.json().catch(() => null)) as
+          | { ok: true; url: string }
+          | { ok: false; error: string }
+          | null;
+
+        if (!resp.ok || !data || (data as any).ok !== true || typeof (data as any).url !== "string") {
+          if (debugEnabled) {
+            console.warn("[LotusAbroad] story video signed-url failed", {
+              key,
+              rawPath,
+              status: resp.status,
+              error: (data as any)?.error ?? null,
+            });
+          }
+          return;
+        }
+
+        setStoryVideoUrls((prev) => ({ ...prev, [key]: (data as any).url }));
+        if (debugEnabled) {
+          console.info("[LotusAbroad] story video signed-url ready", { key, rawPath });
+        }
+      } catch (err) {
+        if (debugEnabled) {
+          console.warn("[LotusAbroad] story video signed-url request failed", { key, rawPath, err });
+        }
+      }
+    };
+
+    storyKeys.forEach((key) => {
+      void loadSignedUrl(key);
+    });
+
+    return () => controller.abort();
+  }, []);
 
   const onAssessmentSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -1569,7 +1663,7 @@ export default function HomePage() {
                 setVideoOpen(true);
               }}
             >
-              {getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.sarah) ? (
+              {storyVideoUrls.sarah ? (
                 <video
                   aria-hidden="true"
                   className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -1577,7 +1671,7 @@ export default function HomePage() {
                   muted
                   playsInline
                   preload="metadata"
-                  src={getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.sarah)}
+                  src={storyVideoUrls.sarah}
                 />
               ) : (
                 <img
@@ -1617,7 +1711,7 @@ export default function HomePage() {
                 setVideoOpen(true);
               }}
             >
-              {getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.ahmet) ? (
+              {storyVideoUrls.ahmet ? (
                 <video
                   aria-hidden="true"
                   autoPlay
@@ -1627,7 +1721,7 @@ export default function HomePage() {
                   playsInline
                   poster={STORY_AHMET_IMG_URL}
                   preload="metadata"
-                  src={getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.ahmet)}
+                  src={storyVideoUrls.ahmet}
                 />
               ) : (
                 <img
@@ -1667,7 +1761,7 @@ export default function HomePage() {
                 setVideoOpen(true);
               }}
             >
-              {getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.elena) ? (
+              {storyVideoUrls.elena ? (
                 <video
                   aria-hidden="true"
                   className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -1675,7 +1769,7 @@ export default function HomePage() {
                   muted
                   playsInline
                   preload="metadata"
-                  src={getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.elena)}
+                  src={storyVideoUrls.elena}
                 />
               ) : (
                 <img
@@ -1715,7 +1809,7 @@ export default function HomePage() {
                 setVideoOpen(true);
               }}
             >
-              {getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.john) ? (
+              {storyVideoUrls.john ? (
                 <video
                   aria-hidden="true"
                   className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -1723,7 +1817,7 @@ export default function HomePage() {
                   muted
                   playsInline
                   preload="metadata"
-                  src={getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.john)}
+                  src={storyVideoUrls.john}
                 />
               ) : (
                 <img
