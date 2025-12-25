@@ -6,14 +6,26 @@ const nextConfig = {
     locales: ["tr", "en", "de"],
     defaultLocale: "tr",
   },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "lotusabroad.net" }],
+        destination: "https://www.lotusabroad.net/:path*",
+        permanent: true,
+      },
+    ];
+  },
 
   async headers() {
     const isDev = process.env.NODE_ENV === "development";
+    const isLocal = !process.env.VERCEL && !process.env.VERCEL_ENV;
+    const allowEval = isDev || isLocal;
 
     const scriptSrc = [
       "'self'",
       "'unsafe-inline'",
-      ...(isDev ? ["'unsafe-eval'"] : []),
+      ...(allowEval ? ["'unsafe-eval'"] : []),
       "https://assets.calendly.com",
       "https://va.vercel-scripts.com",
     ].join(" ");

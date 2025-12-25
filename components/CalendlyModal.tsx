@@ -7,8 +7,6 @@ type CalendlyModalProps = {
   restoreFocusTo?: HTMLElement | null;
 };
 
-
-
 function getFocusableElements(container: HTMLElement) {
   const selectors = [
     'a[href]:not([tabindex="-1"])',
@@ -36,21 +34,80 @@ export default function CalendlyModal({
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const loadTimeoutRef = useRef<number | null>(null);
+  const openedAtRef = useRef<number | null>(null);
+  const attemptRef = useRef(0);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [isSlow, setIsSlow] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const normalizedUrl = useMemo(() => url.trim(), [url]);
-  const embedUrl = useMemo(() => {
-    if (!normalizedUrl) return "";
-    const hasQuery = normalizedUrl.includes("?");
+  const debugEnabled = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    const params = new URLSearchParams(window.location.search);
+    return params.get("debug") === "1" || params.get("calendly_debug") === "1";
+  }, []);
+
+  const debugLog = (...args: unknown[]) => {
+    if (!debugEnabled) return;
+    // eslint-disable-next-line no-console
+    console.info("[LotusAbroad][Calendly]", ...args);
+  };
+
+  const setDiagnostics = (patch: Record<string, unknown>) => {
+    if (!debugEnabled) return;
+    try {
+      const globalAny = window as unknown as Record<string, any>;
+      globalAny.__lotusCalendlyDiagnostics = {
+        ...(globalAny.__lotusCalendlyDiagnostics ?? {}),
+        ...patch,
+      };
+    } catch {}
+  };
+
+  const buildEmbedUrl = (baseUrl: string) => {
+    if (!baseUrl) return "";
+    const hasQuery = baseUrl.includes("?");
+    const host =
+      typeof window !== "undefined" && window.location?.host
+        ? window.location.host
+        : "lotusabroad.net";
+
     return (
-      normalizedUrl +
+      baseUrl +
       (hasQuery ? "&" : "?") +
-      "embed_domain=lotusabroad.net&embed_type=Inline&hide_gdpr_banner=1"
+      `embed_domain=${encodeURIComponent(host)}&embed_type=Inline&hide_gdpr_banner=1`
     );
-  }, [normalizedUrl]);
+  };
+
+  const retryLoad = () => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+    const nextEmbedUrl = buildEmbedUrl(normalizedUrl);
+    if (!nextEmbedUrl) {
+      setError("Calendly URL is not configured.");
+      return;
+    }
+
+    setError(null);
+    setIsReady(false);
+    setIsLoading(true);
+    setIsSlow(false);
+    openedAtRef.current = typeof window !== "undefined" ? window.performance.now() : null;
+
+    const cacheBust = typeof window !== "undefined" ? Date.now() : 0;
+    const srcWithBust = nextEmbedUrl + `&cachebust=${cacheBust}`;
+
+    debugLog("retry", { attempt: attemptRef.current + 1, embedUrl: srcWithBust });
+    setDiagnostics({ retryAt: new Date().toISOString(), embedUrl: srcWithBust });
+
+    iframe.src = "about:blank";
+    window.setTimeout(() => {
+      iframe.src = srcWithBust;
+    }, 50);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -104,34 +161,79 @@ export default function CalendlyModal({
     if (!open) return;
     setIsLoading(true);
     setIsReady(false);
+    setIsSlow(false);
     setError(null);
 
     const iframe = iframeRef.current;
     if (!iframe) return;
 
-    if (!embedUrl) {
+    const nextEmbedUrl = buildEmbedUrl(normalizedUrl);
+    attemptRef.current += 1;
+    openedAtRef.current = typeof window !== "undefined" ? window.performance.now() : null;
+
+    debugLog("open", {
+      attempt: attemptRef.current,
+      href: typeof window !== "undefined" ? window.location.href : "",
+      origin: typeof window !== "undefined" ? window.location.origin : "",
+      embedUrl: nextEmbedUrl,
+      embedDomain:
+        typeof window !== "undefined" && window.location?.host ? window.location.host : "unknown",
+      userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+    });
+
+    setDiagnostics({
+      attempt: attemptRef.current,
+      openedAt: new Date().toISOString(),
+      href: typeof window !== "undefined" ? window.location.href : "",
+      origin: typeof window !== "undefined" ? window.location.origin : "",
+      embedUrl: nextEmbedUrl,
+      embedDomain:
+        typeof window !== "undefined" && window.location?.host ? window.location.host : "unknown",
+    });
+
+    if (!nextEmbedUrl) {
       setIsLoading(false);
       setError("Calendly URL is not configured.");
       return;
     }
 
-    let cancelled = false;
-    const fallbackId = window.setTimeout(() => {
-      if (cancelled) return;
-      setIsLoading(false);
-      setError("Calendly failed to load");
+    if (loadTimeoutRef.current) window.clearTimeout(loadTimeoutRef.current);
+    loadTimeoutRef.current = window.setTimeout(() => {
+      const now = typeof window !== "undefined" ? window.performance.now() : null;
+      const elapsedMs =
+        openedAtRef.current != null && now != null ? Math.round(now - openedAtRef.current) : null;
+
+      debugLog("slow-load", { attempt: attemptRef.current, elapsedMs, embedUrl: nextEmbedUrl });
+      setDiagnostics({ slowLoad: true, elapsedMs, embedUrl: nextEmbedUrl });
+      setIsSlow(true);
     }, 12000);
 
-    iframe.src = embedUrl;
+    iframe.src = nextEmbedUrl;
 
     return () => {
-      cancelled = true;
-      window.clearTimeout(fallbackId);
+      if (loadTimeoutRef.current) window.clearTimeout(loadTimeoutRef.current);
+      loadTimeoutRef.current = null;
+      openedAtRef.current = null;
       iframe.removeAttribute("src");
       setIsLoading(false);
       setIsReady(false);
+      setIsSlow(false);
     };
-  }, [open, embedUrl]);
+  }, [open, normalizedUrl, debugEnabled]);
+
+  useEffect(() => {
+    if (!open) return;
+    if (!debugEnabled) return;
+
+    const onMessage = (event: MessageEvent) => {
+      const origin = typeof event.origin === "string" ? event.origin : "";
+      if (!origin.includes("calendly.com")) return;
+      debugLog("message", { origin, dataType: typeof event.data });
+    };
+
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [open, debugEnabled]);
 
   useEffect(() => {
     if (!open) return;
@@ -207,22 +309,68 @@ export default function CalendlyModal({
             className="absolute inset-0 h-full w-full"
             ref={iframeRef}
             title="Calendly scheduling"
+            onError={() => {
+              if (loadTimeoutRef.current) window.clearTimeout(loadTimeoutRef.current);
+              loadTimeoutRef.current = null;
+              const now = typeof window !== "undefined" ? window.performance.now() : null;
+              const elapsedMs =
+                openedAtRef.current != null && now != null
+                  ? Math.round(now - openedAtRef.current)
+                  : null;
+              debugLog("error", { attempt: attemptRef.current, elapsedMs });
+              setDiagnostics({ lastError: "iframe-error", elapsedMs });
+              setIsLoading(false);
+              setIsSlow(false);
+              setError("Calendly failed to load");
+            }}
             onLoad={() => {
+              if (loadTimeoutRef.current) window.clearTimeout(loadTimeoutRef.current);
+              loadTimeoutRef.current = null;
+              const now = typeof window !== "undefined" ? window.performance.now() : null;
+              const elapsedMs =
+                openedAtRef.current != null && now != null
+                  ? Math.round(now - openedAtRef.current)
+                  : null;
+              debugLog("loaded", { attempt: attemptRef.current, elapsedMs });
+              setDiagnostics({ lastError: null, loaded: true, elapsedMs });
+              setError(null);
               setIsReady(true);
               setIsLoading(false);
+              setIsSlow(false);
             }}
           />
 
-          {isLoading || !isReady ? (
+          {isLoading && !error ? (
             <div className="absolute inset-0 flex items-center justify-center bg-white/65 dark:bg-[#323226]/65 backdrop-blur-sm">
               <div className="flex flex-col items-center gap-3">
                 <div className="size-10 rounded-full border-2 border-black/10 dark:border-white/15 border-t-black dark:border-t-primary animate-spin motion-reduce:animate-none" />
                 <div className="text-sm font-bold text-text-main dark:text-white">
                   Loading scheduler…
                 </div>
-                <div className="text-xs text-text-muted dark:text-gray-400">
-                  This may take a moment.
+                <div className="text-xs text-text-muted dark:text-gray-400 text-center max-w-[22rem]">
+                  {isSlow
+                    ? "Still loading… If it doesn’t open, try disabling extensions or open Calendly in a new tab."
+                    : "This may take a moment."}
                 </div>
+                {isSlow ? (
+                  <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
+                    <button
+                      className="inline-flex h-10 items-center justify-center rounded-full bg-black text-white px-5 text-sm font-black hover:bg-black/90 transition-all"
+                      onClick={retryLoad}
+                      type="button"
+                    >
+                      Retry
+                    </button>
+                    <a
+                      className="inline-flex h-10 items-center justify-center rounded-full bg-primary px-5 text-sm font-black text-black hover:brightness-105 transition-all"
+                      href={normalizedUrl || "https://calendly.com"}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      Open Calendly
+                    </a>
+                  </div>
+                ) : null}
               </div>
             </div>
           ) : null}
@@ -236,13 +384,30 @@ export default function CalendlyModal({
                 <div className="mt-2 text-sm text-text-muted dark:text-gray-400">
                   {error}
                 </div>
-                <button
-                  className="mt-6 h-11 px-6 rounded-full bg-primary text-black text-sm font-black hover:brightness-105 transition-all"
-                  onClick={onClose}
-                  type="button"
-                >
-                  Close
-                </button>
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+                  <button
+                    className="h-11 px-6 rounded-full bg-black text-white text-sm font-black hover:bg-black/90 transition-all"
+                    onClick={retryLoad}
+                    type="button"
+                  >
+                    Retry
+                  </button>
+                  <a
+                    className="h-11 px-6 rounded-full bg-primary text-black text-sm font-black hover:brightness-105 transition-all inline-flex items-center justify-center"
+                    href={normalizedUrl || "https://calendly.com"}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Open Calendly
+                  </a>
+                  <button
+                    className="h-11 px-6 rounded-full bg-gray-100 dark:bg-white/10 text-text-main dark:text-white text-sm font-black hover:bg-gray-200 dark:hover:bg-white/20 transition-all"
+                    onClick={onClose}
+                    type="button"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           ) : null}
