@@ -73,6 +73,27 @@ export default function ProgramDetailPage({ countryId, programId, locale: static
   const router = useRouter();
   const locale = normalizeLocale(router.locale ?? staticLocale);
   const ui = PROGRAMS_UI[locale];
+  const blogCta =
+    locale === "tr"
+      ? {
+          badge: "Blog",
+          title: (countryLabelValue: string) => `${countryLabelValue} hakkında rehberler`,
+          body: "Seçili ülke için vize, üniversite, yaşam ve başvuru süreçleriyle ilgili pratik rehberleri inceleyin.",
+          button: "Bu ülke hakkında rehberler",
+        }
+      : locale === "de"
+        ? {
+            badge: "Blog",
+            title: (countryLabelValue: string) => `Leitfäden zu ${countryLabelValue}`,
+            body: "Praktische Beiträge zu Visum, Hochschulen, Lebenshaltungskosten und Bewerbungstimeline für dieses Land.",
+            button: "Leitfäden zu diesem Land",
+          }
+        : {
+            badge: "Blog",
+            title: (countryLabelValue: string) => `Guides about ${countryLabelValue}`,
+            body: "Explore practical guides on visas, universities, living costs, and application timelines for this country.",
+            button: "Guides about this country",
+          };
 
   const catalog = getProgramCatalog(locale);
   const country = catalog[countryId];
@@ -193,6 +214,35 @@ export default function ProgramDetailPage({ countryId, programId, locale: static
             <ProgramDetails countryLabel={countryLabel} program={program} ui={ui} />
           </section>
         </main>
+
+        <section className="bg-background-light dark:bg-background-dark px-4 sm:px-6 lg:px-8 pb-12">
+          <div className="max-w-[1280px] mx-auto">
+            <div className="rounded-[2rem] lotus-glass-strong p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6 overflow-hidden">
+              <div className="min-w-0">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-white/5 border border-gray-100 dark:border-white/10 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.10)] w-fit">
+                  <span className="w-2 h-2 rounded-full bg-primary" />
+                  <span className="text-xs font-black uppercase tracking-widest text-text-main dark:text-white">
+                    {blogCta.badge}
+                  </span>
+                </div>
+                <div className="mt-4 text-2xl md:text-3xl font-black tracking-tight text-text-main dark:text-white">
+                  {blogCta.title(countryLabel)}
+                </div>
+                <div className="mt-2 text-sm md:text-base text-text-muted dark:text-gray-400 leading-relaxed max-w-3xl">
+                  {blogCta.body}
+                </div>
+              </div>
+
+              <Link
+                className="h-11 px-6 rounded-full bg-primary text-black text-sm font-black inline-flex items-center justify-center hover:brightness-105 transition-all whitespace-nowrap"
+                href={`/blog?category=Guides&country=${COUNTRY_SLUG[countryId]}`}
+              >
+                {blogCta.button}
+                <span className="material-symbols-outlined text-[18px] ml-2">arrow_forward</span>
+              </Link>
+            </div>
+          </div>
+        </section>
 
         <SiteFooter />
       </div>

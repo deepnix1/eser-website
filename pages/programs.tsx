@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -16,7 +17,7 @@ import {
   type CountryId,
   getProgramCatalog,
 } from "../lib/programCatalog";
-import { getProgramDetailPath } from "../lib/programRoutes";
+import { COUNTRY_SLUG, getProgramDetailPath } from "../lib/programRoutes";
 
 const COUNTRY_LABELS: Record<AppLocale, Record<CountryId, string>> = {
   tr: {
@@ -248,6 +249,30 @@ const COUNTRY_BAR_UI: Record<
     label: "Länder:",
     hint: "Welches Land möchten Sie erkunden?",
     selectLabel: "Alle Länder",
+  },
+};
+
+const BLOG_CTA_UI: Record<
+  AppLocale,
+  { badge: string; title: (countryLabel: string) => string; body: string; button: string }
+> = {
+  tr: {
+    badge: "Blog",
+    title: (countryLabel) => `${countryLabel} hakkında rehberler`,
+    body: "Seçili ülke için vize, üniversite, yaşam ve başvuru süreçleriyle ilgili pratik rehberleri inceleyin.",
+    button: "Bu ülke hakkında rehberler",
+  },
+  en: {
+    badge: "Blog",
+    title: (countryLabel) => `Guides about ${countryLabel}`,
+    body: "Explore practical guides on visas, universities, living costs, and application timelines for this country.",
+    button: "Guides about this country",
+  },
+  de: {
+    badge: "Blog",
+    title: (countryLabel) => `Leitfäden zu ${countryLabel}`,
+    body: "Praktische Beiträge zu Visum, Hochschulen, Lebenshaltungskosten und Bewerbungstimeline für dieses Land.",
+    button: "Leitfäden zu diesem Land",
   },
 };
 
@@ -582,6 +607,7 @@ export default function ProgramsPage() {
   const ui = PROGRAMS_UI[locale];
   const journey = JOURNEY_UI[locale];
   const countryBar = COUNTRY_BAR_UI[locale];
+  const blogCta = BLOG_CTA_UI[locale];
   const faqUi = PROGRAMS_FAQ_UI[locale];
   const tabsUi = PROGRAM_TABS_UI[locale];
   const countryLabels = COUNTRY_LABELS[locale];
@@ -988,11 +1014,8 @@ export default function ProgramsPage() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-b from-white/75 via-white/88 to-white/92 dark:from-background-dark/60 dark:via-background-dark/82 dark:to-background-dark/90" />
                       <div
-                        className="absolute -inset-10 opacity-[0.38] blur-3xl pointer-events-none"
-                        style={{
-                          background:
-                            "radial-gradient(circle at 15% 10%, rgba(249,245,6,0.22), rgba(249,245,6,0) 55%)",
-                        }}
+                        className="absolute -inset-10 opacity-0 blur-3xl pointer-events-none"
+                        style={{ background: "transparent" }}
                       />
                       <div
                         className="absolute inset-0 opacity-[0.06] dark:opacity-[0.05]"
@@ -1283,6 +1306,35 @@ export default function ProgramsPage() {
                 </li>
               ))}
             </ol>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-background-light dark:bg-background-dark px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="max-w-[1680px] 2xl:max-w-[1920px] mx-auto">
+          <div className="rounded-[2rem] lotus-glass-strong p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6 overflow-hidden">
+            <div className="min-w-0">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/85 dark:bg-white/5 border border-gray-100 dark:border-white/10 backdrop-blur-sm shadow-[0_18px_45px_rgba(0,0,0,0.10)] w-fit">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                <span className="text-xs font-black uppercase tracking-widest text-text-main dark:text-white">
+                  {blogCta.badge}
+                </span>
+              </div>
+              <div className="mt-4 text-2xl md:text-3xl font-black tracking-tight text-text-main dark:text-white">
+                {blogCta.title(selectedCountryLabel)}
+              </div>
+              <div className="mt-2 text-sm md:text-base text-text-muted dark:text-gray-400 leading-relaxed max-w-3xl">
+                {blogCta.body}
+              </div>
+            </div>
+
+            <Link
+              className="h-11 px-6 rounded-full bg-primary text-black text-sm font-black inline-flex items-center justify-center hover:brightness-105 transition-all whitespace-nowrap"
+              href={`/blog?category=Guides&country=${COUNTRY_SLUG[selectedCountry]}`}
+            >
+              {blogCta.button}
+              <span className="material-symbols-outlined text-[18px] ml-2">arrow_forward</span>
+            </Link>
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
@@ -11,6 +11,7 @@ import {
   type BlogCategory,
 } from "../lib/blogData";
 import { normalizeLocale } from "../lib/i18n";
+import { COUNTRY_SLUG } from "../lib/programRoutes";
 
 type BlogCategoryFilter = BlogCategory | "All";
 
@@ -97,6 +98,77 @@ const BLOG_UI = {
   },
 } as const;
 
+type CountrySlug = (typeof COUNTRY_SLUG)[keyof typeof COUNTRY_SLUG];
+
+const COUNTRY_KEYWORDS: Record<CountrySlug, Record<keyof typeof BLOG_UI, readonly string[]>> = {
+  germany: {
+    tr: ["almanya", "germany"],
+    en: ["germany"],
+    de: ["deutschland", "germany"],
+  },
+  usa: {
+    tr: ["abd", "amerika", "usa", "united states"],
+    en: ["usa", "united states", "america"],
+    de: ["usa", "vereinigte staaten", "amerika"],
+  },
+  netherlands: {
+    tr: ["hollanda", "nederland", "netherlands"],
+    en: ["netherlands", "holland"],
+    de: ["niederlande", "holland"],
+  },
+  "united-kingdom": {
+    tr: ["ingiltere", "birleşik krallık", "uk", "united kingdom"],
+    en: ["united kingdom", "uk", "england", "britain"],
+    de: ["vereinigtes königreich", "uk", "england", "großbritannien"],
+  },
+  canada: {
+    tr: ["kanada", "canada"],
+    en: ["canada"],
+    de: ["kanada", "canada"],
+  },
+  ireland: {
+    tr: ["irlanda", "ireland"],
+    en: ["ireland"],
+    de: ["irland", "ireland"],
+  },
+  malta: {
+    tr: ["malta"],
+    en: ["malta"],
+    de: ["malta"],
+  },
+};
+
+function normalizeCountrySlug(value: unknown): CountrySlug | null {
+  if (!value) return null;
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (typeof raw !== "string") return null;
+  const normalized = raw.trim().toLowerCase();
+  const slugs = Object.values(COUNTRY_SLUG) as CountrySlug[];
+  return slugs.includes(normalized as CountrySlug) ? (normalized as CountrySlug) : null;
+}
+
+function normalizeCategory(value: unknown): BlogCategoryFilter | null {
+  if (!value) return null;
+  const raw = Array.isArray(value) ? value[0] : value;
+  if (typeof raw !== "string") return null;
+  const normalized = raw.trim().toLowerCase();
+  if (!normalized) return null;
+  if (normalized === "all") return "All";
+
+  const map: Record<string, BlogCategory> = {
+    guides: "Guides",
+    guide: "Guides",
+    visa: "Visa",
+    scholarships: "Scholarships",
+    scholarship: "Scholarships",
+    "student-life": "Student Life",
+    studentlife: "Student Life",
+    student: "Student Life",
+    "student life": "Student Life",
+  };
+  return map[normalized] ?? null;
+}
+
 function CategoryPill({
   active,
   label,
@@ -136,13 +208,36 @@ export default function BlogPage() {
   };
 
   const [activeCategory, setActiveCategory] = useState<BlogCategoryFilter>("All");
+  const [countryFilter, setCountryFilter] = useState<CountrySlug | null>(null);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const fromQuery = normalizeCategory(router.query.category);
+    if (fromQuery) setActiveCategory(fromQuery);
+    const slug = normalizeCountrySlug(router.query.country);
+    setCountryFilter(slug);
+  }, [router.isReady, router.query.category, router.query.country]);
 
   const articles = useMemo(() => getBlogArticles(locale), [locale]);
 
-  const filteredPosts = useMemo(() => {
-    if (activeCategory === "All") return articles;
-    return articles.filter((p) => p.category === activeCategory);
-  }, [activeCategory, articles]);
+  const { filteredPosts, showCountryFallback } = useMemo(() => {
+    const byCategory = activeCategory === "All" ? articles : articles.filter((p) => p.category === activeCategory);
+    if (!countryFilter) return { filteredPosts: byCategory, showCountryFallback: false };
+
+    const keywords = COUNTRY_KEYWORDS[countryFilter]?.[locale] ?? [];
+    const matchCountry = (post: (typeof byCategory)[number]) => {
+      const haystack = `${post.id} ${post.title} ${post.excerpt}`.toLowerCase();
+      if (haystack.includes(countryFilter)) return true;
+      return keywords.some((kw) => haystack.includes(kw));
+    };
+
+    const byCountry = byCategory.filter(matchCountry);
+    if (!byCountry.length && byCategory.length) {
+      return { filteredPosts: byCategory, showCountryFallback: true };
+    }
+
+    return { filteredPosts: byCountry, showCountryFallback: false };
+  }, [activeCategory, articles, countryFilter, locale]);
 
   const featured = filteredPosts[0] ?? null;
   const rest = filteredPosts.slice(1);
@@ -176,6 +271,15 @@ export default function BlogPage() {
 
         <section className="bg-background-light dark:bg-background-dark">
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12 space-y-8">
+            {showCountryFallback ? (
+              <div className="rounded-2xl bg-white/70 dark:bg-white/5 border border-gray-100 dark:border-white/10 p-5 text-sm text-text-muted dark:text-gray-400">
+                {locale === "tr"
+                  ? "Seçili ülke için henüz yeterli blog içeriği yok. Şimdilik bu kategorideki tüm yazıları gösteriyoruz."
+                  : locale === "de"
+                    ? "Für das ausgewählte Land gibt es noch nicht genügend Inhalte. Wir zeigen vorerst alle Beiträge in dieser Kategorie."
+                    : "There isn't enough content for the selected country yet. Showing all posts in this category for now."}
+              </div>
+            ) : null}
             {featured ? (
               <div className="rounded-[2rem] overflow-hidden border border-gray-100 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.08)] bg-white/70 dark:bg-white/5">
                 <div className="relative h-[260px] md:h-[320px]">
