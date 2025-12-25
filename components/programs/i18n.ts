@@ -20,6 +20,7 @@ export const PROGRAMS_UI: Record<
     listAria: string;
     listEmptyTitle: string;
     listEmptyBody: string;
+    detailsLink: string;
     detailsEmptyTitle: string;
     detailsEmptyBody: string;
     section: {
@@ -67,6 +68,7 @@ export const PROGRAMS_UI: Record<
     listEmptyTitle: "Program bulunamadı",
     listEmptyBody:
       "Lütfen başka bir ülke seçin veya ücretsiz değerlendirme planlayın.",
+    detailsLink: "Detaylar için tıklayın",
     detailsEmptyTitle: "Bir program seçin",
     detailsEmptyBody: "Düzenli açıklamayı görmek için soldan bir program seçin.",
     section: {
@@ -116,6 +118,7 @@ export const PROGRAMS_UI: Record<
     listAria: "Programs",
     listEmptyTitle: "No programs found",
     listEmptyBody: "Please select another country or book a free assessment.",
+    detailsLink: "Click for details",
     detailsEmptyTitle: "Select a program",
     detailsEmptyBody: "Choose a program on the left to view the details panel.",
     section: {
@@ -164,6 +167,7 @@ export const PROGRAMS_UI: Record<
     listAria: "Programme",
     listEmptyTitle: "Keine Programme gefunden",
     listEmptyBody: "Bitte ein anderes Land wählen oder kostenlose Einschätzung buchen.",
+    detailsLink: "Für Details klicken",
     detailsEmptyTitle: "Programm auswählen",
     detailsEmptyBody: "Wählen Sie links ein Programm, um Details zu sehen.",
     section: {
@@ -195,4 +199,3 @@ export const PROGRAMS_UI: Record<
     seoHiddenTitle: "Auslandsstudium & Visaberatung",
   },
 };
-

@@ -12,10 +12,10 @@ function RecommendationCard({
   return (
     <div
       className={[
-        "group relative overflow-hidden rounded-3xl bg-white/70 dark:bg-white/5 p-5",
-        "ring-1 ring-black/5 dark:ring-white/10",
+        "group relative overflow-hidden rounded-3xl lotus-glass p-5",
         "transition-all duration-300 ease-out will-change-transform",
-        "hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(0,0,0,0.14)] hover:ring-black/10 dark:hover:ring-white/15",
+        "hover:-translate-y-1 hover:shadow-[0_40px_110px_rgba(0,0,0,0.16),0_0_0_1px_rgba(249,245,6,0.18),0_0_70px_rgba(249,245,6,0.12)]",
+        "dark:hover:shadow-[0_48px_130px_rgba(0,0,0,0.28),0_0_0_1px_rgba(249,245,6,0.18),0_0_70px_rgba(249,245,6,0.10)]",
       ].join(" ")}
     >
       <div
@@ -41,7 +41,7 @@ function RecommendationCard({
             {item.highlights.slice(0, 3).map((highlight) => (
               <span
                 key={highlight}
-                className="inline-flex items-center rounded-full bg-[#e9e8df] dark:bg-white/10 text-xs font-bold text-text-main dark:text-white px-3 py-1"
+                className="inline-flex items-center rounded-full bg-[#e9e8df] dark:bg-white/10 text-xs font-bold text-text-main dark:text-white px-3 py-1 shadow-[0_12px_30px_rgba(0,0,0,0.06)]"
               >
                 {highlight}
               </span>
@@ -50,7 +50,11 @@ function RecommendationCard({
         </div>
       </div>
 
-      <div className="relative mt-4 rounded-2xl bg-white/60 dark:bg-white/0 ring-1 ring-black/5 dark:ring-white/10 p-4">
+      <div className="relative mt-4 rounded-2xl bg-black/[0.03] dark:bg-white/[0.04] p-4">
+        <div
+          aria-hidden="true"
+          className="absolute left-0 top-4 bottom-4 w-1 rounded-full bg-primary/60"
+        />
         <div className="flex items-center gap-2 text-base font-black text-text-main dark:text-white">
           <span className="material-symbols-outlined text-[18px] text-text-muted dark:text-gray-300">
             school
@@ -74,12 +78,7 @@ function RecommendationCard({
         ) : null}
       </div>
 
-      <div
-        className="relative mt-4 h-[2px] w-full rounded-full bg-black/5 dark:bg-white/10 overflow-hidden"
-        aria-hidden="true"
-      >
-        <div className="h-full w-0 bg-primary transition-all duration-300 ease-out group-hover:w-full" />
-      </div>
+      <div aria-hidden="true" className="mt-4 h-px w-full bg-black/5 dark:bg-white/10" />
     </div>
   );
 }
@@ -102,7 +101,7 @@ export default function CitySchoolRecommendations({
   if (!items.length) return null;
 
   return (
-    <section className="rounded-[2rem] bg-white/60 dark:bg-white/5 shadow-[0_25px_60px_rgba(0,0,0,0.06)] ring-1 ring-black/5 dark:ring-white/10 p-6 md:p-7">
+    <section className="rounded-[2rem] lotus-glass-strong p-6 md:p-7">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-xl md:text-2xl font-black text-text-main dark:text-white">

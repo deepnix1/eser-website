@@ -8,6 +8,16 @@ const nextConfig = {
   },
 
   async headers() {
+    const isDev = process.env.NODE_ENV === "development";
+
+    const scriptSrc = [
+      "'self'",
+      "'unsafe-inline'",
+      ...(isDev ? ["'unsafe-eval'"] : []),
+      "https://assets.calendly.com",
+      "https://va.vercel-scripts.com",
+    ].join(" ");
+
     const contentSecurityPolicy = [
       "default-src 'self'",
       "base-uri 'self'",
@@ -17,7 +27,7 @@ const nextConfig = {
       "img-src 'self' data: https: https://*.supabase.co",
       "font-src 'self' data: https://fonts.gstatic.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "script-src 'self' 'unsafe-inline' https://assets.calendly.com https://va.vercel-scripts.com",
+      `script-src ${scriptSrc}`,
       "media-src 'self' blob: data: https://*.supabase.co",
       "frame-src https://calendly.com https://*.calendly.com https://www.google.com",
       "connect-src 'self' https://calendly.com https://*.calendly.com https://assets.calendly.com https://vitals.vercel-insights.com https://vitals.vercel-analytics.com https://*.supabase.co wss://*.supabase.co",

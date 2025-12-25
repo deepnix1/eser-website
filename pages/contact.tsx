@@ -316,17 +316,6 @@ export default function ContactPage() {
       <SiteHeader />
 
       <main className="pt-24">
-        <section className="bg-gradient-to-b from-white via-background-light to-background-light dark:from-background-dark dark:via-background-dark dark:to-background-dark border-b border-gray-200/70 dark:border-white/10">
-          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-text-main dark:text-white">
-              {copy.heroTitle}
-            </h1>
-            <p className="mt-4 text-sm md:text-base text-text-muted dark:text-gray-400 max-w-2xl leading-relaxed">
-              {copy.heroSubtitle}
-            </p>
-          </div>
-        </section>
-
         <section className="bg-background-light dark:bg-background-dark">
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">

@@ -2,3 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .lotus-glass {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(24, 24, 17, 0.06);
+    box-shadow:
+      0 18px 45px rgba(0, 0, 0, 0.06),
+      0 1px 0 rgba(255, 255, 255, 0.65) inset;
+  }
+
+  .dark .lotus-glass {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+  }
+
+  @supports ((-webkit-backdrop-filter: blur(16px)) or (backdrop-filter: blur(16px))) {
+    .lotus-glass {
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+    }
+
+    .dark .lotus-glass {
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+    }
+  }
+
+  .lotus-glass-strong {
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(24, 24, 17, 0.06);
+    box-shadow:
+      0 25px 60px rgba(0, 0, 0, 0.08),
+      0 1px 0 rgba(255, 255, 255, 0.75) inset;
+  }
+
+  .dark .lotus-glass-strong {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
+  }
+
+  @supports ((-webkit-backdrop-filter: blur(16px)) or (backdrop-filter: blur(16px))) {
+    .lotus-glass-strong {
+      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(22px);
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+    }
+
+    .dark .lotus-glass-strong {
+      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(22px);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  .lotus-glow-primary {
+    box-shadow:
+      0 25px 70px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(249, 245, 6, 0.30),
+      0 0 55px rgba(249, 245, 6, 0.16);
+  }
+
+  .dark .lotus-glow-primary {
+    box-shadow:
+      0 30px 90px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(249, 245, 6, 0.24),
+      0 0 55px rgba(249, 245, 6, 0.12);
+  }
+
+  .lotus-glass-subtle {
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(24, 24, 17, 0.06);
+  }
+
+  .dark .lotus-glass-subtle {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+  }
+
+  @supports ((-webkit-backdrop-filter: blur(16px)) or (backdrop-filter: blur(16px))) {
+    .lotus-glass-subtle {
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.52);
+      border: 1px solid rgba(255, 255, 255, 0.40);
+    }
+
+    .dark .lotus-glass-subtle {
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+    }
+  }
+}

@@ -303,9 +303,52 @@ const COPY = {
           body: "Profiline uygun ülke/program seçimiyle doğru rota oluştururuz.",
         },
       ],
-    },
-    assessment: {
-      badge: "Ücretsiz Değerlendirme",
+	    },
+	    journey: {
+	      badge: "Müşteri Yolculuğu",
+	      title: "Hedefinden vizeye: adım adım ilerleyelim.",
+	      description:
+	        "Her adımda ne olacağını bil: biz planlarız, takip ederiz; sen de güvenle ilerlersin.",
+	      steps: [
+	        {
+	          id: "assessment",
+	          icon: "fact_check",
+	          title: "Ücretsiz değerlendirme",
+	          body: "Hedeflerini, profilini ve uygunluğunu netleştirir; en doğru rotayı birlikte belirleriz.",
+	          meta: "24 saat içinde dönüş",
+	        },
+	        {
+	          id: "route",
+	          icon: "travel_explore",
+	          title: "Rota tasarımı",
+	          body: "Ülke + program seçimi, alternatifler ve zaman planı: net bir yol haritası oluştururuz.",
+	          meta: "Program eşleştirme",
+	        },
+	        {
+	          id: "documents",
+	          icon: "description",
+	          title: "Dosya hazırlığı",
+	          body: "Evrak listesini özelleştirir, kontrol eder ve başvuru dosyanı premium düzende hazırlarız.",
+	          meta: "Evrak kontrolü",
+	        },
+	        {
+	          id: "application",
+	          icon: "shield_lock",
+	          title: "Başvuru & vize",
+	          body: "Başvurular, randevu ve takip: süreci adım adım yönetir, riskleri önceden kapatırız.",
+	          meta: "Takip & yönlendirme",
+	        },
+	        {
+	          id: "departure",
+	          icon: "flight_takeoff",
+	          title: "Yola çıkış & destek",
+	          body: "Uçuş öncesi checklist, konaklama/varış bilgileri ve yeni ülkende ilk gün desteği.",
+	          meta: "Varışa kadar",
+	        },
+	      ],
+	    },
+	    assessment: {
+	      badge: "Ücretsiz Değerlendirme",
       title: "Profilini analiz edelim, sana rota çıkaralım.",
       description:
         "Kısa formu doldur. Ekibimiz 24 saat içinde seninle iletişime geçsin.",
@@ -532,9 +575,52 @@ const COPY = {
           body: "We match you with the right country/program for a strong route.",
         },
       ],
-    },
-    assessment: {
-      badge: "Free Assessment",
+	    },
+	    journey: {
+	      badge: "Customer Journey",
+	      title: "From goals to visa: step by step.",
+	      description:
+	        "Know what happens at every stage: we plan and track the process so you can move forward with confidence.",
+	      steps: [
+	        {
+	          id: "assessment",
+	          icon: "fact_check",
+	          title: "Free assessment",
+	          body: "We clarify your goals, profile, and eligibility and align on the best route for you.",
+	          meta: "Reply within 24h",
+	        },
+	        {
+	          id: "route",
+	          icon: "travel_explore",
+	          title: "Route design",
+	          body: "Country + program selection, alternatives, and a clear timeline for a strong plan.",
+	          meta: "Program matching",
+	        },
+	        {
+	          id: "documents",
+	          icon: "description",
+	          title: "Document preparation",
+	          body: "We tailor your checklist, review documents, and prepare a premium-quality application file.",
+	          meta: "Document review",
+	        },
+	        {
+	          id: "application",
+	          icon: "shield_lock",
+	          title: "Application & visa",
+	          body: "Submissions, appointments, and tracking—managed step by step with risks handled early.",
+	          meta: "Tracking & guidance",
+	        },
+	        {
+	          id: "departure",
+	          icon: "flight_takeoff",
+	          title: "Departure support",
+	          body: "Pre-departure checklist, accommodation/arrival guidance, and support for your first days.",
+	          meta: "Until arrival",
+	        },
+	      ],
+	    },
+	    assessment: {
+	      badge: "Free Assessment",
       title: "Let's analyze your profile and map your route.",
       description:
         "Fill out the short form. Our team will reach out within 24 hours.",
@@ -761,9 +847,52 @@ const COPY = {
           body: "Wir matchen Land und Programm zu deinem Profil und bauen eine starke Route.",
         },
       ],
-    },
-    assessment: {
-      badge: "Kostenlose Einschätzung",
+	    },
+	    journey: {
+	      badge: "Kundenreise",
+	      title: "Vom Ziel zum Visum: Schritt für Schritt.",
+	      description:
+	        "Du weißt jederzeit, was als Nächstes kommt: Wir planen und verfolgen den Prozess, damit du sicher vorankommst.",
+	      steps: [
+	        {
+	          id: "assessment",
+	          icon: "fact_check",
+	          title: "Kostenlose Einschätzung",
+	          body: "Wir klären Ziele, Profil und Eignung und legen gemeinsam die beste Route fest.",
+	          meta: "Antwort in 24 Std.",
+	        },
+	        {
+	          id: "route",
+	          icon: "travel_explore",
+	          title: "Route planen",
+	          body: "Land + Programmauswahl, Alternativen und eine klare Timeline für deinen Plan.",
+	          meta: "Programm-Matching",
+	        },
+	        {
+	          id: "documents",
+	          icon: "description",
+	          title: "Unterlagen vorbereiten",
+	          body: "Wir passen die Checkliste an, prüfen Dokumente und erstellen eine Premium-Bewerbungsmappe.",
+	          meta: "Dokumentencheck",
+	        },
+	        {
+	          id: "application",
+	          icon: "shield_lock",
+	          title: "Bewerbung & Visum",
+	          body: "Einreichung, Termine und Tracking: Schritt für Schritt, Risiken reduzieren wir frühzeitig.",
+	          meta: "Tracking & Guidance",
+	        },
+	        {
+	          id: "departure",
+	          icon: "flight_takeoff",
+	          title: "Abreise & Support",
+	          body: "Pre-Departure-Checkliste, Ankunft/Unterkunft und Unterstützung für die ersten Tage.",
+	          meta: "Bis zur Ankunft",
+	        },
+	      ],
+	    },
+	    assessment: {
+	      badge: "Kostenlose Einschätzung",
       title: "Wir analysieren dein Profil und planen deine Route.",
       description:
         "Fülle das kurze Formular aus. Unser Team meldet sich innerhalb von 24 Stunden.",
@@ -1994,12 +2123,12 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+	      </section>
 
-      <section className="py-24 bg-primary px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-10 pointer-events-none"
+	      <section className="py-24 bg-primary px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+	        <div
+	          aria-hidden="true"
+	          className="absolute inset-0 opacity-10 pointer-events-none"
           style={{
             backgroundImage:
               "radial-gradient(circle at 2px 2px, black 1px, transparent 0)",

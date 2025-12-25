@@ -8,6 +8,11 @@ type ProgramListProps = {
   programs: readonly Program[];
   selectedProgramId: string | null;
   onSelectProgram: (programId: string) => void;
+  getDetailsHref?: (programId: string) => string;
+  detailsLabel?: string;
+  variant?: "list" | "grid";
+  sticky?: boolean;
+  scroll?: boolean;
   ui: {
     listTitle: string;
     listHint: string;
@@ -23,6 +28,11 @@ export default function ProgramList({
   programs,
   selectedProgramId,
   onSelectProgram,
+  getDetailsHref,
+  detailsLabel,
+  variant = "list",
+  sticky = true,
+  scroll = true,
   ui,
   badgeLabels,
   isLoading = false,
@@ -70,7 +80,7 @@ export default function ProgramList({
   };
 
   return (
-    <div className="lg:sticky lg:top-28">
+    <div className={sticky ? "lg:sticky lg:top-28" : undefined}>
       <div className="flex items-center justify-between">
         <div className="text-base font-black text-text-main dark:text-white">
           {ui.listTitle}
@@ -81,12 +91,20 @@ export default function ProgramList({
       </div>
 
       <div
-        className="mt-4 space-y-3"
+        className="mt-4 rounded-[2rem] lotus-glass p-3"
         role="listbox"
         aria-label={ui.listAria}
         tabIndex={0}
         onKeyDown={onKeyDown}
       >
+        <div
+          className={[
+            scroll ? "max-h-[520px] lg:max-h-[calc(100vh-420px)] overflow-auto no-scrollbar pr-1" : "",
+            variant === "grid"
+              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"
+              : "space-y-3",
+          ].join(" ")}
+        >
         {isLoading ? (
           <>
             {Array.from({ length: 5 }).map((_, idx) => (
@@ -101,6 +119,8 @@ export default function ProgramList({
               isActive={program.id === selectedProgramId}
               onSelect={() => onSelectProgram(program.id)}
               badgeLabels={badgeLabels}
+              detailsHref={getDetailsHref?.(program.id)}
+              detailsLabel={detailsLabel}
               ref={(node) => {
                 buttonRefs.current[index] = node;
               }}
@@ -116,6 +136,7 @@ export default function ProgramList({
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
