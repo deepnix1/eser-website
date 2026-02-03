@@ -35,22 +35,22 @@ const HERO_BG_URL =
   "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2400&q=80";
 
 const DEST_GERMANY_BG_URL =
-  "https://images.unsplash.com/photo-1528728329032-2972f65dfb3f?auto=format&fit=crop&w=2400&q=80";
+  "https://upload.wikimedia.org/wikipedia/commons/b/bb/Technische_Universit%C3%A4t_M%C3%BCnchen.jpg";
 
 const DEST_USA_BG_URL =
-  "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=2400&q=80";
+  "https://upload.wikimedia.org/wikipedia/commons/9/94/MIT_Killian_Court.jpg";
 
 const DEST_ENGLAND_BG_URL =
-  "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=2400&q=80";
+  "https://upload.wikimedia.org/wikipedia/commons/2/2e/Queen%27s_Tower%2C_Imperial_College_London.jpg";
 
 const DEST_MALTA_BG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/A_Glowing_Night_Over_the_Grand_Harbour.jpg/3200px-A_Glowing_Night_Over_the_Grand_Harbour.jpg";
+  "https://upload.wikimedia.org/wikipedia/commons/2/2f/University_of_Malta_library_Valletta_campus.jpg";
 
 const DEST_NETHERLANDS_BG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Amsterdam_Canal_Houses_at_Night_%2852555856777%29.jpg/3200px-Amsterdam_Canal_Houses_at_Night_%2852555856777%29.jpg";
+  "https://upload.wikimedia.org/wikipedia/commons/1/1e/TU-Delft-Bibl-2.jpg";
 
 const DEST_IRELAND_BG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/O%27Brien%27s_Tower_at_Cliffs_of_Moher.jpg/3200px-O%27Brien%27s_Tower_at_Cliffs_of_Moher.jpg";
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Campanile%2C_Trinity_College_Dublin.jpg/1280px-Campanile%2C_Trinity_College_Dublin.jpg";
 
 const STORY_SARAH_IMG_URL =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCK4_9qC48fP-EhuRCZG1xXMmRchvbIhYWS7ZuG8C9ffR2njTy20TXUb5i0nmGzRm778ubM_yBtl3TmFiaexr_jJ2xK6u_q9VVLQ3ooI8j0EaIRjj3u1BkMlxSK2SQhhfevoZuQgmrq6bxOlwjNISyCboseVR68gFdqi4iiaEGXo42kLulRukwc6neGDBUiQEEWLwLY9q2bVxDrBimGL3dBWf4joF0M6wv-yECgln1Y-W8qczCg2X3gp9MSE6TB_CpKgV7RwOeyeRKh";
