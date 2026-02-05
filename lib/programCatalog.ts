@@ -18,6 +18,7 @@ export type Program = {
   title: string;
   tagline: string;
   details: ProgramDetails;
+  heroImageUrl?: string;
   badge?: "Shared" | "Popular" | "New";
 };
 
@@ -45,6 +46,7 @@ type ProgramSource = {
   badge?: Program["badge"];
   title: Localized<string>;
   tagline: Localized<string>;
+  heroImageUrl?: string;
   getDetails: (locale: AppLocale) => ProgramDetails;
 };
 
@@ -368,6 +370,8 @@ const GERMANY_PROGRAMS: readonly ProgramSource[] = [
   {
     id: "ausbildung",
     badge: "Popular",
+    heroImageUrl:
+      "https://images.unsplash.com/photo-k9Dc5zT1Gq0?auto=format&fit=crop&w=2400&q=80",
     title: {
       tr: "Ausbildung (Maaşlı Mesleki Eğitim)",
       en: "Ausbildung (Paid Vocational Training)",
@@ -1174,6 +1178,7 @@ export function getProgramCatalog(localeInput?: string): Record<CountryId, Count
         badge: program.badge,
         title: program.title[locale] ?? program.title.tr,
         tagline: program.tagline[locale] ?? program.tagline.tr,
+        heroImageUrl: program.heroImageUrl,
         details: program.getDetails(locale),
       })),
     };

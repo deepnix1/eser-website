@@ -32,6 +32,12 @@ const PARTNER_LOGOS: PartnerLogoProps[] = [
 ];
 
 const HERO_BG_URL =
+  "https://images.unsplash.com/photo-98Elr-LIvD8?auto=format&fit=crop&w=2400&q=80";
+
+const HERO_BG_URL_ALT =
+  "https://images.unsplash.com/photo-_kd5cxwZOK4?auto=format&fit=crop&w=2400&q=80";
+
+const HERO_BG_URL_FALLBACK =
   "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2400&q=80";
 
 const DEST_GERMANY_BG_URL =
@@ -1105,10 +1111,8 @@ export default function HomePage() {
   const heroImages = useMemo(
     () => [
       HERO_BG_URL,
-      DEST_GERMANY_BG_URL,
-      DEST_USA_BG_URL,
-      DEST_ENGLAND_BG_URL,
-      DEST_MALTA_BG_URL,
+      HERO_BG_URL_ALT,
+      HERO_BG_URL_FALLBACK,
     ],
     [],
   );

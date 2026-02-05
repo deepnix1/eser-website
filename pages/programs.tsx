@@ -729,7 +729,6 @@ export default function ProgramsPage() {
     return programs.find((program) => program.id === selectedProgramId) ?? programs[0];
   }, [programs, selectedProgramId]);
 
-  const heroImageUrl = programCatalog[selectedCountry]?.heroImageUrl;
   const seoKeywords = PROGRAMS_SEO_KEYWORDS[locale];
 
   const seoItemList = useMemo(() => {
@@ -759,6 +758,11 @@ export default function ProgramsPage() {
     if (!displayProgramId) return programs[0];
     return programs.find((program) => program.id === displayProgramId) ?? programs[0];
   }, [displayProgramId, programs]);
+
+  const heroImageUrl =
+    displayProgram?.heroImageUrl ??
+    selectedProgram?.heroImageUrl ??
+    programCatalog[selectedCountry]?.heroImageUrl;
 
   const faqEntities = useMemo(() => {
     const programForFaq = displayProgram ?? selectedProgram ?? programs[0] ?? null;
