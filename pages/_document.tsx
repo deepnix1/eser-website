@@ -23,9 +23,11 @@ export default class MyDocument extends Document<Props> {
         <Head>
           <meta content="#f9f506" name="theme-color" />
 
-          <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-          <link href="/favicon.svg" rel="icon" sizes="any" />
-          <link href="/landing_page_logo.png" rel="apple-touch-icon" />
+          <link href="/favicon.ico" rel="icon" sizes="any" />
+          <link href="/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" />
+          <link href="/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16" />
+          <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+          <link href="/site.webmanifest" rel="manifest" />
 
           <link href="https://fonts.googleapis.com" rel="preconnect" />
           <link crossOrigin="" href="https://fonts.gstatic.com" rel="preconnect" />
