@@ -32,13 +32,13 @@ const PARTNER_LOGOS: PartnerLogoProps[] = [
 ];
 
 const HERO_BG_URL =
-  "https://unsplash.com/photos/98Elr-LIvD8/download?force=true";
+  "/friends-with-thumbs-up-lying-lawn-park.jpg";
 
 const HERO_BG_URL_ALT =
-  "https://unsplash.com/photos/_kd5cxwZOK4/download?force=true";
+  "https://unsplash.com/photos/98Elr-LIvD8/download?force=true";
 
 const HERO_BG_URL_FALLBACK =
-  "/friends-with-thumbs-up-lying-lawn-park.jpg";
+  "https://unsplash.com/photos/_kd5cxwZOK4/download?force=true";
 
 const DEST_GERMANY_BG_URL =
   "https://upload.wikimedia.org/wikipedia/commons/b/bb/Technische_Universit%C3%A4t_M%C3%BCnchen.jpg";
