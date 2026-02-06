@@ -38,7 +38,7 @@ const HERO_BG_URL_ALT =
   "https://unsplash.com/photos/_kd5cxwZOK4/download?force=true";
 
 const HERO_BG_URL_FALLBACK =
-  "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2400&q=80";
+  "/friends-with-thumbs-up-lying-lawn-park.jpg";
 
 const DEST_GERMANY_BG_URL =
   "https://upload.wikimedia.org/wikipedia/commons/b/bb/Technische_Universit%C3%A4t_M%C3%BCnchen.jpg";
