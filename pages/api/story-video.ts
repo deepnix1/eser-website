@@ -18,6 +18,13 @@ function normalizePath(value: string) {
   return value.trim().replace(/^\/+/, "");
 }
 
+function applyLegacyAliases(path: string) {
+  // Backward-compatible aliases for previously shipped object names.
+  // Keeps production working even if old env vars still point to legacy filenames.
+  if (path === "IMG_6266 (1).mov") return "ibrahim.mov";
+  return path;
+}
+
 function getSupabaseBaseUrl() {
   const url =
     process.env.NEXT_PUBLIC_SUPABASE_URL ??
@@ -87,7 +94,9 @@ export default async function handler(
       ? req.query.bucket
       : process.env.NEXT_PUBLIC_SUPABASE_VIDEO_BUCKET ?? "videos",
   );
-  const path = normalizePath(typeof req.query.path === "string" ? req.query.path : "");
+  const path = applyLegacyAliases(
+    normalizePath(typeof req.query.path === "string" ? req.query.path : ""),
+  );
   if (!path) return res.status(400).json({ ok: false, error: "Missing path." });
 
   if (path.startsWith("http://") || path.startsWith("https://")) {
