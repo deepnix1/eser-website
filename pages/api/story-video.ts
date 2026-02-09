@@ -4,6 +4,17 @@ type StoryVideoResponse =
   | { ok: true; url: string; expiresIn: number }
   | { ok: false; error: string };
 
+const DEFAULT_BUCKET = (process.env.NEXT_PUBLIC_SUPABASE_VIDEO_BUCKET ?? "videos")
+  .trim()
+  .replace(/^\/+|\/+$/g, "");
+
+const DEFAULT_ALLOWED_PATHS = [
+  "kerem.mov",
+  "ibrahim.mov",
+  "zeynep.mov",
+  "WhatsApp Video 2026-02-09 at 3.17.01 PM.mp4",
+] as const;
+
 function encodePathSegment(segment: string) {
   return encodeURIComponent(segment).replace(/[!'()*]/g, (char) =>
     `%${char.charCodeAt(0).toString(16).toUpperCase()}`,
@@ -25,6 +36,38 @@ function applyLegacyAliases(path: string) {
   return path;
 }
 
+function isUrl(value: string) {
+  return value.startsWith("http://") || value.startsWith("https://");
+}
+
+function loadAllowedPaths(): Set<string> {
+  const allow = new Set<string>(DEFAULT_ALLOWED_PATHS);
+
+  const fromEnvList = (process.env.STORY_VIDEO_ALLOWED_PATHS ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  for (const item of fromEnvList) {
+    const normalized = applyLegacyAliases(normalizePath(item));
+    if (!normalized || isUrl(normalized)) continue;
+    allow.add(normalized);
+  }
+
+  const envCandidates = [
+    process.env.NEXT_PUBLIC_STORY_VIDEO_SARAH,
+    process.env.NEXT_PUBLIC_STORY_VIDEO_AHMET,
+    process.env.NEXT_PUBLIC_STORY_VIDEO_ELENA,
+    process.env.NEXT_PUBLIC_STORY_VIDEO_JOHN,
+  ];
+  for (const candidate of envCandidates) {
+    const raw = (candidate ?? "").trim();
+    if (!raw || isUrl(raw)) continue;
+    allow.add(applyLegacyAliases(normalizePath(raw)));
+  }
+
+  return allow;
+}
+
 function getSupabaseBaseUrl() {
   const url =
     process.env.NEXT_PUBLIC_SUPABASE_URL ??
@@ -44,8 +87,10 @@ function getServiceRoleKey() {
 
 function getExpiresInSeconds(value: string | undefined) {
   const parsed = value ? Number.parseInt(value, 10) : NaN;
-  if (!Number.isFinite(parsed)) return 60 * 60 * 24; // 24h
-  return Math.min(Math.max(parsed, 60), 60 * 60 * 24 * 30); // 1m..30d
+  // Keep URLs short-lived to reduce replay/hotlinking risk.
+  const max = 60 * 15; // 15m
+  if (!Number.isFinite(parsed)) return max;
+  return Math.min(Math.max(parsed, 60), max); // 1m..15m
 }
 
 export default async function handler(
@@ -89,22 +134,29 @@ export default async function handler(
       .json({ ok: false, error: "Signing is not configured (missing SUPABASE_SERVICE_ROLE_KEY)." });
   }
 
-  const bucket = normalizeBucket(
-    typeof req.query.bucket === "string"
-      ? req.query.bucket
-      : process.env.NEXT_PUBLIC_SUPABASE_VIDEO_BUCKET ?? "videos",
-  );
+  // Do not allow arbitrary buckets to be signed with the service key.
+  const bucketQuery = typeof req.query.bucket === "string" ? req.query.bucket : "";
+  const bucket = DEFAULT_BUCKET || "videos";
+  if (bucketQuery && normalizeBucket(bucketQuery) !== bucket) {
+    return res.status(403).json({ ok: false, error: "Bucket not allowed." });
+  }
+
   const path = applyLegacyAliases(
     normalizePath(typeof req.query.path === "string" ? req.query.path : ""),
   );
   if (!path) return res.status(400).json({ ok: false, error: "Missing path." });
 
-  if (path.startsWith("http://") || path.startsWith("https://")) {
+  if (isUrl(path)) {
     return res.status(400).json({ ok: false, error: "Path must be a storage object path, not a URL." });
   }
 
   if (path.length > 240) {
     return res.status(400).json({ ok: false, error: "Path too long." });
+  }
+
+  const allowed = loadAllowedPaths();
+  if (!allowed.has(path)) {
+    return res.status(403).json({ ok: false, error: "Path not allowed." });
   }
 
   const expiresIn = getExpiresInSeconds(
@@ -154,7 +206,7 @@ export default async function handler(
               ? `${supabaseUrl}${signedUrl}`
               : `${supabaseUrl}/${signedUrl}`;
 
-    res.setHeader("Cache-Control", "private, max-age=60");
+    res.setHeader("Cache-Control", "no-store");
     return res.status(200).json({ ok: true, url: absoluteUrl, expiresIn });
   } catch {
     return res.status(502).json({ ok: false, error: "Could not reach Supabase." });

@@ -1,6 +1,12 @@
 import type { GetServerSideProps } from "next";
 
 function getBaseUrl(req: Parameters<GetServerSideProps>[0]["req"]) {
+  const envBase =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    process.env.SITE_URL ??
+    "https://www.lotusabroad.net";
+  if (envBase) return envBase.replace(/\/+$/, "");
+
   const host = req.headers["x-forwarded-host"] ?? req.headers.host;
   const proto = req.headers["x-forwarded-proto"] ?? "https";
   const hostValue = Array.isArray(host) ? host[0] : host;
@@ -29,4 +35,3 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
 export default function RobotsTxt() {
   return null;
 }
-

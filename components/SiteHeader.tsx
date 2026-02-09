@@ -311,10 +311,10 @@ export default function SiteHeader() {
 
       {mobileMenuOpen ? (
         <div className="md:hidden fixed inset-0 z-[60]" role="dialog" aria-modal="true" aria-label={labels.menu}>
-          <div aria-hidden="true" className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+          <div aria-hidden="true" className="absolute inset-0 bg-black/70" />
           <div
             ref={mobileMenuRef}
-            className="absolute right-0 top-0 h-full w-[360px] max-w-[88vw] bg-white dark:bg-background-dark border-l border-gray-100 dark:border-white/10 shadow-[0_24px_90px_rgba(0,0,0,0.32)]"
+            className="absolute right-0 top-0 h-full w-[360px] max-w-[88vw] bg-white dark:bg-background-dark border-l border-gray-100 dark:border-white/10 shadow-[0_24px_90px_rgba(0,0,0,0.32)] opacity-100"
           >
             <div className="h-24 px-4 sm:px-6 flex items-center justify-between border-b border-gray-100 dark:border-white/10">
               <div className="text-sm font-black text-text-main dark:text-white">{labels.menu}</div>

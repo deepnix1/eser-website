@@ -371,7 +371,7 @@ const GERMANY_PROGRAMS: readonly ProgramSource[] = [
     id: "ausbildung",
     badge: "Popular",
     heroImageUrl:
-      "https://unsplash.com/photos/k9Dc5zT1Gq0/download?force=true",
+      "https://images.unsplash.com/photo-1597058557804-95ac4ee36e66?auto=format&fit=crop&w=1600&q=70",
     title: {
       tr: "Ausbildung (Maaşlı Mesleki Eğitim)",
       en: "Ausbildung (Paid Vocational Training)",

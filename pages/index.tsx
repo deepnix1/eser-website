@@ -32,28 +32,28 @@ const PARTNER_LOGOS: PartnerLogoProps[] = [
 ];
 
 const HERO_BG_URL =
-  "/friends-with-thumbs-up-lying-lawn-park.jpg";
+  "/friends-with-thumbs-up-lying-lawn-park-1600.jpg";
 
 const HERO_BG_URL_ALT =
-  "https://unsplash.com/photos/98Elr-LIvD8/download?force=true";
+  "https://images.unsplash.com/photo-1484712401471-05c7215830eb?auto=format&fit=crop&w=2000&q=70";
 
 const HERO_BG_URL_FALLBACK =
-  "https://unsplash.com/photos/_kd5cxwZOK4/download?force=true";
+  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=2000&q=70";
 
 const DEST_GERMANY_BG_URL =
-  "https://unsplash.com/photos/Ny2mrBjwROI/download?force=true";
+  "https://images.unsplash.com/photo-1662555500038-3d9ed651fc06?auto=format&fit=crop&w=1600&q=70";
 
 const DEST_USA_BG_URL =
   "https://upload.wikimedia.org/wikipedia/commons/9/94/MIT_Killian_Court.jpg";
 
 const DEST_ENGLAND_BG_URL =
-  "https://unsplash.com/photos/5islVITCBNE/download?force=true";
+  "https://images.unsplash.com/photo-1595685833450-b63451efcf01?auto=format&fit=crop&w=1600&q=70";
 
 const DEST_MALTA_BG_URL =
-  "https://unsplash.com/photos/VSG0ytKGlEc/download?force=true";
+  "https://images.unsplash.com/photo-1568108734535-a0896cecea3d?auto=format&fit=crop&w=1600&q=70";
 
 const DEST_NETHERLANDS_BG_URL =
-  "https://unsplash.com/photos/8VRl91VrExA/download?force=true";
+  "https://images.unsplash.com/photo-1615829358109-8187aa2a0856?auto=format&fit=crop&w=1600&q=70";
 
 const DEST_IRELAND_BG_URL =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Campanile%2C_Trinity_College_Dublin.jpg/1280px-Campanile%2C_Trinity_College_Dublin.jpg";
@@ -96,6 +96,51 @@ const STORY_VIDEO_PATHS = {
     process.env.NEXT_PUBLIC_STORY_VIDEO_JOHN ??
     "WhatsApp Video 2026-02-09 at 3.17.01 PM.mp4",
 } as const;
+
+function LazyBg({
+  src,
+  className,
+  alt,
+  location,
+}: {
+  src: string;
+  className: string;
+  alt?: string;
+  location?: string;
+}) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (enabled) return;
+    if (typeof window === "undefined") return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.some((entry) => entry.isIntersecting);
+        if (!visible) return;
+        setEnabled(true);
+        io.disconnect();
+      },
+      { rootMargin: "220px 0px" },
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [enabled]);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      data-alt={alt}
+      data-location={location}
+      style={enabled ? { backgroundImage: `url('${src}')` } : undefined}
+    />
+  );
+}
 
 function encodePathSegment(segment: string) {
   return encodeURIComponent(segment).replace(/[!'()*]/g, (char) =>
@@ -1554,11 +1599,11 @@ export default function HomePage() {
               href={{ pathname: "/programs", query: { country: "Germany" }, hash: "countries" }}
               aria-label={`${copy.destinations.cards.germany.title} programlarını görüntüle`}
             >
-              <div
+              <LazyBg
+                src={DEST_GERMANY_BG_URL}
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                data-alt="Brandenburg Gate in Berlin, Germany during sunset"
-                data-location="Germany"
-                style={{ backgroundImage: `url('${DEST_GERMANY_BG_URL}')` }}
+                alt="Brandenburg Gate in Berlin, Germany during sunset"
+                location="Germany"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
@@ -1575,11 +1620,11 @@ export default function HomePage() {
               href={{ pathname: "/programs", query: { country: "USA" }, hash: "countries" }}
               aria-label={`${copy.destinations.cards.usa.title} programlarını görüntüle`}
             >
-              <div
+              <LazyBg
+                src={DEST_USA_BG_URL}
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                data-alt="Statue of Liberty in New York City, USA"
-                data-location="USA"
-                style={{ backgroundImage: `url('${DEST_USA_BG_URL}')` }}
+                alt="Statue of Liberty in New York City, USA"
+                location="USA"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
@@ -1596,11 +1641,11 @@ export default function HomePage() {
               href={{ pathname: "/programs", query: { country: "United Kingdom" }, hash: "countries" }}
               aria-label={`${copy.destinations.cards.uk.title} programlarını görüntüle`}
             >
-              <div
+              <LazyBg
+                src={DEST_ENGLAND_BG_URL}
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                data-alt="Big Ben and Westminster Bridge in London, England"
-                data-location="England"
-                style={{ backgroundImage: `url('${DEST_ENGLAND_BG_URL}')` }}
+                alt="Big Ben and Westminster Bridge in London, England"
+                location="England"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
@@ -1617,11 +1662,11 @@ export default function HomePage() {
               href={{ pathname: "/programs", query: { country: "Malta" }, hash: "countries" }}
               aria-label={`${copy.destinations.cards.malta.title} programlarını görüntüle`}
             >
-              <div
+              <LazyBg
+                src={DEST_MALTA_BG_URL}
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                data-alt="Beautiful architecture in Valletta Malta"
-                data-location="Malta"
-                style={{ backgroundImage: `url('${DEST_MALTA_BG_URL}')` }}
+                alt="Beautiful architecture in Valletta Malta"
+                location="Malta"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
@@ -1638,11 +1683,11 @@ export default function HomePage() {
               href={{ pathname: "/programs", query: { country: "Netherlands" }, hash: "countries" }}
               aria-label={`${copy.destinations.cards.netherlands.title} programlarını görüntüle`}
             >
-              <div
+              <LazyBg
+                src={DEST_NETHERLANDS_BG_URL}
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                data-alt="Traditional Dutch architecture and canal in Amsterdam"
-                data-location="Netherlands"
-                style={{ backgroundImage: `url('${DEST_NETHERLANDS_BG_URL}')` }}
+                alt="Traditional Dutch architecture and canal in Amsterdam"
+                location="Netherlands"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">
@@ -1659,11 +1704,11 @@ export default function HomePage() {
               href={{ pathname: "/programs", query: { country: "Ireland" }, hash: "countries" }}
               aria-label={`${copy.destinations.cards.ireland.title} programlarını görüntüle`}
             >
-              <div
+              <LazyBg
+                src={DEST_IRELAND_BG_URL}
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                data-alt="Green landscape and cliffs in Ireland"
-                data-location="Ireland"
-                style={{ backgroundImage: `url('${DEST_IRELAND_BG_URL}')` }}
+                alt="Green landscape and cliffs in Ireland"
+                location="Ireland"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               <div className="absolute bottom-0 p-8 w-full">

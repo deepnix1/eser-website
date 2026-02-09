@@ -17,6 +17,38 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
 const rateLimitBuckets = new Map<string, number[]>();
 
+function getAllowedOrigin() {
+  const raw =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    process.env.SITE_URL ??
+    "https://www.lotusabroad.net";
+  try {
+    return new URL(raw).origin;
+  } catch {
+    return "https://www.lotusabroad.net";
+  }
+}
+
+function isAllowedRequestOrigin(req: NextApiRequest) {
+  const allowed = getAllowedOrigin();
+  const originHeader = req.headers.origin;
+  const refererHeader = req.headers.referer;
+  const origin = Array.isArray(originHeader) ? originHeader[0] : originHeader;
+  const referer = Array.isArray(refererHeader) ? refererHeader[0] : refererHeader;
+
+  if (origin) return origin === allowed;
+  if (referer) {
+    try {
+      return new URL(referer).origin === allowed;
+    } catch {
+      return false;
+    }
+  }
+
+  // If neither header exists, treat it as untrusted (prevents CSRF-like abuse).
+  return false;
+}
+
 function getClientIp(req: NextApiRequest) {
   const forwardedFor = req.headers["x-forwarded-for"];
   if (typeof forwardedFor === "string" && forwardedFor.trim()) {
@@ -73,6 +105,7 @@ export default async function handler(
     locale === "en"
       ? {
           rateLimit: "Too many requests. Please try again shortly.",
+          forbidden: "Request not allowed.",
           nameRequired: "Full name is required.",
           emailInvalid: "Please enter a valid email address.",
           messageShort: "Message must be at least 10 characters.",
@@ -84,6 +117,7 @@ export default async function handler(
       : locale === "de"
         ? {
             rateLimit: "Zu viele Anfragen. Bitte versuche es später erneut.",
+            forbidden: "Anfrage nicht erlaubt.",
             nameRequired: "Name ist erforderlich.",
             emailInvalid: "Bitte gib eine gültige E-Mail-Adresse ein.",
             messageShort: "Die Nachricht muss mindestens 10 Zeichen haben.",
@@ -95,6 +129,7 @@ export default async function handler(
         : {
             rateLimit:
               "Çok hızlı istek gönderildi. Lütfen biraz sonra tekrar deneyin.",
+            forbidden: "İstek izinli değil.",
             nameRequired: "Ad Soyad gerekli.",
             emailInvalid: "Geçerli bir e-posta girin.",
             messageShort: "Mesaj en az 10 karakter olmalı.",
@@ -103,6 +138,10 @@ export default async function handler(
             sendFailed: "E-posta gönderilemedi.",
             serviceDown: "E-posta servisine bağlanılamadı. Lütfen tekrar deneyin.",
           };
+
+  if (!isAllowedRequestOrigin(req)) {
+    return res.status(403).json({ ok: false, error: messages.forbidden });
+  }
 
   const payload: ContactPayload = {
     fullName: clampString(body.fullName, 120),
@@ -228,4 +267,3 @@ export default async function handler(
     return res.status(502).json({ ok: false, error: messages.serviceDown });
   }
 }
-
