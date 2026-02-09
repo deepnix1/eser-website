@@ -88,10 +88,16 @@ const SUPABASE_VIDEO_BUCKET = (process.env.NEXT_PUBLIC_SUPABASE_VIDEO_BUCKET ?? 
 );
 
 const STORY_VIDEO_PATHS = {
-  sarah: process.env.NEXT_PUBLIC_STORY_VIDEO_SARAH ?? "",
+  sarah:
+    process.env.NEXT_PUBLIC_STORY_VIDEO_SARAH ??
+    "https://balauszpznhuceqbgubs.supabase.co/storage/v1/object/sign/videos/kerem.mov?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jYjcyZDMzNy01NGEyLTQzODEtOGVmNS02N2VkNWQxNTJmM2YiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlb3Mva2VyZW0ubW92IiwiaWF0IjoxNzcwNjQxNTU4LCJleHAiOjIwODYwMDE1NTh9.RHvQEAIwsYdTBo-65-RTeCTsEWXzQxyYXRvlZVSCR5Y",
   ahmet: process.env.NEXT_PUBLIC_STORY_VIDEO_AHMET ?? "IMG_6266 (1).mov",
-  elena: process.env.NEXT_PUBLIC_STORY_VIDEO_ELENA ?? "",
-  john: process.env.NEXT_PUBLIC_STORY_VIDEO_JOHN ?? "",
+  elena:
+    process.env.NEXT_PUBLIC_STORY_VIDEO_ELENA ??
+    "https://balauszpznhuceqbgubs.supabase.co/storage/v1/object/sign/videos/zeynep.mov?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jYjcyZDMzNy01NGEyLTQzODEtOGVmNS02N2VkNWQxNTJmM2YiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlb3MvemV5bmVwLm1vdiIsImlhdCI6MTc3MDY0MTc5MywiZXhwIjoxNzcxNTA1NzkzfQ.HYNuMRJEKLCklTuNTb3N8yo6vInwJx5VN_D_lQz603Y",
+  john:
+    process.env.NEXT_PUBLIC_STORY_VIDEO_JOHN ??
+    "https://balauszpznhuceqbgubs.supabase.co/storage/v1/object/sign/videos/WhatsApp%20Video%202026-02-09%20at%203.17.01%20PM.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jYjcyZDMzNy01NGEyLTQzODEtOGVmNS02N2VkNWQxNTJmM2YiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlb3MvV2hhdHNBcHAgVmlkZW8gMjAyNi0wMi0wOSBhdCAzLjE3LjAxIFBNLm1wNCIsImlhdCI6MTc3MDY0MjAxMiwiZXhwIjoxNzcxNTA2MDEyfQ.R3nn_TGnDwd3xGtAzWxDnkQp3s1mp84EVlMPLMwr3xg",
 } as const;
 
 function encodePathSegment(segment: string) {
@@ -235,7 +241,7 @@ const COPY = {
       cards: {
         sarah: {
           country: "ABD",
-          title: "Sarah'ın Yolculuğu",
+          title: "Kerem'in Yolculuğu",
           subtitle: "NYU'da Bilgisayar Bilimleri (Yüksek Lisans)",
         },
         ahmet: {
@@ -245,12 +251,12 @@ const COPY = {
         },
         elena: {
           country: "İngiltere",
-          title: "Elena'nın Başarısı",
+          title: "Zeynep'in Başarısı",
           subtitle: "Oxford'da MBA",
         },
         john: {
           country: "Hollanda",
-          title: "John'un Deneyimi",
+          title: "Sena'nın Deneyimi",
           subtitle: "Amsterdam'da Tasarım",
         },
       },
@@ -507,7 +513,7 @@ const COPY = {
       cards: {
         sarah: {
           country: "USA",
-          title: "Sarah's Journey",
+          title: "Kerem's Journey",
           subtitle: "Computer Science (Master's) at NYU",
         },
         ahmet: {
@@ -517,12 +523,12 @@ const COPY = {
         },
         elena: {
           country: "United Kingdom",
-          title: "Elena's Success",
+          title: "Zeynep's Success",
           subtitle: "MBA at Oxford",
         },
         john: {
           country: "Netherlands",
-          title: "John's Experience",
+          title: "Sena's Experience",
           subtitle: "Design in Amsterdam",
         },
       },
@@ -779,7 +785,7 @@ const COPY = {
       cards: {
         sarah: {
           country: "USA",
-          title: "Sarahs Weg",
+          title: "Kerems Weg",
           subtitle: "Informatik (Master) an der NYU",
         },
         ahmet: {
@@ -789,12 +795,12 @@ const COPY = {
         },
         elena: {
           country: "Vereinigtes Königreich",
-          title: "Elenas Erfolg",
+          title: "Zeyneps Erfolg",
           subtitle: "MBA in Oxford",
         },
         john: {
           country: "Niederlande",
-          title: "Johns Erfahrung",
+          title: "Senas Erfahrung",
           subtitle: "Design in Amsterdam",
         },
       },
