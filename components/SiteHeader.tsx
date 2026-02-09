@@ -57,8 +57,10 @@ export default function SiteHeader() {
   const labels = (LABELS as any)[currentLocale] ?? LABELS.tr;
 
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const languageButtonRef = useRef<HTMLButtonElement | null>(null);
   const languageMenuRef = useRef<HTMLDivElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
 
   const toggleTheme = useCallback(() => {
     if (typeof document === "undefined") return;
@@ -66,6 +68,40 @@ export default function SiteHeader() {
   }, []);
 
   const closeLanguage = useCallback(() => setLanguageOpen(false), []);
+  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      closeMobileMenu();
+    };
+
+    const onPointerDown = (event: MouseEvent | PointerEvent) => {
+      const target = event.target as Node | null;
+      if (!target) return;
+      if (mobileMenuRef.current?.contains(target)) return;
+      closeMobileMenu();
+    };
+
+    document.addEventListener("keydown", onKeyDown, true);
+    document.addEventListener("pointerdown", onPointerDown, true);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown, true);
+      document.removeEventListener("pointerdown", onPointerDown, true);
+    };
+  }, [closeMobileMenu, mobileMenuOpen]);
 
   useEffect(() => {
     if (!languageOpen) return;
@@ -109,6 +145,17 @@ export default function SiteHeader() {
       LOCALE_MENU.find((item) => item.locale === currentLocale)?.label ?? "TR";
     return `${labels.lang} (aktif: ${active})`;
   }, [currentLocale, labels.lang]);
+
+  const mobileNavLinks = useMemo(() => {
+    return [
+      { href: "/", label: labels.home },
+      { href: "/programs", label: labels.programs },
+      { href: "/#destinations", label: labels.countries },
+      { href: "/blog", label: labels.blog },
+      { href: "/about", label: labels.about },
+      { href: "/contact", label: labels.contact },
+    ] as const;
+  }, [labels]);
 
   return (
     <nav className="fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 dark:bg-background-dark/80 border-b border-gray-100 dark:border-gray-800">
@@ -250,7 +297,10 @@ export default function SiteHeader() {
 
             <button
               aria-label={labels.menu}
-              className="md:hidden flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10"
+              aria-expanded={mobileMenuOpen}
+              aria-haspopup="dialog"
+              className="md:hidden flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              onClick={() => setMobileMenuOpen(true)}
               type="button"
             >
               <span className="material-symbols-outlined">menu</span>
@@ -258,6 +308,95 @@ export default function SiteHeader() {
           </div>
         </div>
       </div>
+
+      {mobileMenuOpen ? (
+        <div className="md:hidden fixed inset-0 z-[60]" role="dialog" aria-modal="true" aria-label={labels.menu}>
+          <div aria-hidden="true" className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+          <div
+            ref={mobileMenuRef}
+            className="absolute right-0 top-0 h-full w-[360px] max-w-[88vw] bg-white dark:bg-background-dark border-l border-gray-100 dark:border-white/10 shadow-[0_24px_90px_rgba(0,0,0,0.32)]"
+          >
+            <div className="h-24 px-4 sm:px-6 flex items-center justify-between border-b border-gray-100 dark:border-white/10">
+              <div className="text-sm font-black text-text-main dark:text-white">{labels.menu}</div>
+              <button
+                aria-label="Close menu"
+                className="inline-flex items-center justify-center size-10 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                onClick={closeMobileMenu}
+                type="button"
+              >
+                <span className="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            </div>
+
+            <div className="px-4 sm:px-6 py-5">
+              <div className="space-y-1">
+                {mobileNavLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    className="flex items-center justify-between rounded-xl px-4 py-3 text-base font-bold text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                    href={item.href}
+                    onClick={closeMobileMenu}
+                  >
+                    <span>{item.label}</span>
+                    <span className="material-symbols-outlined text-[18px] text-text-muted dark:text-gray-400">
+                      chevron_right
+                    </span>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="mt-6 rounded-2xl border border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-white/5 p-4">
+                <div className="text-xs font-black uppercase tracking-widest text-text-muted dark:text-gray-400">
+                  {labels.lang}
+                </div>
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  {LOCALE_MENU.map((item) => {
+                    const active = item.locale === currentLocale;
+                    return (
+                      <button
+                        key={item.locale}
+                        className={[
+                          "h-10 rounded-xl text-sm font-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+                          active
+                            ? "bg-primary text-black"
+                            : "bg-white dark:bg-white/10 text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/20",
+                        ].join(" ")}
+                        onClick={() => onSelectLocale(item.locale)}
+                        type="button"
+                      >
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-4 flex items-center justify-between gap-3">
+                  <div className="text-xs font-black uppercase tracking-widest text-text-muted dark:text-gray-400">
+                    {labels.theme}
+                  </div>
+                  <button
+                    className="inline-flex items-center justify-center h-10 px-4 rounded-xl bg-white dark:bg-white/10 hover:bg-gray-100 dark:hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                    onClick={toggleTheme}
+                    type="button"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">dark_mode</span>
+                  </button>
+                </div>
+              </div>
+
+              <button
+                className="mt-6 w-full h-12 rounded-2xl bg-primary text-black font-black tracking-wide hover:brightness-105 transition-all shadow-[0_16px_45px_rgba(249,245,6,0.20)]"
+                aria-haspopup="dialog"
+                data-calendly-open="true"
+                onClick={closeMobileMenu}
+                type="button"
+              >
+                {labels.cta}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </nav>
   );
 }

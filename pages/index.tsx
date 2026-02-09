@@ -41,19 +41,19 @@ const HERO_BG_URL_FALLBACK =
   "https://unsplash.com/photos/_kd5cxwZOK4/download?force=true";
 
 const DEST_GERMANY_BG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/b/bb/Technische_Universit%C3%A4t_M%C3%BCnchen.jpg";
+  "https://unsplash.com/photos/Ny2mrBjwROI/download?force=true";
 
 const DEST_USA_BG_URL =
   "https://upload.wikimedia.org/wikipedia/commons/9/94/MIT_Killian_Court.jpg";
 
 const DEST_ENGLAND_BG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/2/2e/Queen%27s_Tower%2C_Imperial_College_London.jpg";
+  "https://unsplash.com/photos/5islVITCBNE/download?force=true";
 
 const DEST_MALTA_BG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/2/2f/University_of_Malta_library_Valletta_campus.jpg";
+  "https://unsplash.com/photos/VSG0ytKGlEc/download?force=true";
 
 const DEST_NETHERLANDS_BG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/1/1e/TU-Delft-Bibl-2.jpg";
+  "https://unsplash.com/photos/8VRl91VrExA/download?force=true";
 
 const DEST_IRELAND_BG_URL =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Campanile%2C_Trinity_College_Dublin.jpg/1280px-Campanile%2C_Trinity_College_Dublin.jpg";
@@ -238,23 +238,23 @@ const COPY = {
       cards: {
         sarah: {
           country: "ABD",
-          title: "Kerem'in Yolculuğu",
-          subtitle: "NYU'da Bilgisayar Bilimleri (Yüksek Lisans)",
+          title: "Kerem",
+          subtitle: "",
         },
         ahmet: {
           country: "Almanya",
-          title: "İbrahim'in Hikayesi",
-          subtitle: "Mühendislik @ Köln",
+          title: "İbrahim",
+          subtitle: "",
         },
         elena: {
           country: "İngiltere",
-          title: "Zeynep'in Başarısı",
-          subtitle: "Oxford'da MBA",
+          title: "Ezgi",
+          subtitle: "",
         },
         john: {
           country: "Hollanda",
-          title: "Sena'nın Deneyimi",
-          subtitle: "Amsterdam'da Tasarım",
+          title: "Sena",
+          subtitle: "",
         },
       },
     },
@@ -510,23 +510,23 @@ const COPY = {
       cards: {
         sarah: {
           country: "USA",
-          title: "Kerem's Journey",
-          subtitle: "Computer Science (Master's) at NYU",
+          title: "Kerem",
+          subtitle: "",
         },
         ahmet: {
           country: "Germany",
           title: "İbrahim's Story",
-          subtitle: "Engineering in Cologne",
+          subtitle: "",
         },
         elena: {
           country: "United Kingdom",
-          title: "Zeynep's Success",
-          subtitle: "MBA at Oxford",
+          title: "Ezgi",
+          subtitle: "",
         },
         john: {
           country: "Netherlands",
-          title: "Sena's Experience",
-          subtitle: "Design in Amsterdam",
+          title: "Sena",
+          subtitle: "",
         },
       },
     },
@@ -782,23 +782,23 @@ const COPY = {
       cards: {
         sarah: {
           country: "USA",
-          title: "Kerems Weg",
-          subtitle: "Informatik (Master) an der NYU",
+          title: "Kerem",
+          subtitle: "",
         },
         ahmet: {
           country: "Deutschland",
           title: "İbrahims Geschichte",
-          subtitle: "Engineering in Köln",
+          subtitle: "",
         },
         elena: {
           country: "Vereinigtes Königreich",
-          title: "Zeyneps Erfolg",
-          subtitle: "MBA in Oxford",
+          title: "Ezgi",
+          subtitle: "",
         },
         john: {
           country: "Niederlande",
-          title: "Senas Erfahrung",
-          subtitle: "Design in Amsterdam",
+          title: "Sena",
+          subtitle: "",
         },
       },
     },
@@ -1798,6 +1798,7 @@ export default function HomePage() {
               {storyVideoUrls.sarah ? (
                 <video
                   aria-hidden="true"
+                  autoPlay
                   className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loop
                   muted
@@ -1806,10 +1807,9 @@ export default function HomePage() {
                   src={storyVideoUrls.sarah}
                 />
               ) : (
-                <img
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  data-alt="Student smiling in library"
-                  src={STORY_SARAH_IMG_URL}
+                <div
+                  aria-hidden="true"
+                  className="w-full h-full bg-gradient-to-br from-black via-[#1f1e16] to-[#2c2b18] transition-transform duration-700 group-hover:scale-105"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
@@ -1821,16 +1821,8 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="absolute bottom-5 left-5 text-white">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">
-                    {copy.stories.cards.sarah.country}
-                  </span>
-                </div>
                 <p className="font-bold text-lg leading-tight">
                   {copy.stories.cards.sarah.title}
-                </p>
-                <p className="text-xs text-white/80">
-                  {copy.stories.cards.sarah.subtitle}
                 </p>
               </div>
             </button>
@@ -1869,16 +1861,8 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="absolute bottom-5 left-5 text-white">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">
-                    {copy.stories.cards.ahmet.country}
-                  </span>
-                </div>
                 <p className="font-bold text-lg leading-tight">
                   {copy.stories.cards.ahmet.title}
-                </p>
-                <p className="text-xs text-white/80">
-                  {copy.stories.cards.ahmet.subtitle}
                 </p>
               </div>
             </button>
@@ -1894,6 +1878,7 @@ export default function HomePage() {
               {storyVideoUrls.elena ? (
                 <video
                   aria-hidden="true"
+                  autoPlay
                   className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loop
                   muted
@@ -1902,10 +1887,9 @@ export default function HomePage() {
                   src={storyVideoUrls.elena}
                 />
               ) : (
-                <img
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  data-alt="Female student looking at tablet in cafe"
-                  src={STORY_ELENA_IMG_URL}
+                <div
+                  aria-hidden="true"
+                  className="w-full h-full bg-gradient-to-br from-black via-[#1f1e16] to-[#2c2b18] transition-transform duration-700 group-hover:scale-105"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
@@ -1917,16 +1901,8 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="absolute bottom-5 left-5 text-white">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">
-                    {copy.stories.cards.elena.country}
-                  </span>
-                </div>
                 <p className="font-bold text-lg leading-tight">
                   {copy.stories.cards.elena.title}
-                </p>
-                <p className="text-xs text-white/80">
-                  {copy.stories.cards.elena.subtitle}
                 </p>
               </div>
             </button>
@@ -1942,6 +1918,7 @@ export default function HomePage() {
               {storyVideoUrls.john ? (
                 <video
                   aria-hidden="true"
+                  autoPlay
                   className="pointer-events-none w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loop
                   muted
@@ -1950,10 +1927,9 @@ export default function HomePage() {
                   src={storyVideoUrls.john}
                 />
               ) : (
-                <img
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  data-alt="Male student working on laptop in modern office"
-                  src={STORY_JOHN_IMG_URL}
+                <div
+                  aria-hidden="true"
+                  className="w-full h-full bg-gradient-to-br from-black via-[#1f1e16] to-[#2c2b18] transition-transform duration-700 group-hover:scale-105"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
@@ -1965,16 +1941,8 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="absolute bottom-5 left-5 text-white">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider">
-                    {copy.stories.cards.john.country}
-                  </span>
-                </div>
                 <p className="font-bold text-lg leading-tight">
                   {copy.stories.cards.john.title}
-                </p>
-                <p className="text-xs text-white/80">
-                  {copy.stories.cards.john.subtitle}
                 </p>
               </div>
             </button>
@@ -2344,17 +2312,6 @@ export default function HomePage() {
                 : activeStory === "john"
                   ? copy.stories.cards.john.title
                   : "Video"
-        }
-        subtitle={
-          activeStory === "sarah"
-            ? copy.stories.cards.sarah.subtitle
-            : activeStory === "ahmet"
-              ? copy.stories.cards.ahmet.subtitle
-              : activeStory === "elena"
-                ? copy.stories.cards.elena.subtitle
-                : activeStory === "john"
-                  ? copy.stories.cards.john.subtitle
-                  : undefined
         }
       />
 
