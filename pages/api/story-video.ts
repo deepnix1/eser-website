@@ -45,6 +45,30 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<StoryVideoResponse>,
 ) {
+  // Best-effort rate limit to reduce abuse of the signing endpoint.
+  // Note: In serverless environments this state may reset between invocations.
+  const rl = ((globalThis as any).__lotusStoryVideoRateLimit ??= {
+    hits: new Map<string, { count: number; resetAt: number }>(),
+  }) as { hits: Map<string, { count: number; resetAt: number }> };
+  const now = Date.now();
+  const windowMs = 5 * 60 * 1000;
+  const maxHits = 60;
+  const forwardedFor = req.headers["x-forwarded-for"];
+  const ip =
+    (typeof forwardedFor === "string" ? forwardedFor.split(",")[0]?.trim() : "") ||
+    (req.socket as any)?.remoteAddress ||
+    "unknown";
+  const hit = rl.hits.get(ip);
+  if (!hit || hit.resetAt <= now) {
+    rl.hits.set(ip, { count: 1, resetAt: now + windowMs });
+  } else {
+    hit.count += 1;
+    if (hit.count > maxHits) {
+      res.setHeader("Retry-After", String(Math.ceil((hit.resetAt - now) / 1000)));
+      return res.status(429).json({ ok: false, error: "Too many requests." });
+    }
+  }
+
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
     return res.status(405).json({ ok: false, error: "Method not allowed" });

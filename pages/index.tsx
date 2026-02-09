@@ -88,16 +88,13 @@ const SUPABASE_VIDEO_BUCKET = (process.env.NEXT_PUBLIC_SUPABASE_VIDEO_BUCKET ?? 
 );
 
 const STORY_VIDEO_PATHS = {
-  sarah:
-    process.env.NEXT_PUBLIC_STORY_VIDEO_SARAH ??
-    "https://balauszpznhuceqbgubs.supabase.co/storage/v1/object/sign/videos/kerem.mov?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jYjcyZDMzNy01NGEyLTQzODEtOGVmNS02N2VkNWQxNTJmM2YiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlb3Mva2VyZW0ubW92IiwiaWF0IjoxNzcwNjQxNTU4LCJleHAiOjIwODYwMDE1NTh9.RHvQEAIwsYdTBo-65-RTeCTsEWXzQxyYXRvlZVSCR5Y",
-  ahmet: process.env.NEXT_PUBLIC_STORY_VIDEO_AHMET ?? "IMG_6266 (1).mov",
-  elena:
-    process.env.NEXT_PUBLIC_STORY_VIDEO_ELENA ??
-    "https://balauszpznhuceqbgubs.supabase.co/storage/v1/object/sign/videos/zeynep.mov?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jYjcyZDMzNy01NGEyLTQzODEtOGVmNS02N2VkNWQxNTJmM2YiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlb3MvemV5bmVwLm1vdiIsImlhdCI6MTc3MDY0MTc5MywiZXhwIjoxNzcxNTA1NzkzfQ.HYNuMRJEKLCklTuNTb3N8yo6vInwJx5VN_D_lQz603Y",
+  // Prefer object paths (signed server-side) to avoid shipping long-lived signed URLs to clients.
+  sarah: process.env.NEXT_PUBLIC_STORY_VIDEO_SARAH ?? "kerem.mov",
+  ahmet: process.env.NEXT_PUBLIC_STORY_VIDEO_AHMET ?? "ibrahim.mov",
+  elena: process.env.NEXT_PUBLIC_STORY_VIDEO_ELENA ?? "zeynep.mov",
   john:
     process.env.NEXT_PUBLIC_STORY_VIDEO_JOHN ??
-    "https://balauszpznhuceqbgubs.supabase.co/storage/v1/object/sign/videos/WhatsApp%20Video%202026-02-09%20at%203.17.01%20PM.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9jYjcyZDMzNy01NGEyLTQzODEtOGVmNS02N2VkNWQxNTJmM2YiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ2aWRlb3MvV2hhdHNBcHAgVmlkZW8gMjAyNi0wMi0wOSBhdCAzLjE3LjAxIFBNLm1wNCIsImlhdCI6MTc3MDY0MjAxMiwiZXhwIjoxNzcxNTA2MDEyfQ.R3nn_TGnDwd3xGtAzWxDnkQp3s1mp84EVlMPLMwr3xg",
+    "WhatsApp Video 2026-02-09 at 3.17.01 PM.mp4",
 } as const;
 
 function encodePathSegment(segment: string) {
@@ -966,12 +963,7 @@ export default function HomePage() {
 
   const [storyVideoUrls, setStoryVideoUrls] = useState<
     Record<keyof typeof STORY_VIDEO_PATHS, string>
-  >(() => ({
-    sarah: getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.sarah),
-    ahmet: getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.ahmet),
-    elena: getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.elena),
-    john: getSupabasePublicVideoUrl(STORY_VIDEO_PATHS.john),
-  }));
+  >(() => ({ sarah: "", ahmet: "", elena: "", john: "" }));
 
   const [assessmentForm, setAssessmentForm] = useState({
     firstName: "",
@@ -1015,7 +1007,8 @@ export default function HomePage() {
       const query = new URLSearchParams({
         bucket: SUPABASE_VIDEO_BUCKET,
         path: rawPath,
-        expiresIn: String(60 * 60 * 24), // 24h
+        // Keep signed URLs short-lived. Clients can refresh as needed.
+        expiresIn: String(60 * 10), // 10m
       });
 
       try {
