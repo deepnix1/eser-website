@@ -1166,11 +1166,6 @@ export default function HomePage() {
   useEffect(() => {
     if (heroImages.length < 2) return;
 
-    heroImages.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-
     const fadeMs = 1000;
     const rotateMs = 6500;
     let fadeTimeout: number | undefined;
@@ -1188,6 +1183,19 @@ export default function HomePage() {
       if (fadeTimeout) window.clearTimeout(fadeTimeout);
     };
   }, [heroImages]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Preload only the current + next image to avoid downloading all hero assets at once.
+    const urls = [
+      heroImages[heroIndex],
+      heroImages.length ? heroImages[(heroIndex + 1) % heroImages.length] : undefined,
+    ].filter(Boolean) as string[];
+    urls.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [heroImages, heroIndex]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
