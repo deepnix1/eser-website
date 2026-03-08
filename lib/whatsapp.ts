@@ -1,5 +1,5 @@
 export const WHATSAPP_NUMBER_E164 =
-  process.env.NEXT_PUBLIC_WHATSAPP_E164?.trim() || "9053021266922";
+  process.env.NEXT_PUBLIC_WHATSAPP_E164?.trim() || "905325975638";
 
 const DEFAULT_TEXT_BY_LOCALE: Record<string, string> = {
   tr: "Merhaba! Ucretsiz degerlendirme icin bilgi almak istiyorum.",
@@ -22,4 +22,3 @@ export function buildWhatsAppUrl({
   const finalText = text ?? getDefaultWhatsAppText(locale);
   return `https://wa.me/${WHATSAPP_NUMBER_E164}?text=${encodeURIComponent(finalText)}`;
 }
-

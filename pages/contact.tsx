@@ -8,8 +8,8 @@ import SiteHeader from "../components/SiteHeader";
 const OFFICE_ADDRESS =
   "MAHFESIĞMAZ MAHALLESİ\n79129 SK. AZİZ KAYA SİTESİ SİT. A BLOK APT. NO: 9 -1/01\nÇUKUROVA / ADANA";
 
-const WHATSAPP_NUMBER_DISPLAY = "+90 530 212 69 22";
-const WHATSAPP_NUMBER_E164 = "9053021266922";
+const WHATSAPP_NUMBER_DISPLAY = "+90 (532) 597 56 38";
+const WHATSAPP_NUMBER_E164 = "905325975638";
 const WHATSAPP_LINK_URL = `https://wa.me/${WHATSAPP_NUMBER_E164}?text=${encodeURIComponent(
   "Merhaba! Ücretsiz değerlendirme için bilgi almak istiyorum.",
 )}`;
