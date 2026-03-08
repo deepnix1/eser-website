@@ -1,43 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { buildWhatsAppUrl } from "../lib/whatsapp";
 
-const STORAGE_KEY = "lotus_whatsapp_fab_dismissed_until";
-const DISMISS_DAYS = 14;
-
-function readDismissedUntil(): number | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = window.localStorage?.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const ts = Number(raw);
-    if (!Number.isFinite(ts)) return null;
-    return ts;
-  } catch {
-    return null;
-  }
-}
-
-function writeDismissedUntil(ts: number) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage?.setItem(STORAGE_KEY, String(ts));
-  } catch {
-    // ignore
-  }
-}
-
 export default function WhatsAppFab({ locale }: { locale?: string }) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const dismissedUntil = readDismissedUntil();
-    if (dismissedUntil && dismissedUntil > Date.now()) {
-      setVisible(false);
-      return;
-    }
-    setVisible(true);
-  }, []);
+  const [visible, setVisible] = useState(true);
 
   const href = useMemo(() => buildWhatsAppUrl({ locale }), [locale]);
 
@@ -52,8 +18,6 @@ export default function WhatsAppFab({ locale }: { locale?: string }) {
         aria-label="WhatsApp kisayolunu kapat"
         className="inline-flex items-center justify-center size-9 rounded-full bg-white/95 dark:bg-background-dark/95 border border-gray-200/70 dark:border-white/10 shadow-[0_10px_28px_rgba(0,0,0,0.16)] backdrop-blur-md text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
         onClick={() => {
-          const until = Date.now() + DISMISS_DAYS * 24 * 60 * 60 * 1000;
-          writeDismissedUntil(until);
           setVisible(false);
         }}
         type="button"
@@ -88,4 +52,3 @@ export default function WhatsAppFab({ locale }: { locale?: string }) {
     </div>
   );
 }
-
