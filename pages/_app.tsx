@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import CalendlyModal from "../components/CalendlyModal";
+import WhatsAppFab from "../components/WhatsAppFab";
 import { getDeviceTypeFromWidth } from "../lib/device";
 
 const CALENDLY_EVENT_URL = process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL ?? "";
@@ -177,6 +178,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <Component {...pageProps} />
+      <WhatsAppFab locale={locale} />
       <CalendlyModal
         onClose={() => setCalendlyOpen(false)}
         open={calendlyOpen}
