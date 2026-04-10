@@ -318,7 +318,7 @@ export default function ContactPage() {
       <main className="pt-24">
         <section className="bg-background-light dark:bg-background-dark">
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+            <div className="grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] gap-8 lg:gap-10 items-stretch">
               <div className="rounded-[2rem] bg-white/80 dark:bg-white/5 shadow-[0_25px_60px_rgba(0,0,0,0.08)] ring-1 ring-black/5 dark:ring-white/10 backdrop-blur-sm p-8 md:p-10 h-full flex flex-col">
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -490,8 +490,8 @@ export default function ContactPage() {
               </div>
 
               <div className="h-full flex flex-col gap-6">
-                <div className="rounded-[2rem] bg-white/80 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.08)] backdrop-blur-sm p-7 md:p-8">
-                  <div className="space-y-5">
+                <div className="rounded-[2rem] bg-white/80 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.08)] backdrop-blur-sm p-8 md:p-10 min-h-[292px] flex flex-col justify-center">
+                  <div className="space-y-6">
                     <InfoRow
                       icon="location_on"
                       title={copy.address}
@@ -542,7 +542,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <a
-                    className="flex items-center justify-center gap-2 px-6 py-4 text-sm font-bold text-text-main dark:text-white border-t border-gray-100 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
+                    className="flex items-center justify-center gap-2 h-14 px-6 text-sm font-bold text-text-main dark:text-white border-t border-gray-100 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors"
                     href={MAPS_LINK_URL}
                     rel="noreferrer"
                     target="_blank"
@@ -553,7 +553,7 @@ export default function ContactPage() {
                 </div>
 
                 <button
-                  className="w-full h-16 rounded-full bg-primary text-black font-black text-lg hover:brightness-105 transition-all shadow-[0_18px_40px_rgba(249,245,6,0.28)] mt-auto"
+                  className="w-full h-14 rounded-full bg-primary text-black font-black text-base hover:brightness-105 transition-all shadow-[0_18px_40px_rgba(249,245,6,0.28)] mt-auto"
                   aria-haspopup="dialog"
                   data-calendly-open="true"
                   type="button"
