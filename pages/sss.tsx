@@ -434,9 +434,8 @@ const PAGE_COPY: Record<
     description:
       "Lotus Abroad SSS sayfası: Almanya, ABD, İngiltere, Hollanda, Kanada, İrlanda ve Malta için program seçimi, başvuru gereklilikleri, öğrenci vizesi, finans ve çalışma hakkı hakkında kapsamlı cevaplar.",
     heroBadge: "Sıkça Sorulan Sorular",
-    heroTitle: "Yurtdışı eğitim sürecinde en çok sorulan 45+ sorunun net cevapları",
-    heroText:
-      "Bu sayfa; sitedeki programlar, ülke bazlı gereklilikler, öğrenci vizesi, finans, dil yeterliliği ve başvuru stratejileri için hızlı bir referans olarak hazırlandı. İçerik; Lotus Abroad program yapısı ve resmi kaynak araştırmaları birleştirilerek oluşturuldu.",
+    heroTitle: "",
+    heroText: "",
     quickLinksLabel: "Hızlı geçiş",
     sourceTitle: "Resmi kaynaklar",
     sourceText:
@@ -452,9 +451,8 @@ const PAGE_COPY: Record<
     description:
       "Lotus Abroad FAQ page covering study abroad programs, student visa basics, application requirements, funding, and country-specific pathways.",
     heroBadge: "Frequently Asked Questions",
-    heroTitle: "Clear answers to the most common study abroad questions",
-    heroText:
-      "This page combines Lotus Abroad's program structure with official public guidance from major destination countries. It is designed as a practical reference point before a one-to-one review.",
+    heroTitle: "",
+    heroText: "",
     quickLinksLabel: "Quick links",
     sourceTitle: "Official sources",
     sourceText:
@@ -470,9 +468,8 @@ const PAGE_COPY: Record<
     description:
       "Lotus Abroad FAQ zu Auslandsstudium, Visa-Grundlagen, Bewerbungsanforderungen, Finanzierung und länderspezifischen Programmen.",
     heroBadge: "Häufige Fragen",
-    heroTitle: "Klare Antworten auf häufige Fragen zum Auslandsstudium",
-    heroText:
-      "Diese Seite bündelt die Programmlogik von Lotus Abroad mit offiziellen öffentlichen Quellen wichtiger Zielländer. Sie dient als kompakter Ausgangspunkt vor einer individuellen Prüfung.",
+    heroTitle: "",
+    heroText: "",
     quickLinksLabel: "Schnellzugriff",
     sourceTitle: "Offizielle Quellen",
     sourceText:
@@ -591,12 +588,16 @@ export default function FaqPage() {
                 <span className="material-symbols-outlined text-[18px]">quiz</span>
                 {copy.heroBadge}
               </div>
-              <h1 className="mt-6 text-4xl md:text-6xl font-black tracking-tight text-text-main dark:text-white">
-                {copy.heroTitle}
-              </h1>
-              <p className="mt-6 max-w-3xl text-sm md:text-base leading-relaxed text-text-muted dark:text-gray-400">
-                {copy.heroText}
-              </p>
+              {copy.heroTitle ? (
+                <h1 className="mt-6 text-4xl md:text-6xl font-black tracking-tight text-text-main dark:text-white">
+                  {copy.heroTitle}
+                </h1>
+              ) : null}
+              {copy.heroText ? (
+                <p className="mt-6 max-w-3xl text-sm md:text-base leading-relaxed text-text-muted dark:text-gray-400">
+                  {copy.heroText}
+                </p>
+              ) : null}
 
               <div className="mt-8 flex flex-wrap gap-3 text-sm font-bold text-text-main dark:text-white">
                 <span className="text-text-muted dark:text-gray-400">{copy.quickLinksLabel}:</span>
