@@ -350,28 +350,20 @@ const sharedAuPair: ProgramSource = {
 };
 
 const HERO: Record<CountryId, string> = {
-  Germany:
-    "https://images.unsplash.com/photo-1528728329032-2972f65dfb3f?auto=format&fit=crop&w=2400&q=80",
-  USA:
-    "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=2400&q=80",
-  Netherlands:
-    "https://images.unsplash.com/photo-1468436385273-8abca6dfd8d3?auto=format&fit=crop&w=2400&q=80",
-  "United Kingdom":
-    "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=2400&q=80",
-  Canada:
-    "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&w=2400&q=80",
-  Ireland:
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/O%27Brien%27s_Tower_at_Cliffs_of_Moher.jpg/2400px-O%27Brien%27s_Tower_at_Cliffs_of_Moher.jpg",
-  Malta:
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/A_Glowing_Night_Over_the_Grand_Harbour.jpg/2400px-A_Glowing_Night_Over_the_Grand_Harbour.jpg",
+  Germany: "/programs/germany-hero.webp",
+  USA: "/programs/usa-hero.webp",
+  Netherlands: "/programs/netherlands-hero.webp",
+  "United Kingdom": "/programs/uk-hero.webp",
+  Canada: "/programs/canada-hero.webp",
+  Ireland: "/programs/ireland-hero.webp",
+  Malta: "/programs/malta-hero.webp",
 };
 
 const GERMANY_PROGRAMS: readonly ProgramSource[] = [
   {
     id: "ausbildung",
     badge: "Popular",
-    heroImageUrl:
-      "https://images.unsplash.com/photo-1597058557804-95ac4ee36e66?auto=format&fit=crop&w=1600&q=70",
+    heroImageUrl: "/programs/ausbildung.webp",
     title: {
       tr: "Ausbildung (Maaşlı Mesleki Eğitim)",
       en: "Ausbildung (Paid Vocational Training)",

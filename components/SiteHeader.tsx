@@ -9,6 +9,7 @@ const LABELS = {
   tr: {
     home: "Ana Sayfa",
     programs: "Programlar",
+    faq: "SSS",
     countries: "Ülkeler",
     blog: "Blog",
     about: "Hakkımızda",
@@ -21,6 +22,7 @@ const LABELS = {
   en: {
     home: "Home",
     programs: "Programs",
+    faq: "FAQ",
     countries: "Countries",
     blog: "Blog",
     about: "About",
@@ -33,6 +35,7 @@ const LABELS = {
   de: {
     home: "Startseite",
     programs: "Programme",
+    faq: "FAQ",
     countries: "Länder",
     blog: "Blog",
     about: "Über uns",
@@ -156,6 +159,7 @@ export default function SiteHeader() {
     return [
       { href: "/", label: labels.home },
       { href: "/programs", label: labels.programs },
+      { href: "/sss", label: labels.faq },
       { href: "/#destinations", label: labels.countries },
       { href: "/blog", label: labels.blog },
       { href: "/about", label: labels.about },
@@ -199,6 +203,9 @@ export default function SiteHeader() {
                   href="/programs"
                 >
                   {labels.programs}
+                </Link>
+                <Link className="text-sm font-medium hover:text-primary transition-colors" href="/sss">
+                  {labels.faq}
                 </Link>
                 <Link
                   className="text-sm font-medium hover:text-primary transition-colors"

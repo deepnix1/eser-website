@@ -59,8 +59,7 @@ const ARTICLES: readonly BlogArticleSource[] = [
     id: "usa-work-travel-camp-usa",
     category: "Guides",
     dateLabel: "2025",
-    heroImageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/1/1e/Camp_Cottaquilla%2C_Girl_Scout_Camp%2C_Choccolocco%2C_Alabama_%287187233295%29.jpg",
+    heroImageUrl: "/blog/usa-work-travel-camp-usa.webp",
     title: {
       tr: "ABD Work & Travel / Camp USA: 2025 Sezonu için Adımlar ve Riskler",
       en: "USA Work & Travel / Camp USA: Steps & Risks for the 2025 Season",
@@ -178,8 +177,7 @@ const ARTICLES: readonly BlogArticleSource[] = [
     id: "germany-uni-visa-update",
     category: "Visa",
     dateLabel: "2025",
-    heroImageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/a/a6/Brandenburger_Tor_abends.jpg",
+    heroImageUrl: "/blog/germany-uni-visa-update.webp",
     title: {
       tr: "Almanya: Üniversite Başvurusu ve Öğrenci Vizesi (2025) Kontrol Listesi",
       en: "Germany: University Application & Student Visa (2025) Checklist",
@@ -294,8 +292,7 @@ const ARTICLES: readonly BlogArticleSource[] = [
     id: "uk-student-visa-graduate-route",
     category: "Visa",
     dateLabel: "2025",
-    heroImageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/5/54/Tower_Bridge-London%2C_England%2C_United_Kingdom.jpg",
+    heroImageUrl: "/blog/uk-student-visa-graduate-route.webp",
     title: {
       tr: "İngiltere Öğrenci Vizesi ve Graduate Route: Mezuniyet Sonrası Seçenekler",
       en: "UK Student Visa & Graduate Route: Post-Study Options",
@@ -383,8 +380,7 @@ const ARTICLES: readonly BlogArticleSource[] = [
     id: "scholarship-funding-opportunities",
     category: "Scholarships",
     dateLabel: "2025",
-    heroImageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/0/05/Students_at_graduation_at_The_Ohio_State_University_-_DPLA_-_dd0b6dd3942f089e46f14c67b013b028.jpg",
+    heroImageUrl: "/blog/scholarship-funding-opportunities.webp",
     title: {
       tr: "Burs ve Fon Fırsatları: Türkiye’den Başvuranlar için 9 Pratik Strateji",
       en: "Scholarships & Funding: 9 Practical Strategies for Applicants from Turkey",
@@ -481,8 +477,7 @@ const ARTICLES: readonly BlogArticleSource[] = [
     id: "living-costs-budget-comparison",
     category: "Student Life",
     dateLabel: "2025",
-    heroImageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Currencies_on_White_Background.jpg/2400px-Currencies_on_White_Background.jpg",
+    heroImageUrl: "/blog/living-costs-budget-comparison.webp",
     title: {
       tr: "Yaşam Maliyeti Karşılaştırması: Almanya – ABD – İngiltere için Bütçe Planı",
       en: "Cost of Living Comparison: Budget Plan for Germany – USA – UK",
@@ -558,8 +553,7 @@ const ARTICLES: readonly BlogArticleSource[] = [
     id: "common-visa-mistakes",
     category: "Visa",
     dateLabel: "2025",
-    heroImageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/0/0f/World_Passport_with_PRC_visa_and_entry_stamp.jpg",
+    heroImageUrl: "/blog/pre-departure-checklist.webp",
     title: {
       tr: "Türkiye’den Başvurularda En Sık Görülen 10 Vize Hatası (ve Nasıl Önlenir)",
       en: "10 Common Visa Mistakes (and How to Avoid Them) for Applicants from Turkey",
@@ -638,8 +632,7 @@ const ARTICLES: readonly BlogArticleSource[] = [
     id: "global-policy-changes",
     category: "Visa",
     dateLabel: "2025",
-    heroImageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/b/b8/Outside_the_European_Parliament_in_Brussels_%2847937298368%29.jpg",
+    heroImageUrl: "/blog/global-policy-changes.webp",
     title: {
       tr: "Küresel Göç ve Eğitim Politikaları: 2025’te Öne Çıkan Trendler",
       en: "Global Migration & Education Policies: Key Trends in 2025",
@@ -724,8 +717,7 @@ const ARTICLES: readonly BlogArticleSource[] = [
     id: "accommodation-student-life",
     category: "Student Life",
     dateLabel: "2025",
-    heroImageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Oakes_College_Student_Dormitories.jpg/2400px-Oakes_College_Student_Dormitories.jpg",
+    heroImageUrl: "/blog/accommodation-student-life.webp",
     title: {
       tr: "Konaklama ve Öğrenci Hayatı: Güvenli Kiralama ve Ev Bulma İpuçları",
       en: "Accommodation & Student Life: Safe Renting and Finding Housing",
@@ -792,8 +784,7 @@ const ARTICLES: readonly BlogArticleSource[] = [
     id: "pre-departure-checklist",
     category: "Guides",
     dateLabel: "2025",
-    heroImageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/f/f4/Passport_and_AirFrance_Boarding_Pass_%2853928563481%29.jpg",
+    heroImageUrl: "/blog/visa-interview-documents.webp",
     title: {
       tr: "Yurtdışına Gitmeden Önce Son 14 Gün: Türkiye’den Gidenler için Checklist",
       en: "The Final 14 Days Before Departure: Checklist for Applicants from Turkey",

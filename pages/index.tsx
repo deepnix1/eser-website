@@ -35,49 +35,49 @@ const HERO_BG_URL =
   "/friends-with-thumbs-up-lying-lawn-park-1600.jpg";
 
 const HERO_BG_URL_ALT =
-  "https://images.unsplash.com/photo-1484712401471-05c7215830eb?auto=format&fit=crop&w=2000&q=70";
+  "/hero/hero-alt.webp";
 
 const HERO_BG_URL_FALLBACK =
-  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=2000&q=70";
+  "/hero/hero-fallback.webp";
 
 const DEST_GERMANY_BG_URL =
-  "https://images.unsplash.com/photo-1662555500038-3d9ed651fc06?auto=format&fit=crop&w=1600&q=70";
+  "/destinations/germany.webp";
 
 const DEST_USA_BG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/9/94/MIT_Killian_Court.jpg";
+  "/destinations/usa.webp";
 
 const DEST_ENGLAND_BG_URL =
-  "https://images.unsplash.com/photo-1595685833450-b63451efcf01?auto=format&fit=crop&w=1600&q=70";
+  "/destinations/england.webp";
 
 const DEST_MALTA_BG_URL =
-  "https://images.unsplash.com/photo-1568108734535-a0896cecea3d?auto=format&fit=crop&w=1600&q=70";
+  "/destinations/malta.webp";
 
 const DEST_NETHERLANDS_BG_URL =
-  "https://images.unsplash.com/photo-1615829358109-8187aa2a0856?auto=format&fit=crop&w=1600&q=70";
+  "/destinations/netherlands.webp";
 
 const DEST_IRELAND_BG_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Campanile%2C_Trinity_College_Dublin.jpg/1280px-Campanile%2C_Trinity_College_Dublin.jpg";
+  "/destinations/ireland.webp";
 
 const STORY_SARAH_IMG_URL =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCK4_9qC48fP-EhuRCZG1xXMmRchvbIhYWS7ZuG8C9ffR2njTy20TXUb5i0nmGzRm778ubM_yBtl3TmFiaexr_jJ2xK6u_q9VVLQ3ooI8j0EaIRjj3u1BkMlxSK2SQhhfevoZuQgmrq6bxOlwjNISyCboseVR68gFdqi4iiaEGXo42kLulRukwc6neGDBUiQEEWLwLY9q2bVxDrBimGL3dBWf4joF0M6wv-yECgln1Y-W8qczCg2X3gp9MSE6TB_CpKgV7RwOeyeRKh";
+  "/stories/sarah.webp";
 
 const STORY_AHMET_IMG_URL =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBBaYfSM8Eb6HEve5-Yrg7YCHd9WG7huV4IexISAI1dFjb_FB7PUNpn3NNuxKhCJDY2q6NIkiMT0-N88CwaLEHH3_LrqoH7-WmkxzdmjHnnenrfJl30sZdsMEbZbDEAVcUSf4zRu-jvqyx6DuKFaVRNisWfqfJtgEezOtka3HyzvwSjCFBWR6mdu9nxyIeAtHsccAICokA8gBcNZQ5m41rRCm9u9QTt6yRs5eTlrGd2DtAPbWuV6NYucMm-InQU3lQddwihQzp15xWo";
+  "/stories/ahmet.webp";
 
 const STORY_ELENA_IMG_URL =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBuyr_eyYZBv_d6YnQSIDyExVINEN_X0-87DvjyVZk6C3_yop3YnVMeJYqCNVTVu7BqMdtqt9VVCGKB3r7YsWQqQNtM9O9JubrYUs-ktgm72cQtRnpNxPtGhrVF7F8s_0nbbLcUpb_Hz-Vk4L6Wh94GSC5i9VNbB7H0P_T_VGSNKsrFg5uqjJN9dM06x0uSurj8IvxSXz65gEQuyTBLOvPGyrx6VvrKfl6EJSgzUTQFnD7kPMBeKuLJoTD5yoSYY05PaxhIarzNB6rM";
+  "/stories/elena.webp";
 
 const STORY_JOHN_IMG_URL =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDkjGZBP3TUGkygFRaX4mUUmW70rh3Przq7HR2XexYWinOD2Uij6om_XKw7b6LbbpwEdISUZrbKkox94geLEpTZTru59lBeEg0XeHhxNQyPU-HO14mFeXgH82Mf91_CXpv1zz9pmrsE_tsMYTiHAasq_eyLulq51XLOGP-KRNO6M6C5G4wo8vQWV5Zrt2bd27SqGXcyvfXvJSKp8gE7a5PRRGBBzWeNk40ZMsLggug6RmrsKxtZX6gjHuK7KxWIGyCAlnu8y03KRFtt";
+  "/stories/john.webp";
 
 const REVIEW_AVATAR_MERVE_URL =
-  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&h=200&q=80";
+  "/reviews/merve.webp";
 
 const REVIEW_AVATAR_EMRE_URL =
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&h=200&q=80";
+  "/reviews/emre.webp";
 
 const REVIEW_AVATAR_AYSE_URL =
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&h=200&q=80";
+  "/reviews/ayse.webp";
 
 const SUPABASE_PROJECT_URL = (
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://balauszpznhuceqbgubs.supabase.co"

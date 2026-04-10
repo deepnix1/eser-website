@@ -88,6 +88,7 @@ function buildSitemapXml(baseUrl: string) {
   }> = [
     { path: "/", changefreq: "weekly", priority: 1.0 },
     { path: "/programs", changefreq: "weekly", priority: 0.9 },
+    { path: "/sss", changefreq: "weekly", priority: 0.9 },
     { path: "/contact", changefreq: "monthly", priority: 0.8 },
     { path: "/blog", changefreq: "weekly", priority: 0.8 },
     { path: "/about", changefreq: "monthly", priority: 0.7 },
