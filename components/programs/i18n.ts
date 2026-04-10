@@ -51,7 +51,7 @@ export const PROGRAMS_UI: Record<
   tr: {
     pageTitle: "Programlar",
     pageDescription:
-      "Ülke seçin, program rotalarını keşfedin ve detayları anında aynı ekranda görüntüleyin.",
+      "Almanya, ABD, Birleşik Krallık, Hollanda, Kanada, İrlanda ve Malta için yurtdışı eğitim, dil okulu, Ausbildung, Work and Travel, Au Pair ve vize danışmanlığı programlarını tek ekranda karşılaştırın.",
     pillLabel: "Ülkeye Göre Programlar",
     countriesTitle: "Ülkeler",
     countriesHint: "Seçmek için tıkla",
@@ -59,9 +59,9 @@ export const PROGRAMS_UI: Record<
     heroPill: "Ülkeye Göre Programlar",
     heroTitle: (countryLabel) => `${countryLabel}: Programlar & Fırsatlar`,
     heroDescriptionWithProgram:
-      "Bir program seçerek uygunluk, süre, gerekli belgeler ve vize notlarını düzenli bir formatta görüntüleyin.",
+      "Bir program seçerek uygunluk, süre, gerekli belgeler, finans planı ve vize notlarını düzenli bir formatta görüntüleyin.",
     heroDescriptionEmpty:
-      "Mevcut program rotalarını ve detayları görmek için bir ülke seçin.",
+      "Ülke seçerek mevcut program rotalarını, başvuru mantığını ve size uygun olabilecek seçenekleri görün.",
     listTitle: "Programlar",
     listHint: "Detay için seçin",
     listAria: "Programlar",
@@ -102,7 +102,7 @@ export const PROGRAMS_UI: Record<
   en: {
     pageTitle: "Programs",
     pageDescription:
-      "Select a country, explore program routes, and view details instantly on the same screen.",
+      "Compare study abroad, language school, Ausbildung, Work and Travel, Au Pair, and visa consulting routes for Germany, the USA, the UK, the Netherlands, Canada, Ireland, and Malta.",
     pillLabel: "Programs by Country",
     countriesTitle: "Countries",
     countriesHint: "Click to select",
@@ -110,9 +110,9 @@ export const PROGRAMS_UI: Record<
     heroPill: "Programs by Country",
     heroTitle: (countryLabel) => `${countryLabel}: Programs & Opportunities`,
     heroDescriptionWithProgram:
-      "Select a program to view eligibility, duration, required documents, and visa notes in a clean format.",
+      "Select a program to view eligibility, duration, required documents, funding logic, and visa notes in a clean format.",
     heroDescriptionEmpty:
-      "Select a country to view available program routes and details.",
+      "Select a country to view available program routes, application logic, and the best-fit options for your profile.",
     listTitle: "Programs",
     listHint: "Select for details",
     listAria: "Programs",
@@ -151,7 +151,7 @@ export const PROGRAMS_UI: Record<
   de: {
     pageTitle: "Programme",
     pageDescription:
-      "Wählen Sie ein Land, entdecken Sie Programme und sehen Sie Details sofort auf derselben Seite.",
+      "Vergleichen Sie Auslandsstudium, Sprachschule, Ausbildung, Work and Travel, Au Pair und Visaberatung für Deutschland, USA, Vereinigtes Königreich, Niederlande, Kanada, Irland und Malta.",
     pillLabel: "Programme nach Land",
     countriesTitle: "Länder",
     countriesHint: "Zum Auswählen klicken",
@@ -159,9 +159,9 @@ export const PROGRAMS_UI: Record<
     heroPill: "Programme nach Land",
     heroTitle: (countryLabel) => `${countryLabel}: Programme & Möglichkeiten`,
     heroDescriptionWithProgram:
-      "Wählen Sie ein Programm, um Eignung, Dauer, Unterlagen und Visa-Notizen übersichtlich zu sehen.",
+      "Wählen Sie ein Programm, um Eignung, Dauer, Unterlagen, Finanzlogik und Visa-Notizen übersichtlich zu sehen.",
     heroDescriptionEmpty:
-      "Wählen Sie ein Land, um verfügbare Programme und Details zu sehen.",
+      "Wählen Sie ein Land, um verfügbare Programme, Bewerbungslogik und passende Optionen für Ihr Profil zu sehen.",
     listTitle: "Programme",
     listHint: "Für Details auswählen",
     listAria: "Programme",

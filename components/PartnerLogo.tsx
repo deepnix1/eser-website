@@ -43,6 +43,8 @@ export default function PartnerLogo(props: PartnerLogoProps) {
         <img
           alt={props.alt}
           className={`partner-logo__img ${imageHeightClass} w-auto block object-contain`}
+          decoding="async"
+          loading="lazy"
           src={props.src}
         />
       )}

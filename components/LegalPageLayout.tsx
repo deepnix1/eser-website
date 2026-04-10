@@ -11,6 +11,7 @@ type LegalPageLayoutProps = {
   subtitle: string;
   lastUpdated: string;
   children: React.ReactNode;
+  noIndex?: boolean;
 };
 
 export default function LegalPageLayout({
@@ -18,6 +19,7 @@ export default function LegalPageLayout({
   subtitle,
   lastUpdated,
   children,
+  noIndex = false,
 }: LegalPageLayoutProps) {
   const router = useRouter();
   const locale = router.locale ?? "tr";
@@ -52,6 +54,7 @@ export default function LegalPageLayout({
     <>
       <Head>
         <title>{title} - Lotus Abroad</title>
+        {noIndex ? <meta name="robots" content="noindex,follow" /> : null}
       </Head>
       <SiteHeader />
 

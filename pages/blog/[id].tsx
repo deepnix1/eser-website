@@ -1,5 +1,6 @@
 import Head from "next/head";
 import type { GetStaticPaths, GetStaticProps } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 import SiteFooter from "../../components/SiteFooter";
@@ -7,6 +8,7 @@ import SiteHeader from "../../components/SiteHeader";
 import {
   BLOG_ARTICLE_IDS,
   getBlogArticleById,
+  getBlogArticles,
   getCategoryLabels,
   type BlogArticle,
 } from "../../lib/blogData";
@@ -36,6 +38,10 @@ export default function BlogArticlePage({ article }: { article: BlogArticle }) {
   const router = useRouter();
   const locale = normalizeLocale(router.locale);
   const categoryLabels = getCategoryLabels(locale);
+  const relatedArticles = getBlogArticles(locale)
+    .filter((item) => item.id !== article.id)
+    .filter((item) => item.category === article.category || item.id === "pre-departure-checklist")
+    .slice(0, 3);
 
   return (
     <>
@@ -111,6 +117,64 @@ export default function BlogArticlePage({ article }: { article: BlogArticle }) {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <section className="rounded-[2rem] bg-white/70 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.08)] p-6 md:p-8">
+              <h2 className="text-xl md:text-2xl font-black text-text-main dark:text-white">
+                {locale === "tr" ? "İlgili içerikler" : locale === "de" ? "Verwandte Inhalte" : "Related reads"}
+              </h2>
+              <div className="mt-5 grid gap-4">
+                {relatedArticles.map((item) => (
+                  <Link
+                    key={item.id}
+                    className="rounded-[1.5rem] border border-gray-100 dark:border-white/10 bg-background-light/70 dark:bg-white/5 p-4 hover:border-primary/40 hover:bg-white dark:hover:bg-white/10 transition-colors"
+                    href={`/blog/${item.id}`}
+                  >
+                    <div className="text-xs font-bold text-text-muted dark:text-gray-400">
+                      {categoryLabels[item.category]}
+                    </div>
+                    <div className="mt-2 text-base font-black text-text-main dark:text-white">
+                      {item.title}
+                    </div>
+                    <div className="mt-2 text-sm text-text-muted dark:text-gray-400 leading-relaxed">
+                      {item.excerpt}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-[2rem] bg-black text-white p-6 md:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.18)]">
+              <h2 className="text-xl md:text-2xl font-black">
+                {locale === "tr"
+                  ? "Devam etmek için en güçlü adım"
+                  : locale === "de"
+                    ? "Der stärkste nächste Schritt"
+                    : "The strongest next step"}
+              </h2>
+              <p className="mt-3 text-sm md:text-base text-white/75 leading-relaxed">
+                {locale === "tr"
+                  ? "Genel içerik yön verir; doğru rota ise hedef ülke, program, bütçe ve profil birlikte değerlendirilince çıkar."
+                  : locale === "de"
+                    ? "Allgemeine Inhalte helfen bei der Orientierung, aber die richtige Route ergibt sich erst aus Land, Programm, Budget und Profil."
+                    : "General content is useful for orientation, but the right route only becomes clear when country, program, budget, and profile are reviewed together."}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link
+                  className="h-11 px-6 rounded-full bg-primary text-black text-sm font-black flex items-center justify-center hover:brightness-105 transition-all"
+                  href="/programs"
+                >
+                  {locale === "tr" ? "Programları incele" : locale === "de" ? "Programme ansehen" : "Explore programs"}
+                </Link>
+                <Link
+                  className="h-11 px-6 rounded-full bg-white/15 text-white text-sm font-bold flex items-center justify-center hover:bg-white/20 transition-colors"
+                  href="/sss"
+                >
+                  {locale === "tr" ? "SSS sayfası" : "FAQ"}
+                </Link>
+              </div>
+            </section>
           </div>
         </section>
       </main>

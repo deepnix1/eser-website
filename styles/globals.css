@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-spline-sans: "Spline Sans", sans-serif;
+  --font-noto-sans: "Noto Sans", sans-serif;
+}
+
 @layer utilities {
   .lotus-glass {
     background: rgba(255, 255, 255, 0.72);

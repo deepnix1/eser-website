@@ -1,11 +1,16 @@
 import Head from "next/head";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import PartnerLogo, { type PartnerLogoProps } from "../components/PartnerLogo";
-import VideoModal from "../components/VideoModal";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
+
+const VideoModal = dynamic(() => import("../components/VideoModal"), {
+  ssr: false,
+});
 
 const PARTNER_LOGOS: PartnerLogoProps[] = [
   { id: "aupair", type: "image", src: "/aupair-com-logo.png", alt: "AuPair.com" },
@@ -32,7 +37,7 @@ const PARTNER_LOGOS: PartnerLogoProps[] = [
 ];
 
 const HERO_BG_URL =
-  "/friends-with-thumbs-up-lying-lawn-park-1600.jpg";
+  "/friends-with-thumbs-up-lying-lawn-park-1600.webp";
 
 const HERO_BG_URL_ALT =
   "/hero/hero-alt.webp";
@@ -1005,6 +1010,7 @@ export default function HomePage() {
   const [videoOpen, setVideoOpen] = useState(false);
   const [activeStory, setActiveStory] = useState<keyof typeof STORY_VIDEO_PATHS | null>(null);
   const lastStoryTriggerRef = useRef<HTMLElement | null>(null);
+  const [enableStoryPreviews, setEnableStoryPreviews] = useState(false);
 
   const [storyVideoUrls, setStoryVideoUrls] = useState<
     Record<keyof typeof STORY_VIDEO_PATHS, string>
@@ -1029,6 +1035,17 @@ export default function HomePage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const connection = navigator as Navigator & {
+      connection?: { saveData?: boolean };
+    };
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    setEnableStoryPreviews(isDesktop && !prefersReducedMotion && !connection.connection?.saveData);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!enableStoryPreviews) return;
 
     const debugEnabled = isVideoDebugEnabled();
     const controller = new AbortController();
@@ -1096,7 +1113,37 @@ export default function HomePage() {
     });
 
     return () => controller.abort();
-  }, []);
+  }, [enableStoryPreviews]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!videoOpen || !activeStory) return;
+    if (storyVideoUrls[activeStory]) return;
+
+    const rawPath = (STORY_VIDEO_PATHS[activeStory] ?? "").trim();
+    if (!rawPath || rawPath.startsWith("http://") || rawPath.startsWith("https://")) return;
+
+    const controller = new AbortController();
+    const query = new URLSearchParams({
+      bucket: SUPABASE_VIDEO_BUCKET,
+      path: rawPath,
+      expiresIn: String(60 * 10),
+    });
+
+    void fetch(`/api/story-video?${query.toString()}`, {
+      signal: controller.signal,
+    })
+      .then((resp) => resp.json().catch(() => null).then((data) => ({ resp, data })))
+      .then(({ resp, data }) => {
+        if (!resp.ok || !data || (data as any).ok !== true || typeof (data as any).url !== "string") {
+          return;
+        }
+        setStoryVideoUrls((prev) => ({ ...prev, [activeStory]: (data as any).url }));
+      })
+      .catch(() => {});
+
+    return () => controller.abort();
+  }, [activeStory, storyVideoUrls, videoOpen]);
 
   const onAssessmentSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -1152,16 +1199,27 @@ export default function HomePage() {
   };
 
   const seoKeywordsMeta = copy.seoKeywords.join(", ");
+  const [enableHeroRotation, setEnableHeroRotation] = useState(false);
   const heroImages = useMemo(
-    () => [
-      HERO_BG_URL,
-      HERO_BG_URL_ALT,
-      HERO_BG_URL_FALLBACK,
-    ],
-    [],
+    () =>
+      enableHeroRotation
+        ? [HERO_BG_URL, HERO_BG_URL_ALT, HERO_BG_URL_FALLBACK]
+        : [HERO_BG_URL],
+    [enableHeroRotation],
   );
   const [heroIndex, setHeroIndex] = useState(0);
   const [heroIsFading, setHeroIsFading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const connection = navigator as Navigator & {
+      connection?: { saveData?: boolean };
+    };
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    const shouldRotate = isDesktop && !prefersReducedMotion && !connection.connection?.saveData;
+    setEnableHeroRotation(shouldRotate);
+  }, []);
 
   useEffect(() => {
     if (heroImages.length < 2) return;
@@ -1186,16 +1244,17 @@ export default function HomePage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (!enableHeroRotation) return;
     // Preload only the current + next image to avoid downloading all hero assets at once.
     const urls = [
       heroImages[heroIndex],
       heroImages.length ? heroImages[(heroIndex + 1) % heroImages.length] : undefined,
     ].filter(Boolean) as string[];
     urls.forEach((src) => {
-      const img = new Image();
+      const img = new window.Image();
       img.src = src;
     });
-  }, [heroImages, heroIndex]);
+  }, [enableHeroRotation, heroImages, heroIndex]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -1283,21 +1342,35 @@ export default function HomePage() {
 
       <section className="relative min-h-[90vh] flex items-center justify-center pt-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div
-            className="absolute inset-0 w-full h-full bg-cover bg-center"
-            data-alt="Happy students studying outdoors on a university campus with sunlight filtering through trees"
-            style={{ backgroundImage: `url('${heroCurrentUrl}')` }}
+          <Image
+            priority
+            alt="Happy students studying outdoors on a university campus with sunlight filtering through trees"
+            className="object-cover object-center"
+            fetchPriority="high"
+            fill
+            quality={72}
+            sizes="100vw"
+            src={heroCurrentUrl}
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full bg-cover bg-center"
+            className="absolute inset-0"
             style={{
-              backgroundImage: `url('${heroNextUrl}')`,
               opacity: heroIsFading ? 1 : 0,
               transition: heroIsFading ? "opacity 1000ms ease" : "none",
               willChange: "opacity",
             }}
-          />
+          >
+            <Image
+              alt=""
+              aria-hidden="true"
+              className="object-cover object-center"
+              fill
+              quality={72}
+              sizes="100vw"
+              src={heroNextUrl}
+            />
+          </div>
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-background-light dark:to-background-dark z-10" />
         </div>
         <div className="relative z-20 max-w-[1280px] w-full px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center gap-8 mt-10">
@@ -1848,7 +1921,7 @@ export default function HomePage() {
                 setVideoOpen(true);
               }}
             >
-              {storyVideoUrls.sarah ? (
+              {enableStoryPreviews && storyVideoUrls.sarah ? (
                 <video
                   aria-hidden="true"
                   autoPlay
@@ -1862,7 +1935,8 @@ export default function HomePage() {
               ) : (
                 <div
                   aria-hidden="true"
-                  className="w-full h-full bg-gradient-to-br from-black via-[#1f1e16] to-[#2c2b18] transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  style={{ backgroundImage: `url('${STORY_SARAH_IMG_URL}')` }}
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
@@ -1888,7 +1962,7 @@ export default function HomePage() {
                 setVideoOpen(true);
               }}
             >
-              {storyVideoUrls.ahmet ? (
+              {enableStoryPreviews && storyVideoUrls.ahmet ? (
                 <video
                   aria-hidden="true"
                   autoPlay
@@ -1902,7 +1976,8 @@ export default function HomePage() {
               ) : (
                 <div
                   aria-hidden="true"
-                  className="w-full h-full bg-gradient-to-br from-black via-[#1f1e16] to-[#2c2b18] transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  style={{ backgroundImage: `url('${STORY_AHMET_IMG_URL}')` }}
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
@@ -1928,7 +2003,7 @@ export default function HomePage() {
                 setVideoOpen(true);
               }}
             >
-              {storyVideoUrls.elena ? (
+              {enableStoryPreviews && storyVideoUrls.elena ? (
                 <video
                   aria-hidden="true"
                   autoPlay
@@ -1942,7 +2017,8 @@ export default function HomePage() {
               ) : (
                 <div
                   aria-hidden="true"
-                  className="w-full h-full bg-gradient-to-br from-black via-[#1f1e16] to-[#2c2b18] transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  style={{ backgroundImage: `url('${STORY_ELENA_IMG_URL}')` }}
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />
@@ -1968,7 +2044,7 @@ export default function HomePage() {
                 setVideoOpen(true);
               }}
             >
-              {storyVideoUrls.john ? (
+              {enableStoryPreviews && storyVideoUrls.john ? (
                 <video
                   aria-hidden="true"
                   autoPlay
@@ -1982,7 +2058,8 @@ export default function HomePage() {
               ) : (
                 <div
                   aria-hidden="true"
-                  className="w-full h-full bg-gradient-to-br from-black via-[#1f1e16] to-[#2c2b18] transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  style={{ backgroundImage: `url('${STORY_JOHN_IMG_URL}')` }}
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80" />

@@ -30,9 +30,9 @@ module.exports = {
         "border-dark": "#3a3928",
       },
       fontFamily: {
-        display: ["Spline Sans", "sans-serif"],
-        sans: ["Spline Sans", "sans-serif"],
-        body: ["Noto Sans", "sans-serif"],
+        display: ["var(--font-spline-sans)", "sans-serif"],
+        sans: ["var(--font-spline-sans)", "sans-serif"],
+        body: ["var(--font-noto-sans)", "sans-serif"],
       },
       borderRadius: {
         DEFAULT: "1rem",

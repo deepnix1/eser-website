@@ -1,12 +1,31 @@
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+import { Noto_Sans, Spline_Sans } from "next/font/google";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
-import CalendlyModal from "../components/CalendlyModal";
 import WhatsAppFab from "../components/WhatsAppFab";
 import { getDeviceTypeFromWidth } from "../lib/device";
+
+const CalendlyModal = dynamic(() => import("../components/CalendlyModal"), {
+  ssr: false,
+});
+
+const splineSans = Spline_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-spline-sans",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const notoSans = Noto_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-noto-sans",
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 const CALENDLY_EVENT_URL = process.env.NEXT_PUBLIC_CALENDLY_EVENT_URL ?? "";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lotusabroad.net";
@@ -177,15 +196,17 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="og:url" content={canonicalUrl} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Component {...pageProps} />
-      <WhatsAppFab locale={locale} />
-      <CalendlyModal
-        onClose={() => setCalendlyOpen(false)}
-        open={calendlyOpen}
-        restoreFocusTo={lastTriggerRef.current}
-        url={CALENDLY_EVENT_URL}
-      />
-      <Analytics />
+      <div className={`${splineSans.variable} ${notoSans.variable}`}>
+        <Component {...pageProps} />
+        <WhatsAppFab locale={locale} />
+        <CalendlyModal
+          onClose={() => setCalendlyOpen(false)}
+          open={calendlyOpen}
+          restoreFocusTo={lastTriggerRef.current}
+          url={CALENDLY_EVENT_URL}
+        />
+        <Analytics />
+      </div>
     </>
   );
 }

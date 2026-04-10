@@ -29,6 +29,8 @@ const BLOG_UI = {
     description:
       "Yurtdışı eğitim ve vize süreçleri için rehberler: net adımlar, gerçekçi takvimler ve güçlü başvuru önerileri.",
     heroTitle: "Blog",
+    heroBody:
+      "Almanya, ABD, Birleşik Krallık, Hollanda, Kanada, İrlanda ve Malta için öğrenci vizesi, burs, yaşam maliyeti, konaklama ve başvuru stratejileri üzerine düzenli rehberler.",
     featured: "Öne Çıkan",
     freeAssessment: "Ücretsiz Değerlendirme Al",
     readMore: "Devamını Oku",
@@ -37,6 +39,7 @@ const BLOG_UI = {
     bottomCtaBody:
       "Hedef ülkenizi, programınızı ve zaman planınızı paylaşın. Lotus Abroad size net bir plan ve kontrol listesi hazırlasın.",
     seoHiddenTitle: "Yurtdışı Eğitim Rehberleri",
+    seoSectionTitle: "Popüler konular ve hızlı bağlantılar",
     seoKeywords: [
       "yurtdışı eğitim",
       "öğrenci vizesi",
@@ -53,6 +56,8 @@ const BLOG_UI = {
     description:
       "Guides for studying abroad and visa processes: clear steps, realistic timelines, and strong application tips.",
     heroTitle: "Blog",
+    heroBody:
+      "Regular guides on student visas, scholarships, living costs, accommodation, and application strategy for Germany, the USA, the UK, the Netherlands, Canada, Ireland, and Malta.",
     featured: "Featured",
     freeAssessment: "Get a Free Assessment",
     readMore: "Continue Reading",
@@ -61,6 +66,7 @@ const BLOG_UI = {
     bottomCtaBody:
       "Share your target country, program, and timeline. Lotus Abroad will prepare a clear plan and checklist for you.",
     seoHiddenTitle: "Study Abroad Guides",
+    seoSectionTitle: "Popular topics and quick links",
     seoKeywords: [
       "study abroad",
       "student visa",
@@ -77,6 +83,8 @@ const BLOG_UI = {
     description:
       "Leitfäden zu Auslandsstudium und Visa: klare Schritte, realistische Timelines und starke Bewerbungstipps.",
     heroTitle: "Blog",
+    heroBody:
+      "Regelmäßige Leitfäden zu Studentenvisa, Stipendien, Lebenshaltungskosten, Unterkunft und Bewerbungsstrategie für Deutschland, USA, Vereinigtes Königreich, Niederlande, Kanada, Irland und Malta.",
     featured: "Empfohlen",
     freeAssessment: "Kostenlose Einschätzung",
     readMore: "Weiterlesen",
@@ -85,6 +93,7 @@ const BLOG_UI = {
     bottomCtaBody:
       "Teilen Sie Zielland, Programm und Zeitplan. Lotus Abroad erstellt einen klaren Plan und eine Checkliste.",
     seoHiddenTitle: "Leitfäden Auslandsstudium",
+    seoSectionTitle: "Beliebte Themen und Schnellzugriffe",
     seoKeywords: [
       "Auslandsstudium",
       "Studentenvisum",
@@ -255,6 +264,14 @@ export default function BlogPage() {
         <section className="bg-gradient-to-b from-white via-background-light to-background-light dark:from-background-dark dark:via-background-dark dark:to-background-dark border-b border-gray-200/70 dark:border-white/10">
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
             <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
+              <div className="max-w-3xl">
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-text-main dark:text-white">
+                  {ui.heroTitle}
+                </h1>
+                <p className="mt-4 text-sm md:text-base leading-relaxed text-text-muted dark:text-gray-400">
+                  {ui.heroBody}
+                </p>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {CATEGORIES.map((cat) => (
                   <CategoryPill
@@ -271,6 +288,31 @@ export default function BlogPage() {
 
         <section className="bg-background-light dark:bg-background-dark">
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12 space-y-8">
+            <div className="rounded-[2rem] border border-gray-100 dark:border-white/10 bg-white/70 dark:bg-white/5 p-6 md:p-8">
+              <h2 className="text-xl md:text-2xl font-black text-text-main dark:text-white">
+                {ui.seoSectionTitle}
+              </h2>
+              <p className="mt-3 text-sm md:text-base text-text-muted dark:text-gray-400 leading-relaxed">
+                {ui.seoKeywords.join(" • ")}
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3 text-sm font-bold">
+                <Link className="text-text-main dark:text-white hover:text-primary transition-colors" href="/programs?country=Germany#countries">
+                  Almanya programları
+                </Link>
+                <Link className="text-text-main dark:text-white hover:text-primary transition-colors" href="/programs?country=USA#countries">
+                  ABD programları
+                </Link>
+                <Link className="text-text-main dark:text-white hover:text-primary transition-colors" href="/programs?country=United Kingdom#countries">
+                  İngiltere programları
+                </Link>
+                <Link className="text-text-main dark:text-white hover:text-primary transition-colors" href="/programs?country=Canada#countries">
+                  Kanada programları
+                </Link>
+                <Link className="text-text-main dark:text-white hover:text-primary transition-colors" href="/sss">
+                  SSS sayfası
+                </Link>
+              </div>
+            </div>
             {showCountryFallback ? (
               <div className="rounded-2xl bg-white/70 dark:bg-white/5 border border-gray-100 dark:border-white/10 p-5 text-sm text-text-muted dark:text-gray-400">
                 {locale === "tr"

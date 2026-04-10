@@ -158,7 +158,12 @@ export default function CookiePolicyPage() {
   const copy = COPY[locale];
 
   return (
-    <LegalPageLayout title={copy.title} subtitle={copy.subtitle} lastUpdated={copy.lastUpdated}>
+    <LegalPageLayout
+      title={copy.title}
+      subtitle={copy.subtitle}
+      lastUpdated={copy.lastUpdated}
+      noIndex
+    >
       <div className="space-y-8">
         <section>
           <h2 className="text-xl md:text-2xl font-black text-text-main dark:text-white">
@@ -211,4 +216,3 @@ export default function CookiePolicyPage() {
     </LegalPageLayout>
   );
 }
-
