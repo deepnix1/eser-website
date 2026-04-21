@@ -19,13 +19,13 @@ export type PartnerLogoProps = IconPartnerLogo | ImagePartnerLogo;
 export default function PartnerLogo(props: PartnerLogoProps) {
   const imageHeightClass =
     props.id === "ccusa"
-      ? "h-12 md:h-14"
+      ? "h-10 md:h-12"
       : props.id === "balliedu" ||
           props.id === "ceb" ||
           props.id === "rheinland" ||
           props.id === "tandem"
-        ? "h-9"
-        : "h-7";
+        ? "h-7 md:h-8"
+        : "h-6 md:h-7";
 
   return (
     <div

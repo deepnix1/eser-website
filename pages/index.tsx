@@ -1422,21 +1422,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-12 border-b border-gray-200 dark:border-white/10 overflow-hidden bg-white dark:bg-white/5">
-        <div className="max-w-[1280px] mx-auto px-4 mb-8">
+      <section className="py-8 md:py-9 border-b border-gray-200 dark:border-white/10 overflow-hidden bg-white dark:bg-white/5">
+        <div className="max-w-[1280px] mx-auto px-4 mb-5 md:mb-6">
           <p className="text-center text-sm font-bold text-text-muted dark:text-gray-400 uppercase tracking-widest">
             {copy.partners.label}
           </p>
         </div>
         <div className="flex overflow-hidden">
-          <div className="flex animate-marquee gap-16 px-8 items-center min-w-full justify-around shrink-0 text-text-muted dark:text-gray-400 hover:text-text-main dark:hover:text-white transition-colors duration-300">
+          <div className="flex animate-marquee gap-14 px-6 md:px-8 items-center min-w-full justify-around shrink-0 text-text-muted dark:text-gray-400 hover:text-text-main dark:hover:text-white transition-colors duration-300">
             {PARTNER_LOGOS.map((logo) => (
               <PartnerLogo key={logo.id} {...logo} />
             ))}
           </div>
           <div
             aria-hidden="true"
-            className="flex animate-marquee gap-16 px-8 items-center min-w-full justify-around shrink-0 text-text-muted dark:text-gray-400 hover:text-text-main dark:hover:text-white transition-colors duration-300"
+            className="flex animate-marquee gap-14 px-6 md:px-8 items-center min-w-full justify-around shrink-0 text-text-muted dark:text-gray-400 hover:text-text-main dark:hover:text-white transition-colors duration-300"
           >
             {PARTNER_LOGOS.map((logo) => (
               <PartnerLogo key={`dup-${logo.id}`} {...logo} />
