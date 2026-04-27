@@ -75,15 +75,6 @@ const STORY_ELENA_IMG_URL =
 const STORY_JOHN_IMG_URL =
   "/stories/john.webp";
 
-const REVIEW_AVATAR_MERVE_URL =
-  "/reviews/merve.webp";
-
-const REVIEW_AVATAR_EMRE_URL =
-  "/reviews/emre.webp";
-
-const REVIEW_AVATAR_AYSE_URL =
-  "/reviews/ayse.webp";
-
 const SUPABASE_PROJECT_URL = (
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://balauszpznhuceqbgubs.supabase.co"
 ).replace(/\/+$/, "");
@@ -2099,13 +2090,14 @@ export default function HomePage() {
               </div>
               <p className="text-lg italic mb-6">{copy.reviews.items[0].quote}</p>
               <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center"
-                  data-alt={copy.reviews.avatarAlt}
-                  style={{ backgroundImage: `url('${REVIEW_AVATAR_MERVE_URL}')` }}
-                />
                 <div>
-                  <p className="font-bold text-sm">{copy.reviews.items[0].name}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-bold text-sm">{copy.reviews.items[0].name}</p>
+                    <span className="inline-flex items-center gap-1 rounded-full border border-[#dbe7ff] bg-[#f5f8ff] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#1a73e8]">
+                      <span className="font-black text-[11px] leading-none">G</span>
+                      <span>Verified</span>
+                    </span>
+                  </div>
                   <p className="text-xs text-text-muted">{copy.reviews.items[0].meta}</p>
                 </div>
               </div>
@@ -2130,13 +2122,14 @@ export default function HomePage() {
               </div>
               <p className="text-lg italic mb-6">{copy.reviews.items[1].quote}</p>
               <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center"
-                  data-alt={copy.reviews.avatarAlt}
-                  style={{ backgroundImage: `url('${REVIEW_AVATAR_EMRE_URL}')` }}
-                />
                 <div>
-                  <p className="font-bold text-sm">{copy.reviews.items[1].name}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-bold text-sm">{copy.reviews.items[1].name}</p>
+                    <span className="inline-flex items-center gap-1 rounded-full border border-[#dbe7ff] bg-[#f5f8ff] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#1a73e8]">
+                      <span className="font-black text-[11px] leading-none">G</span>
+                      <span>Verified</span>
+                    </span>
+                  </div>
                   <p className="text-xs text-text-muted">{copy.reviews.items[1].meta}</p>
                 </div>
               </div>
@@ -2161,13 +2154,14 @@ export default function HomePage() {
               </div>
               <p className="text-lg italic mb-6">{copy.reviews.items[2].quote}</p>
               <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center"
-                  data-alt={copy.reviews.avatarAlt}
-                  style={{ backgroundImage: `url('${REVIEW_AVATAR_AYSE_URL}')` }}
-                />
                 <div>
-                  <p className="font-bold text-sm">{copy.reviews.items[2].name}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-bold text-sm">{copy.reviews.items[2].name}</p>
+                    <span className="inline-flex items-center gap-1 rounded-full border border-[#dbe7ff] bg-[#f5f8ff] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#1a73e8]">
+                      <span className="font-black text-[11px] leading-none">G</span>
+                      <span>Verified</span>
+                    </span>
+                  </div>
                   <p className="text-xs text-text-muted">{copy.reviews.items[2].meta}</p>
                 </div>
               </div>
