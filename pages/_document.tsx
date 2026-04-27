@@ -22,6 +22,7 @@ export default class MyDocument extends Document<Props> {
       <Html className="light" lang={locale}>
         <Head>
           <meta content="#f9f506" name="theme-color" />
+          <meta name="google-site-verification" content="rMr3zLW0LLr8SeJJjb9bsgyjYuuXs83mhfIlIVQCIsM" />
 
           <link href="/favicon.ico" rel="icon" sizes="any" />
           <link href="/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" />
