@@ -11,7 +11,7 @@ export default function WhatsAppFab({ locale }: { locale?: string }) {
 
   return (
     <div
-      className="md:hidden fixed right-4 z-40 flex flex-col items-end gap-2"
+      className="fixed right-4 md:right-6 z-40 flex flex-col items-end gap-2"
       style={{ bottom: "calc(env(safe-area-inset-bottom) + 16px)" }}
     >
       <button
@@ -26,7 +26,7 @@ export default function WhatsAppFab({ locale }: { locale?: string }) {
       </button>
 
       <a
-        className="group inline-flex items-center gap-3 rounded-full bg-[#25D366] text-white px-4 py-3 shadow-[0_16px_45px_rgba(37,211,102,0.35)] active:scale-[0.98] transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/50"
+        className="group inline-flex items-center gap-3 rounded-full bg-[#25D366] text-white px-4 py-3 md:px-5 md:py-3.5 shadow-[0_16px_45px_rgba(37,211,102,0.35)] active:scale-[0.98] transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/50"
         href={href}
         rel="noopener noreferrer"
         target="_blank"

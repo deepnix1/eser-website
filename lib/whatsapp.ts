@@ -1,5 +1,5 @@
 export const WHATSAPP_NUMBER_E164 =
-  process.env.NEXT_PUBLIC_WHATSAPP_E164?.trim() || "905325975638";
+  process.env.NEXT_PUBLIC_WHATSAPP_E164?.trim() || "908503029471";
 
 const DEFAULT_TEXT_BY_LOCALE: Record<string, string> = {
   tr: "Merhaba! Ucretsiz degerlendirme icin bilgi almak istiyorum.",

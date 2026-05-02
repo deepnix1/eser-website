@@ -8,15 +8,14 @@ import SiteHeader from "../components/SiteHeader";
 const OFFICE_ADDRESS =
   "MAHFESIĞMAZ MAHALLESİ\n79129 SK. AZİZ KAYA SİTESİ SİT. A BLOK APT. NO: 9 -1/01\nÇUKUROVA / ADANA";
 
-const WHATSAPP_NUMBER_DISPLAY = "+90 (532) 597 56 38";
-const WHATSAPP_NUMBER_E164 = "905325975638";
+const WHATSAPP_NUMBER_DISPLAY = "+90 850 302 9471";
+const WHATSAPP_NUMBER_E164 = "908503029471";
 const WHATSAPP_LINK_URL = `https://wa.me/${WHATSAPP_NUMBER_E164}?text=${encodeURIComponent(
   "Merhaba! Ücretsiz değerlendirme için bilgi almak istiyorum.",
 )}`;
 
-const PHONE_NUMBER_DISPLAY = "+90 (532) 597 56 38";
-const PHONE_NUMBER_E164 = "905325975638";
-const PHONE_CONTACT_NAME = "Mustafa Ahmet Cebeci";
+const PHONE_NUMBER_DISPLAY = "+90 850 302 9471";
+const PHONE_NUMBER_E164 = "908503029471";
 
 const EMAIL_ADDRESS = "info@lotusabroad.net";
 
@@ -62,7 +61,6 @@ const COPY = {
     emailLabel: "E-posta",
     mapsOpen: "Google Maps'te Aç",
     book: "Ücretsiz Görüşme Planla",
-    founderLabel: "Kurucu",
   },
   en: {
     title: "Contact | Lotus Abroad",
@@ -97,7 +95,6 @@ const COPY = {
     emailLabel: "Email",
     mapsOpen: "Open in Google Maps",
     book: "Book a Free Consultation",
-    founderLabel: "Founder",
   },
   de: {
     title: "Kontakt | Lotus Abroad",
@@ -132,7 +129,6 @@ const COPY = {
     emailLabel: "E-Mail",
     mapsOpen: "In Google Maps öffnen",
     book: "Kostenlose Beratung buchen",
-    founderLabel: "Gründer",
   },
 } as const;
 
@@ -508,12 +504,31 @@ export default function ContactPage() {
                           >
                             {PHONE_NUMBER_DISPLAY}
                           </a>
-                          <span className="inline-flex items-center flex-wrap text-sm text-text-muted dark:text-gray-400">
-                            <span>{PHONE_CONTACT_NAME}</span>
-                            <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-black tracking-wide bg-gray-100 dark:bg-white/10 text-text-main dark:text-white border border-gray-200/70 dark:border-white/10 ml-4">
-                              {copy.founderLabel}
-                            </span>
-                          </span>
+                        </div>
+                      }
+                    />
+                    <InfoRow
+                      icon="chat"
+                      title={copy.whatsapp}
+                      value={
+                        <div className="flex flex-wrap items-center gap-3">
+                          <a
+                            className="font-medium text-text-main dark:text-white hover:text-primary transition-colors"
+                            href={WHATSAPP_LINK_URL}
+                            rel="noreferrer"
+                            target="_blank"
+                          >
+                            {WHATSAPP_NUMBER_DISPLAY}
+                          </a>
+                          <a
+                            className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-xs font-black text-white shadow-[0_14px_30px_rgba(37,211,102,0.28)] hover:brightness-105 transition-all"
+                            href={WHATSAPP_LINK_URL}
+                            rel="noreferrer"
+                            target="_blank"
+                          >
+                            <span className="material-symbols-outlined text-[16px]">chat</span>
+                            {copy.whatsappCta}
+                          </a>
                         </div>
                       }
                     />
